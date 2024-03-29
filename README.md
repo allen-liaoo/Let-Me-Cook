@@ -38,7 +38,15 @@ Which (if any) progressive web app feature(s) does your app support?
 
 **[Link to our Canva Mockup](https://www.canva.com/design/DAGAcky4OlU/zWBVUIILFJjYH-Ltm1b3uw/edit?utm_content=DAGAcky4OlU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton) HIGHLY RECOMMEND LOOKING AT THIS FOR CLARIFYING NAVIGATION BETWEEN PAGES**
 
-![](https://media.giphy.com/media/26ufnwz3wDUli7GU0/giphy.gif)
+**![Landing Page](/MOCKUP/LMC_landing_page.png?raw=true)Where users are brought to upon loading the homepage.**
+**![Ingredients Page](/MOCKUP/LMC_ingredients_page.png?raw=true)Shows ingredients/foods within the user's virtual pantry.**
+**![View Ingredient Page](/MOCKUP/LMC_view_ingredients_page.png?raw=true)Shows some attributes of the ingredient/food item.**
+**![Edit Ingredient Page](/MOCKUP/LMC_edit_ingredients_page.png?raw=true)Allows user to manually modify the attributes of the ingredient if necessary.**
+**![Search Ingredients Page](/MOCKUP/LMC_search_ingredients_page.png?raw=true)Shows search results for an ingredient/food item name.**
+**![Recipes Page](/MOCKUP/LMC_recipes_page.png?raw=true)Lists recipes the user has shown interest in (recently searched for).**
+**![View Recipe Page](/MOCKUP/LMC_view_recipes_page.png?raw=true)Shows additional information for a specific recipe.**
+**![Edit Recipe Page](/MOCKUP/LMC_edit_recipes_page.png?raw=true)Allows user to modify information and attributes of a specific recipe.**
+**![Recipes Queue Page](/MOCKUP/LMC_recipes_queue_page.png?raw=true)Shows queue of recipes the user will be making in the near future. Ingredients in green have sufficient amounts to be utilized for that given recipe at that point in the queue. Ingredients in red will not have sufficient amounts and should be restocked before the recipe is prepared.**
 
 
 ## Testing Notes
