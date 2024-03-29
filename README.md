@@ -4,14 +4,17 @@ CSCI 5117, Spring 2024, [assignment description](https://canvas.umn.edu/courses/
 
 ## App Info:
 
-* Team Name: TODO
-* App Name: TODO
+* Team Name: The Flask Fusion Force
+* App Name: Let Me Cook
 * App Link: <https://TODO.com/>
 
 ### Students
 
-* First Last, x500@umn.edu
-* ...
+* Conner DeJong, dejon113@umn.edu
+* Kris Moe, moe00013@umn.edu
+* Allen Liao, liao0144@umn.edu
+* Thomas Knickerbocker, knick073@umn.edu
+* Owen Ratgen, ratge006@umn.edu
 
 
 ## Key Features
@@ -33,7 +36,7 @@ Which (if any) progressive web app feature(s) does your app support?
 
 ## Mockup images
 
-**[Add images/photos that show your mockup](https://stackoverflow.com/questions/10189356/how-to-add-screenshot-to-readmes-in-github-repository) along with a very brief caption:**
+**[Link to our Canva Mockup](https://www.canva.com/design/DAGAcky4OlU/zWBVUIILFJjYH-Ltm1b3uw/edit?utm_content=DAGAcky4OlU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton) HIGHLY RECOMMEND LOOKING AT THIS FOR CLARIFYING NAVIGATION BETWEEN PAGES**
 
 ![](https://media.giphy.com/media/26ufnwz3wDUli7GU0/giphy.gif)
 
