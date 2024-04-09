@@ -1,0 +1,36 @@
+.addButton{
+    color:  #0d2714;
+    background-color: #49c85d;
+    padding: 0.5em;
+    margin: 0.5em;
+    border: none;
+    border-radius: 5px ;
+    width: 8em;
+}
+.editButton{
+    color:  #0d2714;
+    background-color: #eeeca3;
+    padding: 0.5em;
+    margin: 0.5em;
+    border-radius: 5px;
+    border: none;
+    width: 8em;
+}
+.saveButton{
+    color:  #0d2714;
+    background-color: #49c85d;
+    padding: 0.5em;
+    margin: 0.5em;
+    border: none;
+    border-radius: 5px;
+    width: 8em;
+}
+.removeButton{
+    color:  #0d2714;
+    background-color: #da4444;
+    padding: 0.5em;
+    margin: 0.5em;
+    border: none;
+    border-radius: 5px;
+    width: 8em;
+}
