@@ -5,5 +5,4 @@ export default function RemoveButton(props){
         <button className={styles.saveButton}> Remove </button>
             </div>
     )
-
-    }
+}
