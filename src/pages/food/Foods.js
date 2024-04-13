@@ -8,12 +8,15 @@ const testItems = [{
     _id: 12,
     name: "carrot",
     description: "bland",
-    image: "abc123.png"
+    image: "abc123.png",
+    quantity: 9,
+    exp_in: "2026-01-01"
 }, {
     _id: 15,
     name: "slim jim",
     description: "great",
-    image: "woo.png"
+    image: "woo.png",
+    exp_in: "2026-01-01"
 }]
 
 function Foods() {
