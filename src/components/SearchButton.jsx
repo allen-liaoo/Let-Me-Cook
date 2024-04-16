@@ -4,5 +4,4 @@ export default function SearchButton(props){
         
             </div>
     )
-
-    }
+}

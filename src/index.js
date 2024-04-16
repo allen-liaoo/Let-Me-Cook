@@ -4,7 +4,10 @@ import App from './App';
 import {
     createBrowserRouter,
     RouterProvider,
+    redirect
 } from "react-router-dom";
+import Login, { authLoader as loginAuthLoader } from './pages/Login'
+import loginRedirectLoader from './pages/LoginRedirectLoader'
 import Landing from './pages/Landing'
 import Foods from './pages/food/Foods'
 import Food from './pages/food/Food'
@@ -23,9 +26,7 @@ async function authLoader() {
     if (client) {
         return client
     }
-    window.location.href = '/.auth/login/github'
-    // dont do + '...url' because it doesnt work if we are not redirecting from the root path '/'
-    return null
+    return redirect('/login')
 }
 
 const router = createBrowserRouter([
@@ -33,48 +34,63 @@ const router = createBrowserRouter([
     path: "/",
     element: <App/>,
     children: [
-    {
-        index: true,
-        path: "",
-        element: <Landing/>,
-        loader: authLoader
-    }, {
-        path: "foods",
-        element: <Foods/>,
-        loader: authLoader
-    }, {
-        path: "food/:id",
-        element: <Food/>,
-        loader: authLoader
-    }, {
-        path: "food/edit/:id",
-        element: <EditFood/>,
-        loader: authLoader
-    }, {
-        path: "food/create",
-        element: <CreateFood/>,
-        loader: authLoader
-    }, {
-        path: "recipes",
-        element: <Recipes />,
-        loader: authLoader
-    }, {
-        path: "recipe/:id",
-        element: <Recipe/>,
-        loader: authLoader
-    }, {
-        path: "recipe/edit/:id",
-        element: <EditRecipe/>,
-        loader: authLoader
-    }, {
-        path: "recipe/create",
-        element: <CreateRecipe/>,
-        loader: authLoader
-    }, {
-        path: "queue",
-        element: <RecipeQueue/>,
-        loader: authLoader
-    }]
+        {
+            index: true,
+            element: <Landing/>,
+            loader: authLoader
+        }, {
+            path: "foods",
+            element: <Foods/>,
+            loader: authLoader
+        }, {
+            path: "food/:id",
+            element: <Food/>,
+            loader: authLoader
+        }, {
+            path: "food/edit/:id",
+            element: <EditFood/>,
+            loader: authLoader
+        }, {
+            path: "food/create",
+            element: <CreateFood/>,
+            loader: authLoader
+        }, {
+            path: "recipes",
+            element: <Recipes />,
+            loader: authLoader
+        }, {
+            path: "recipe/:id",
+            element: <Recipe/>,
+            loader: authLoader
+        }, {
+            path: "recipe/edit/:id",
+            element: <EditRecipe/>,
+            loader: authLoader
+        }, {
+            path: "recipe/create",
+            element: <CreateRecipe/>,
+            loader: authLoader
+        }, {
+            path: "queue",
+            element: <RecipeQueue/>,
+            loader: authLoader
+        }, {
+            path: "search/food",
+            element: <CreateFood/>,
+            loader: authLoader
+        }, {
+            path: "search/recipe",
+            element: <CreateRecipe/>,
+            loader: authLoader
+        }, ]
+}, {
+    path: "login",
+    element: <Login/>,
+    loader: loginAuthLoader
+}, {
+    path: "login/redirect",
+    element: <></>,
+    loader: loginRedirectLoader
 }])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

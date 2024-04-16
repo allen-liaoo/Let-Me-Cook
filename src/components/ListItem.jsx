@@ -1,24 +1,22 @@
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import styles from '../css/ListItem.module.css'
 
-export default function ListItem({info}) {
-    const link = "/" + info.type + "/" + info._id;
+export default function ListItem({name, description, image, viewLink, editLink}) {
+    const navigate = useNavigate()
     return (
-        <div>
-            <Container>
+        <Row className={styles.listItem} onClick={()=>navigate(viewLink)}>
+            {image ?
                 <Col>
-                    <img src="" alt="food"></img>
-                </Col>
-                <Col>
-                    <Row>Food Name</Row>
-                    <Row>Food Description</Row>
-                </Col>
-                <Col>
-                    <Link to={link}>Edit</Link>
-                </Col>
-            </Container>
-        </div>
+                    <img src={image} alt="food" />
+                </Col> 
+                : <></>}
+            <Col>{name}</Col>
+            <Col>{description}</Col>
+            <Col>
+                <Link to={editLink}>Edit</Link>
+            </Col>
+        </Row>
     )
 }
