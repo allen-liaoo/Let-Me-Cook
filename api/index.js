@@ -229,13 +229,13 @@ app.http('saveRecipeForAll', {
 });
 
 
-// FUNCTION NAME: createUserPantry
+// FUNCTION NAME: checkUser
 // DESCRIPTION: create a new user's 'account' for foods and recipes
 // RETURN: status and jsonBody of the new 'account' _id, empty foods array, and empty recipes array, OR an error message
-app.http('createUserPantry', {
-  methods: ['PUT'],
+app.http('checkUser', {
+  methods: ['GET'],
   authLevel: 'anonymous',
-  route: '',
+  route: 'login',
   handler: async (request, context) => {
     const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
     let token = null;
@@ -246,10 +246,10 @@ app.http('createUserPantry', {
       const userId = token.userId;
       const name = token.userDetails;
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
-      const foods = [];
-      const recipes = [];
-      const payload = { name, userId, foods, recipes };
-      const result = await client.db("LetMeCookDB").collection("users").insertOne(payload);
+      // const foods = [];
+      // const recipes = [];
+      // const payload = { name, userId, foods, recipes };
+      // const result = await client.db("LetMeCookDB").collection("users").insertOne(payload);
       client.close();
       return {
         status: 201,
@@ -258,6 +258,16 @@ app.http('createUserPantry', {
     }
   },
 });
+
+// ***TODO***
+// FUNCTION NAME: getExpiringFoods
+// DESCRIPTION: get list of foods expiring soon
+// RETURN:
+
+// ***TODO***
+// FUNCTION NAME: getLowQuantityFoods
+// DESCRIPTION: get list of foods low in quantity
+// RETURN: 
 
 
 app.http('searchRecipes', {
