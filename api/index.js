@@ -2,17 +2,15 @@ const { app } = require('@azure/functions');
 const { ObjectId } = require('mongodb');
 const mongoClient = require("mongodb").MongoClient;
 
-
-
 // Yummy yummy in my tummy
 app.http('getUserFoods', {
   methods: ['GET'],
   authLevel: 'anonymous',
-  route: 'foods/{userId}',
+  route: 'foods/{_id}',
   handler: async (request, context) => {
-    const userId = request.params.userId;
+    const _id = request.params._id;
     const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
-    const userInfo = await client.db("LetMeCookDB").collection("users").find({_id:userId}).toArray();
+    const userInfo = await client.db("LetMeCookDB").collection("users").find({_id:_id})
     const userFoods = userInfo.foods;
     client.close();
     return {
@@ -26,9 +24,137 @@ app.http('getFood', {
   authLevel: 'anonymous',
   route: 'food/{id}',
   handler: async (request, context) => {
-    const id = request.params.id;
+    const _id = request.params.id;
+    const body = await request.json();
+    const userId = body.userId;
     const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
-    const food = await client.db("LetMeCookDB").collection("users").find({})
+    const userInfo = await client.db("LetMeCookDB").collection("users").find({_id: _id})
+  },
+});
+
+app.http('getUserRecipes', {
+  methods: ['GET'],
+  authLevel: 'anonymous',
+  route: 'recipes',
+  handler: async (request, context) => {
+    const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+    let token = null;
+    if (auth_header) {
+      token = Buffer.from(auth_header, "base64");
+      token = JSON.parse(token.toString());
+      context.log("token= " + JSON.stringify(token));
+      const userId = token.userId;
+      const name = token.userDetails;
+      const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
+      const userInfo = await client.db("LetMeCookDB").collection("users").find({name: name, userId: userId});
+      const recipes = userInfo.recipes;
+      client.close();
+      return {
+        status: 201,
+        jsonBody: {recipes: recipes}
+      }
+    }
+    return {
+      status: 404,
+      jsonBody: {error: "Authorization failed for retrieving user recipes"}
+    }
+  },
+});
+
+app.http('saveRecipeForUser', {
+  methods: ['PUT'],
+  authLevel: 'anonymous',
+  route: 'recipes/{id}',
+  handler: async (request, context) => {
+    _id = request.params.id;
+    if (ObjectId.isValid(_id)) {
+      const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+      let token = null;
+      if (auth_header) {
+        token = Buffer.from(auth_header, "base64");
+        token = JSON.parse(token.toString());
+        context.log("token= " + JSON.stringify(token));
+        const userId = token.userId;
+        const name = token.userDetails;
+        const client = mongoClient.connect(process.env.AZURE_MONGO_DB);
+        const recipe = await client.db("LetMeCookDB").collection("recipes").find({_id: _id});
+        const user = await client.db("LetMeCookDB").collection("users").find({userId: userId, name: name});
+        const prevRecipes = user.recipes;
+        const recipes = [...prevRecipes, recipe];
+        const result = await client.db("LetMeCookDB").collection("users").updateOne({userId: userId, name: name}, {$set: {recipes}});
+        client.close();
+        return {
+          status: 201,
+          jsonBody: {recipes: recipes}
+        }
+      }
+      return {
+        status: 404,
+        jsonBody: {error: "Authorization failed for saving recipe"}
+      }
+    }
+    return {
+      status: 404,
+      jsonBody: {error: "Object id for recipe failed validation"}
+    }
+  },
+});
+
+app.http('saveRecipeForAll', {
+  methods: ['POST'],
+  authLevel: 'anonymous',
+  route: '',
+  handler: async (request, context) => {
+    const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+    let token = null;
+    if (auth_header) {
+      token = Buffer.from(auth_header, "base64");
+      token = JSON.parse(token.toString());
+      context.log("token= " + JSON.stringify(token));
+      const userId = token.userId;
+      const name = token.userDetails;
+      const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
+      const body = await request.json();
+      const recipe = body.recipe;
+      const payload = { recipe };
+      const result = await client.db("LetMeCookDB").collections("recipes").insertOne(payload);
+      client.close();
+      return {
+        status: 201,
+        jsonBody: {_id: result.insertedId, recipe: recipe}
+      }
+    }
+    return {
+      status: 404,
+      jsonBody: {error: "Authorization failed for saving recipe to DB"}
+    }
+  },
+});
+
+app.http('createUserPantry', {
+  methods: ['POST'],
+  authLevel: 'anonymous',
+  route: '',
+  handler: async (request, context) => {
+    const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+    let token = null;
+    if (auth_header) {
+      token = Buffer.from(auth_header, "base64");
+      token = JSON.parse(token.toString());
+      context.log("token= " + JSON.stringify(token));
+      const userId = token.userId;
+      const name = token.userDetails;
+      const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
+      const foods = [];
+      const recipes = [];
+      const payload = { name, userId, foods, recipes };
+      const result = await client.db("LetMeCookDB").collection("users").insertOne(payload);
+      client.close();
+      return {
+        status: 201,
+        jsonBody: {_id: result.insertedId, foods: foods, recipes: recipes}
+      }
+    }
   },
 });
 
@@ -54,60 +180,6 @@ app.http('searchRecipes', {
       };
     },
   });
-  
 
 
-// app.http('updateDeck', {
-//   methods: ['PUT'],
-//   authLevel: 'anonymous',
-//   route: 'deck/{id}',
-//   handler: async (request, context) => {
-//       const id = request.params.id;
-
-//       const body = await request.json();
-//       // skipping validation -- but I can at least do some basic defaulting, and only grab the things I want.
-//       const name = body.name ?? "no name"
-//       const cards = body.cards ?? []
-      
-//       if (ObjectId.isValid(id)) {
-//           const client = await mongoClient.connect(process.env.AZURE_MONGO_DB)
-//           // this could not possibly be the fast way to do things.
-//           const result = await client.db("flashcards").collection("decks").updateOne({_id: new ObjectId(id)}, {$set: {name, cards}})
-//           client.close();
-//           if (result.matchedCount > 0) {
-//               return {
-//                   jsonBody: {status: "ok"}
-//               }
-//           }            
-//       }
-//       return {
-//           status:404,
-//           jsonBody: {error: "no deck found by that Id"}
-//       }
-//   },
-// });
-
-// app.http('newDeck', {
-//   methods: ['POST'],
-//   authLevel: 'anonymous',
-//   route: 'deck',
-//   handler: async (request, context) => {
-//       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB)
-
-//       const body = await request.json();
-//       // skipping validation -- but I can at least do some basic defaulting, and only grab the things I want.
-//       const name = body.name ?? "name"
-//       const cards = body.cards ?? []
-//       const payload = { name, cards }
-//       const result = await client.db("flashcards").collection("decks").insertOne(payload)
-
-//       client.close();
-//       return{
-//           status: 201, /* Defaults to 200 */
-//           jsonBody: {_id: result.insertedId, name, cards:cards}
-//       };
-//   },
-// });
-
-
-GET https://api.spoonacular.com/recipes/findByIngredients?ingredients=apples,+flour,+sugar&number=2
+// GET https://api.spoonacular.com/recipes/findByIngredients?ingredients=apples,+flour,+sugar&number=2
