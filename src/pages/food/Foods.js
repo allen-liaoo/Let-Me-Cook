@@ -7,14 +7,13 @@ import AddButton from '../../components/AddButton'
 const testItems = [{
     _id: 12,
     name: "carrot",
-    description: "bland",
     image: "abc123.png",
     quantity: 9,
     exp_in: "2026-01-01"
 }, {
     _id: 15,
     name: "slim jim",
-    description: "great",
+    quantity: 7,
     image: "woo.png",
     exp_in: "2026-01-01"
 }]
@@ -24,6 +23,7 @@ function Foods() {
     const [items, setItems] = useState([])
 
     useEffect(() => {
+        // get all food of user
         setItems(testItems)
     }, [])
 
@@ -34,8 +34,8 @@ function Foods() {
                     <ListItem 
                         key={e._id}
                         name={e.name} 
-                        description={e.description}
                         image={e.image}
+                        description={"Quantity: "+e.quantity}
                         viewLink={'/foods/'+e._id}
                         editLink={'/foods/edit/'+e._id}
                     />)}

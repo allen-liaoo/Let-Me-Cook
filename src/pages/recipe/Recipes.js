@@ -19,7 +19,7 @@ export default function Recipes() {
                     <ListItem 
                         key={e._id}
                         name={e.name} 
-                        description={e.description}
+                        description={e.instructions}
                         image={e.image}
                         viewLink={'/foods/'+e._id}
                         editLink={'/foods/edit/'+e._id}

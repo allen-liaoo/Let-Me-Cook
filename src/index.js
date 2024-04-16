@@ -4,7 +4,10 @@ import App from './App';
 import {
     createBrowserRouter,
     RouterProvider,
+    redirect
 } from "react-router-dom";
+import Login, { authLoader as loginAuthLoader } from './pages/Login'
+import loginRedirectLoader from './pages/LoginRedirectLoader'
 import Landing from './pages/Landing'
 import Foods from './pages/food/Foods'
 import Food from './pages/food/Food'
@@ -23,9 +26,7 @@ async function authLoader() {
     if (client) {
         return client
     }
-    window.location.href = '/.auth/login/github'
-    // dont do + '...url' because it doesnt work if we are not redirecting from the root path '/'
-    return null
+    return redirect('/login')
 }
 
 const router = createBrowserRouter([
@@ -34,6 +35,14 @@ const router = createBrowserRouter([
     element: <App/>,
     children: [
     {
+        path: "login",
+        element: <Login/>,
+        loader: loginAuthLoader
+    }, {
+        path: "login/redirect",
+        element: <></>,
+        loader: loginRedirectLoader
+    }, {
         index: true,
         path: "",
         element: <Landing/>,

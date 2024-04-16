@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useParams, useEffect } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import ItemHeader from '../../components/ItemHeader'
 import { Container, Row, Col } from 'react-bootstrap'
 
@@ -35,7 +35,7 @@ export default function Food() {
                 { recipesIn.map(e =>
                     <Row>
                         <Col>{e.name}</Col>
-                        <Col>{e.description}</Col>
+                        <Col>{e.instructions}</Col>
                     </Row>
                 )}
             </Container>
