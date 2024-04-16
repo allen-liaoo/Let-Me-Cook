@@ -2,12 +2,115 @@ const { app } = require('@azure/functions');
 const { ObjectId } = require('mongodb');
 const mongoClient = require("mongodb").MongoClient;
 
-// searchFoods
-// -- Searches through third-party API
+/*
+searchFoods
+-- Searches through third-party API
 
-// searchRecipes
-// -- Searches through third-party API
+Currenyl extracts first 20 results and checks that user is signed in
+Returned data looks like:
+[{
+  foodContentsLabel: null,
+  foodId: "food_a299wq8bece4vtb3ku5edb5gnjhc",
+  image: "https://www.edamam.com/food-img/f7b/f7be68b0bf0b29937281c1cf8758e4e5.jpg",
+  label: "Pork Shoulder"
+}, ...]
+NOTE: if no results, extractedData will be an empty object
+*/
+app.http('searchFoods', {
+  methods: ['POST'],
+  authLevel: 'anonymous',
+  route: 'search/food',
+  handler: async (request, context) => {
+      const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL')
+      let authToken = null
+      if (auth_header) {
+          authToken = Buffer.from(auth_header, "base64");
+          authToken = JSON.parse(authToken.toString()).userId;
+          context.log("AUTH TOKEN: ", authToken);
+      }
+      else{
+          return {
+              status: 401,
+              body: "Authorization token is missing."
+          }; 
+      }
+      let data = null;
+      const body = await request.json();
+      const food = body.food;
+      const appId = process.env.EDAMAME_FOOD_SEARCH_APP_ID;
+      const appKey = process.env.EDAMAME_FOOD_SEARCH_APP_KEY;
+      context.log("Food: ", food);
+      context.log("appID: ", appId);
+      context.log("appKey: ", appKey);
 
+      const url = `https://api.edamam.com/api/food-database/v2/parser?app_id=${appId}&ingr=${encodeURIComponent(food)}&app_key=${appKey}`;
+      context.log("URL: ", url);
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        return {
+          jsonBody: {error: await response.text()}
+        }
+      }
+
+      const foodRes = await response.json();
+      context.log("FoodRes: ", foodRes);
+      const foods = foodRes.hints.slice(0, 20);  // get first 20 results
+      const extractedData = foods.map(item => {
+        if (!item.food.foodContentsLabel) item.food.foodContentsLabel = null
+        return item.food
+    });
+    context.log("Extracted data: ", extractedData);
+    return {
+        jsonBody: {data: extractedData}
+    }
+  },
+});
+
+
+/*
+searchRecipes
+-- Searches through third-party API
+*/
+// app.http('searchRecipes', {
+//   methods: ['GET'],
+//   authLevel: 'anonymous',
+//   route: 'search/recipe/{q}',
+//   handler: async (request, context) => {
+//       const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL')
+//       let authToken = null
+//       if (auth_header) {
+//           authToken = Buffer.from(auth_header, "base64");
+//           authToken = JSON.parse(authToken.toString()).userId;
+//           console.log("AUTH TOKEN: ", authToken);
+//       }
+//       else{
+//           return {
+//               status: 401,
+//               body: "Authorization token is missing."
+//           }; 
+//       }
+//       let data = null;
+//       const q = request.params.q;
+//       console.log("Query: ", q);
+//       const response = await fetch(`https://api.edamam.com/api/recipes/v2?type=public&app_id=${{process.env.EDAMAME_FOOD_SEARCH_APP_ID}}&app_key=${{process.env.EDAMAME_FOOD_SEARCH_APP_KEY}}&q=${encodeURIComponent(q)}`);
+//       const foodRes = await response.json();
+//       const foods = foodRes.parsed.slice(0, 20);
+//       const extractedData = foods.map(item => {
+//         const { foodId, label, image, foodContentsLabel } = item.food;
+//         data =  {
+//             foodId,
+//             label,
+//             image,
+//             foodContentsLabel: foodContentsLabel || null // Set to null if not present
+//         };
+//     });    
+//     console.log(extractedData);
+//     return {
+//         jsonBody: {data: extractedData}
+//     }
+//   },
+// });
 
 
 // FUNCTION NAME: getUserFoods
@@ -161,7 +264,7 @@ app.http('saveRecipeForUser', {
   authLevel: 'anonymous',
   route: 'recipes/{id}',
   handler: async (request, context) => {
-    _id = request.params.id;
+    const _id = request.params.id;
     if (ObjectId.isValid(_id)) {
       const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
       let token = null;
@@ -246,14 +349,17 @@ app.http('checkUser', {
       const userId = token.userId;
       const name = token.userDetails;
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
-      // const foods = [];
-      // const recipes = [];
-      // const payload = { name, userId, foods, recipes };
-      // const result = await client.db("LetMeCookDB").collection("users").insertOne(payload);
+      let res = await client.db("LetMeCookDB").collection("users").findOne({name: name, userId: userId});
+      if (!res) {
+        const foods = [];
+        const recipes = [];
+        const payload = { name, userId, foods, recipes };
+        res = await client.db("LetMeCookDB").collection("users").insertOne(payload);
+      }
       client.close();
       return {
         status: 201,
-        jsonBody: {_id: result.insertedId, foods: foods, recipes: recipes}
+        jsonBody: {_id: res.insertedId}
       }
     }
   },
@@ -270,10 +376,10 @@ app.http('checkUser', {
 // RETURN: 
 
 
-app.http('searchRecipes', {
+app.http('searchRecipesFromIngredients', {
     methods: ['GET'],
     authLevel: 'anonymous',
-    route: 'searchRecipes/{ingredients}',
+    route: 'search/recipes/{ingredients}',
     handler: async (request, context) => {
     // EXPECTING: ingredients in comma-separated string
       const ingredients = request.params.ingredients;
