@@ -9,5 +9,4 @@ export default function ItemHeader(props){
                 </div>
             </div>
     )
-
-    }
+}
