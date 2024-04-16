@@ -2,36 +2,127 @@ const { app } = require('@azure/functions');
 const { ObjectId } = require('mongodb');
 const mongoClient = require("mongodb").MongoClient;
 
-// Yummy yummy in my tummy
+// searchFoods
+// -- Searches through third-party API
+
+// searchRecipes
+// -- Searches through third-party API
+
+
+
+// FUNCTION NAME: getUserFoods
+// DESCRIPTION: gets foods currently in user's virtual pantry
+// RETURN: status and jsonBody of JSON food objects (or an error message)
 app.http('getUserFoods', {
   methods: ['GET'],
   authLevel: 'anonymous',
-  route: 'foods/{_id}',
+  route: 'foods',
   handler: async (request, context) => {
-    const _id = request.params._id;
-    const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
-    const userInfo = await client.db("LetMeCookDB").collection("users").find({_id:_id})
-    const userFoods = userInfo.foods;
-    client.close();
+    const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+    let token = null;
+    if (auth_header) {
+      token = Buffer.from(auth_header, "base64");
+      token = JSON.parse(token.toString());
+      context.log("token= " + JSON.stringify(token));
+      const userId = token.userId;
+      const name = token.userDetails;
+      const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
+      const userInfo = await client.db("LetMeCookDB").collection("users").findOne({name: name, userId: userId});
+      const userFoods = userInfo.foods;
+      client.close();
+      return {
+        status: 201,
+        jsonBody: {foods: userFoods}
+      }
+    }
     return {
-      jsonBody: {foods: userFoods}
+      status: 404,
+      jsonBody: {error: "Authorization failed for retrieving user's foods"}
     }
   },
 });
 
+
+// ***TODO***
+// FUNCTION NAME: getFood
+// DESCRIPTION: get's the specific food item using a unique ObjectId
+// RETURN: status and jsonBody of the food's details, or an error message
 app.http('getFood', {
   methods: ['GET'],
   authLevel: 'anonymous',
   route: 'food/{id}',
   handler: async (request, context) => {
-    const _id = request.params.id;
-    const body = await request.json();
-    const userId = body.userId;
-    const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
-    const userInfo = await client.db("LetMeCookDB").collection("users").find({_id: _id})
+    const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+    let token = null;
+    if (auth_header) {
+      token = Buffer.from(auth_header, "base64");
+      token = JSON.parse(token.toString());
+      context.log("token= " + JSON.stringify(token));
+      const userId = token.userId;
+      const name = token.userDetails;
+      const _id = request.params.id;
+      const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
+      const food = await client.db("LetMeCookDB").collection("users").findOne({food :{$elemMatch: {_id: _id}}});
+      // const userInfo = await client.db("LetMeCookDB").collection("users").find({_id: _id});
+      if (food) {
+        return {
+          status: 201,
+          jsonBody: {food: food}
+        }
+      } else {
+        return {
+          status: 404,
+          jsonBody: {error: "Could not find food with id: " + _id}
+        }
+      }
+    }
+    return {
+      status: 404,
+      jsonBody: {error: "Authorization failed for obtaining food information"}
+    }
   },
 });
 
+
+// ***TODO***
+// FUNCTION NAME: insertFoodForUser
+// DESCRIPTION: Places food item into the user's virtual pantry
+// RETURN: status and jsonBody with inserted food details, or an error
+app.http("insertFoodForUser", {
+  methods: ['PUT'],
+  authLevel: 'anonymous',
+  route: 'food',
+  handler: async (request, context) => {
+    const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+    let token = null;
+    if (auth_header) {
+      token = Buffer.from(auth_header, "base64");
+      token = JSON.parse(token.toString());
+      context.log("token= " + JSON.stringify(token));
+      const userId = token.userId;
+      const name = token.userDetails;
+      const body = await request.json();
+      const foodName = body.foodName;
+      const quantity = body.quantity;
+      const expirationDate = body.expirationDate;
+      const payload = {foodName, quantity, expirationDate};
+      const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
+      const result = await client.db("LetMeCookDB").collection("users").insertOne({name: name, userId: userId}, {$push: {foods: payload}});
+      return {
+        status: 201,
+        jsonBody: {food: payload}
+      }
+    }
+    return {
+      status: 404,
+      jsonBody: {error: "Authorization failed for entering food into user's pantry"}
+    }
+  },
+});
+
+// FUNCTION NAME: getUserRecipes
+// DESCRIPTION: gets recipes the user has previously cooked
+// RETURN: status and jsonBody with array of recipes, or an error message
 app.http('getUserRecipes', {
   methods: ['GET'],
   authLevel: 'anonymous',
@@ -46,7 +137,7 @@ app.http('getUserRecipes', {
       const userId = token.userId;
       const name = token.userDetails;
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
-      const userInfo = await client.db("LetMeCookDB").collection("users").find({name: name, userId: userId});
+      const userInfo = await client.db("LetMeCookDB").collection("users").findOne({name: name, userId: userId});
       const recipes = userInfo.recipes;
       client.close();
       return {
@@ -61,6 +152,10 @@ app.http('getUserRecipes', {
   },
 });
 
+
+// FUNCTION NAME: saveRecipeForUser
+// DESCRIPTION: saves a recipe for the user's 'account'
+// RETURN: status and jsonBody with the recipe's details, or an error message
 app.http('saveRecipeForUser', {
   methods: ['PUT'],
   authLevel: 'anonymous',
@@ -77,15 +172,13 @@ app.http('saveRecipeForUser', {
         const userId = token.userId;
         const name = token.userDetails;
         const client = mongoClient.connect(process.env.AZURE_MONGO_DB);
-        const recipe = await client.db("LetMeCookDB").collection("recipes").find({_id: _id});
-        const user = await client.db("LetMeCookDB").collection("users").find({userId: userId, name: name});
-        const prevRecipes = user.recipes;
-        const recipes = [...prevRecipes, recipe];
-        const result = await client.db("LetMeCookDB").collection("users").updateOne({userId: userId, name: name}, {$set: {recipes}});
+        const recipe = await client.db("LetMeCookDB").collection("recipes").findOne({_id: _id});
+        const result = await client.db("LetMeCookDB").collection("users").updateOne({name: name, userId: userId}, 
+          {$push: { recipes: { _id: recipe._id}}});
         client.close();
         return {
           status: 201,
-          jsonBody: {recipes: recipes}
+          jsonBody: {recipe: recipe}
         }
       }
       return {
@@ -100,8 +193,12 @@ app.http('saveRecipeForUser', {
   },
 });
 
+
+// FUNCTION NAME: saveRecipeForAll
+// DESCRIPTION: saves a recipe to the DB for all users to access
+// RETURN: status and jsonBody with the _id of the newly inserted recipe & its details, or an error message
 app.http('saveRecipeForAll', {
-  methods: ['POST'],
+  methods: ['PUT'],
   authLevel: 'anonymous',
   route: '',
   handler: async (request, context) => {
@@ -131,8 +228,12 @@ app.http('saveRecipeForAll', {
   },
 });
 
+
+// FUNCTION NAME: createUserPantry
+// DESCRIPTION: create a new user's 'account' for foods and recipes
+// RETURN: status and jsonBody of the new 'account' _id, empty foods array, and empty recipes array, OR an error message
 app.http('createUserPantry', {
-  methods: ['POST'],
+  methods: ['PUT'],
   authLevel: 'anonymous',
   route: '',
   handler: async (request, context) => {
