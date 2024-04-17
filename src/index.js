@@ -74,15 +74,7 @@ const router = createBrowserRouter([
             path: "queue",
             element: <RecipeQueue/>,
             loader: authLoader
-        }, {
-            path: "search/food",
-            element: <CreateFood/>,
-            loader: authLoader
-        }, {
-            path: "search/recipe",
-            element: <CreateRecipe/>,
-            loader: authLoader
-        }, ]
+        }]
 }, {
     path: "login",
     element: <Login/>,
