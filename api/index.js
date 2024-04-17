@@ -497,13 +497,41 @@ app.http('checkUser', {
 
 // ***TODO***
 // FUNCTION NAME: getExpiringFoods
-// DESCRIPTION: get list of foods expiring soon
+// DESCRIPTION: get list of foods expiring soon - next week ?
+// ROUTE: ??
 // RETURN:
 
 // ***TODO***
 // FUNCTION NAME: getLowQuantityFoods
 // DESCRIPTION: get list of foods low in quantity
-// RETURN: 
+// ROUTE: ??
+// RETURN: []
+app.http('getLowQuantityFoods', {
+  methods: ['GET'],
+  authLevel: 'anonymous',
+  route: 'food',
+  handler: async (request, context) => {
+    const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+    let token = null;
+    if (auth_header) {
+      token = Buffer.from(auth_header, "base64");
+      token = JSON.parse(token.toString());
+      context.log("token= " + JSON.stringify(token));
+      const userId = token.userId;
+      const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
+      const lowQuantityFoods = await client.db("LetMeCookDB").collection("foods").find({ userId: userId,  quantity: { $lte: 3 } }).toArray();
+      client.close();
+      context.log("Foods that are low in quantity: ", lowQuantityFoods);
+      return {
+        // jsonBody: { data : lowQuantityFoods }
+        jsonBody: {data: []}
+      }
+    }
+  },
+});
+
+
+
 
 
 app.http('searchRecipesFromIngredients', {
@@ -528,5 +556,127 @@ app.http('searchRecipesFromIngredients', {
     },
   });
 
+
+app.http('editFood', {
+  methods: ['POST'],
+  authLevel: 'anonymous',
+  route: 'food/edit/{id}',
+  handler: async (request, context) => {
+    const _id = request.params.id;
+    if (ObjectId.isValid(_id)) {
+      const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+      let token = null;
+      if (auth_header) {
+        token = Buffer.from(auth_header, "base64");
+        token = JSON.parse(token.toString());
+        context.log("token= " + JSON.stringify(token));
+        const userId = token.userId;
+        const body = await request.json();
+        if (body) {
+          const name = body.name;
+          const image = body.image;
+          const quantity = body.quantity;
+          const expirationDate = body.expirationDate;
+          const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
+          const result = await client.db("LetMeCookDB").collection("foods").updateOne({_id: new ObjectId(_id), userId: userId}, {$set: {name: name, image: image, quantity: quantity, expirationDate: expirationDate}});
+          client.close();
+          if (result.matchedCount > 0) {
+            return {
+              status: 201,
+              jsonBody: {_id: _id}
+            }
+          }
+          return {
+            status: 403,
+            jsonBody: {error: "Authorization failed for editing food with id: " + _id}
+          }
+        }
+        return {
+          status: 405,
+          jsonBody: {error: "Empty content sent to edit food with id: " + _id}
+        }
+      }
+      return {
+        status: 403,
+        jsonBody: {error: "Authorization failed for editing food with id: " + _id}
+      }
+    }
+    return {
+      status: 404,
+      jsonBody: {error: "Unknown food with id: " + _id}
+    }
+  },
+});
+
+app.http('editRecipe', {
+  methods: ['POST'],
+  authLevel: 'anonymous',
+  route: 'recipe/edit/{id}',
+  handler: async (request, context) => {
+    const _id = request.params.id;
+    if (ObjectId.isValid(_id)) {
+      const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+      let token = null;
+      if (auth_header) {
+        token = Buffer.from(auth_header, "base64");
+        token = JSON.parse(token.toString());
+        context.log("token= " + JSON.stringify(token));
+        const userId = token.userId;
+        const body = await request.json();
+        const name = body.name;
+        const image = body.image;
+        const instructions = body.instructions;
+        const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
+        const result = await client.db("LetMeCookDB").collection("recipes").updateOne({_id: new ObjectId(_id), userId: userId}, {$set: {name: name, image: image, instructions: instructions}});
+        client.close();
+        if (result.matchedCount > 0) {
+          return {
+            status: 201,
+            jsonBody: {_id: _id}
+          }
+        }
+        return {
+          status: 403,
+          jsonBody: {error: "Authorization failed for editing recipe with id: " + _id}
+        }
+      }
+      return {
+        status: 403,
+        jsonBody: {error: "Authorization failed for editing recipe with id: " + _id}
+      }
+    }
+    return {
+      status: 404,
+      jsonBody: {error: "Unknown recipe with id: " + _id}
+    }
+  },
+});
+
+app.http('addRecipeToQueue', {
+  methods: ['POST'],
+  authLevel: 'anonymous',
+  route: 'recipe/queue/{id}',
+  handler: async (request, context) => {
+    const _id = request.params.id;
+    if (ObjectId.isValid(_id)) {
+      const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+      let token = null;
+      if (auth_header) {
+        token = Buffer.from(auth_header, "base64");
+        token = JSON.parse(token.toString());
+        context.log("token= " + JSON.stringify(token));
+        const userId = token.userId;
+      }
+      return {
+        status: 403,
+        jsonBody: {error: "Authorization failed for adding to queue with recipe id: " + _id}
+      }
+    }
+    return {
+      status: 404,
+      jsonBody: {error: "Unknown recipe with id: " + _id}
+    }   
+  },
+});
 
 // GET https://api.spoonacular.com/recipes/findByIngredients?ingredients=apples,+flour,+sugar&number=2

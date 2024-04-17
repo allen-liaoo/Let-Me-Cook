@@ -1,4 +1,6 @@
 import { redirect } from 'react-router-dom'
+import Stack from 'react-bootstrap/Stack'
+import styles from '../css/Login.module.css';
 
 export async function authLoader() {
     const res = await fetch("/.auth/me")
@@ -13,12 +15,19 @@ export async function authLoader() {
 const loginBaseUrl = '/.auth/login/'
 const redirectParam = '?post_login_redirect_uri=/login/redirect'
 
+function loginOnClick(url) {
+    return () => window.location.href = loginBaseUrl+url+redirectParam
+}
+
 export default function Login() {
-    return <div>
-        <a href={loginBaseUrl+'aad'+redirectParam}>Log in with the Microsoft Identity Platform</a> <br />
-        <a href={loginBaseUrl+'facebook'+redirectParam}>Log in with Facebook</a> <br />
-        <a href={loginBaseUrl+'google'+redirectParam}>Log in with Google</a> <br />
-        <a href={loginBaseUrl+'twitter'+redirectParam}>Log in with Twitter</a> <br />
-        <a href={loginBaseUrl+'apple'+redirectParam}>Log in with Apple</a> <br />
-    </div>
+    return <Stack gap={3}>
+        <h1>Let Me Cook</h1>
+        <span>Login/Signup</span>
+        <button className={styles.button+" p-2"} onClick={loginOnClick('google')}>Google</button>
+        <button className={styles.button+" p-2"}  onClick={loginOnClick('github')}>Github</button>
+        <button className={styles.button+" p-2"}  onClick={loginOnClick('aad')}>Microsoft Identity Platform</button>
+        <button className={styles.button+" p-2"}  onClick={loginOnClick('facebook')}>Facebook</button>
+        <button className={styles.button+" p-2"}  onClick={loginOnClick('twitter')}>Twitter/X</button>
+        <button className={styles.button+" p-2"}  onClick={loginOnClick('apple')}>Apple</button>
+    </Stack>
 }

@@ -1,7 +1,5 @@
 export default function Queue(props){
-    return( <div>
+    return <div>
         
-        
-            </div>
-    )
+    </div>
 }
