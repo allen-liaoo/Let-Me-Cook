@@ -23,8 +23,19 @@ function Foods() {
     const [items, setItems] = useState([])
 
     useEffect(() => {
-        // get all food of user
-        setItems(testItems)
+        (async () => {
+            const res = await fetch("/api/foods", { method: "GET" })
+            if (!res.ok) {
+                console.log(res)
+                window.alert("Error getting foods!")
+                return
+            }
+            console.log(res)
+            const resJson = await res.json()
+            console.log(resJson)
+            setItems(resJson.foods)
+            // setItems(testItems)
+        })()
     }, [])
 
     return (
@@ -36,8 +47,8 @@ function Foods() {
                         name={e.name} 
                         image={e.image}
                         description={"Quantity: "+e.quantity}
-                        viewLink={'/foods/'+e._id}
-                        editLink={'/foods/edit/'+e._id}
+                        viewLink={'/food/'+e._id}
+                        editLink={'/food/edit/'+e._id}
                     />)}
             </Container>
             <AddButton onClick={()=>{navigate('/food/create')}}/>
