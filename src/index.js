@@ -7,7 +7,6 @@ import {
     redirect
 } from "react-router-dom";
 import Login, { authLoader as loginAuthLoader } from './pages/Login'
-import loginRedirectLoader from './pages/LoginRedirectLoader'
 import Landing from './pages/Landing'
 import Foods from './pages/food/Foods'
 import Food from './pages/food/Food'
@@ -27,6 +26,13 @@ async function authLoader() {
         return client
     }
     return redirect('/login')
+}
+
+async function loginRedirectLoader() {
+    // check user first time login
+    const res = await fetch('/api/login', { method: "GET" })
+    console.log("Logging in: ", res)
+    return redirect('/')
 }
 
 const router = createBrowserRouter([

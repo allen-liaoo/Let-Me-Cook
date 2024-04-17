@@ -1,7 +1,5 @@
 export default function SearchButton(props){
-    return( <div>
+    return <div>
         
-        
-            </div>
-    )
+    </div>
 }
