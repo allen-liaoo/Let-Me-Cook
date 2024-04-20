@@ -9,7 +9,42 @@
     width: 100%;
 }
 
-.navbar {
-    padding: 0px;
+
+.navlink{
+    justify-content: center;
+    text-align: center;
+    color:  #0d2714;
+    text-decoration: none;
     background-color: #eeeca2;
+    border: double 5px #eeeca2;
+    padding: 1em;
+    flex-grow: 1;
+    
+}
+.navlink:hover{
+    background-color: #d0ce86;
+    
+}
+@media only screen and (min-width: 600px) {
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        background-color: #eeeca2;
+        width: 100%;
+        height: 5em;
+    }
+    
+  }
+@media only screen and (max-width: 600px) {
+    .navbar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        background-color: #eeeca2;
+        width: 100%;
+    }
+    
 }

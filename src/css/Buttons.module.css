@@ -15,6 +15,10 @@
     border-radius: 5px;
     border: none;
     width: 8em;
+    text-decoration: none;
+}
+.editButton:hover{
+    background-color: #d0ce86;
 }
 .saveButton{
     color:  #0d2714;

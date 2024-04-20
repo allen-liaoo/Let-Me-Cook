@@ -1,0 +1,26 @@
+body{
+    background-color: hsl(64, 41%, 93%);
+}
+.container{
+    display: flex;
+    flex-direction: column;
+ 
+}
+.row{
+    display: flex;
+    flex-direction: row;
+   
+   
+}
+.col{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+@media only screen and (min-width: 600px) {
+    body {
+      margin-top: 5em;
+    }
+    
+  }
