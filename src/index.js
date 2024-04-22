@@ -6,6 +6,7 @@ import {
     RouterProvider,
     redirect
 } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Login, { authLoader as loginAuthLoader } from './pages/Login'
 import Landing from './pages/Landing'
 import Foods from './pages/food/Foods'
