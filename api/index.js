@@ -666,6 +666,19 @@ app.http('addRecipeToQueue', {
         token = JSON.parse(token.toString());
         context.log("token= " + JSON.stringify(token));
         const userId = token.userId;
+        const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
+        const result = await client.db("LetMeCookDB").collections("users").updateOne({userId: userId}, {$push : {recipeQueue: {_id: new ObjectId(_id)}}});
+        client.close();
+        if (result.matchedCount > 0) {
+          return {
+            status: 201,
+            jsonBody: {_id: _id}
+          }
+        }
+        return {
+          status: 500,
+          jsonBody: {error: "Unable to insert recipe with id: " + _id + " to user's queue"}
+        }
       }
       return {
         status: 403,
@@ -676,6 +689,35 @@ app.http('addRecipeToQueue', {
       status: 404,
       jsonBody: {error: "Unknown recipe with id: " + _id}
     }   
+  },
+});
+
+app.http('updateRecipeQueue', {
+  methods: ['POST'],
+  authLevel: 'anonymous',
+  route: 'recipe/queue',
+  handler: async (request, context) => {
+    const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+    let token = null;
+    if (auth_header) {
+      token = Buffer.from(auth_header, "base64");
+      token = JSON.parse(token.toString());
+      context.log("token= " + JSON.stringify(token));
+      const userId = token.userId;
+      const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
+      const body = await request.json();
+      const recipes = body.recipes;
+      const result = await client.db("LetMeCookDB").collections("users").updateOne({userId: userId}, {$set: {recipeQueue: recipes}});
+      client.close();
+      return {
+        status: 201,
+        jsonBody: {recipes: recipes}
+      }
+    }
+    return {
+      status: 403,
+      jsonBody: {error: "Authorization failed for updating recipe queue"}
+    }
   },
 });
 
