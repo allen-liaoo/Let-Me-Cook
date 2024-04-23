@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom"
 import searchStyle from "../../css/Search.module.css"
 export default function CreateFood() {
@@ -35,15 +35,27 @@ export default function CreateFood() {
         const body = await res.json()
         navigate('/food/'+body._id)
     }
+    const [iconContainer, setIconContainer] = useState(searchStyle.searchIconContainer)
+    useEffect(()=>{
+      if(food == ""){
+        setIconContainer(searchStyle.searchIconContainer)
+      }else{
+        setIconContainer(searchStyle.searchIconContainerWithText + " " + searchStyle.searchIconContainer)
+      }
+
+    },[food])
 
     return (<div>
-    <div >
-      <input type="text" value={food} onInput={(e)=>{setFood(e.target.value)}} className={searchStyle.container}/>
-      <button onClick={searchFood}  className ={searchStyle.searchIconContainer}>
-      <img src ="https://upload.wikimedia.org/wikipedia/commons/0/0b/Search_Icon.svg" alt= "search"  className={searchStyle.searchicon}></img>
-      
-      </button>
+    <div class={searchStyle.centerContents}>
+      <div className={iconContainer} >
+        <input type="text" value={food} onInput={(e)=>{setFood(e.target.value)}} className={searchStyle.container} />
+        <button onClick={searchFood}  className ={searchStyle.searchbutton}>
+        <p>Search</p>
+        <img src ="https://upload.wikimedia.org/wikipedia/commons/0/0b/Search_Icon.svg" alt= "search"  className={searchStyle.searchicon}></img>
+        
+        </button>
       </div>
+    </div>
       { results && results.length !== 0 ? 
         results.map((e,i) => 
         // using array index as keys here is fine so long as there is no way to add/remove elements from the array
