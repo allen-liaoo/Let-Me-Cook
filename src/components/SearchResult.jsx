@@ -6,7 +6,7 @@ import styles from '../css/ListItem.module.css'
 import button from '../css/Buttons.module.css'
 
 
-export default function ListItem({name, description, image, viewLink, editLink}) {
+export default function SerarchResult({name, description, image, viewLink}) {
     const navigate = useNavigate()
     return (
         // <Container>
@@ -15,16 +15,9 @@ export default function ListItem({name, description, image, viewLink, editLink})
                 <Col onClick={()=>navigate(viewLink)}>
                     <img src={image} alt="food" className={styles.image}/>
                 </Col> 
-                : <Col></Col>}
-            <Col className={styles.content}>
-                <Col onClick={()=>navigate(viewLink)} >
-                    <h4 className={styles.title}> {name} </h4>
-                    </Col>
-                <Col onClick={()=>navigate(viewLink)} >
-                    <p className={styles.description}> {description}</p></Col>
-            </Col>
-            <Col className={styles.editContaier}>
-                <Link to={editLink} className={styles.editButton}>Edit</Link>
+                : <Col ></Col>}
+            <Col  xs={10} className={styles.content} onClick={()=>navigate(viewLink)}>
+                <h4 className={styles.title}> {name} </h4> 
             </Col>
         </Row>
         // {/* </Container> */}

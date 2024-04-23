@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom"
 import searchStyle from "../../css/Search.module.css"
+import SerarchResult from "../../components/SearchResult";
 export default function CreateFood() {
     const navigate = useNavigate()
     const [food, setFood] = useState("")
@@ -54,7 +55,7 @@ export default function CreateFood() {
       <div className={iconContainer} >
         <input type="text" value={food} onInput={(e)=>{setFood(e.target.value)}} className={searchStyle.container} />
         <button onClick={searchFood}  className ={searchStyle.searchbutton}>
-        <p>Search</p>
+        <p  className ={searchStyle.searchText}>Search</p>
         <img src ="https://upload.wikimedia.org/wikipedia/commons/0/0b/Search_Icon.svg" alt= "search"  className={searchStyle.searchicon}></img>
         
         </button>
@@ -64,7 +65,8 @@ export default function CreateFood() {
         results.map((e,i) => 
         // using array index as keys here is fine so long as there is no way to add/remove elements from the array
           <div key={i} onClick={()=>{createFood(e)}}> 
-            <span>{ e.name }</span>
+            <SerarchResult name={ e.name } image ={e.image}></SerarchResult>
+            
           </div>
         ) : <></> }
     </div>)
