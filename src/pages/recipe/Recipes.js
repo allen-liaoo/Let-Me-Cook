@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container'
 import { useNavigate } from "react-router-dom"
 import ListItem from '../../components/ListItem'
 import AddButton from '../../components/AddButton'
+import Layout from "../../css/ItemPageLayout.module.css"
 
 export default function Recipes() {
     const navigate = useNavigate()
@@ -25,6 +26,9 @@ export default function Recipes() {
 
     return (
         <div>
+            <div className ={Layout.centerrow}>
+            <AddButton onClick={()=>{navigate('/recipe/create')}}/>
+            </div>
             <Container>
                 { items.map(e => 
                     <ListItem 
@@ -36,7 +40,7 @@ export default function Recipes() {
                         editLink={'/recipe/edit/'+e._id}
                     />)}
             </Container>
-            <AddButton onClick={()=>{navigate('/recipe/create')}}/>
+           
         </div>
     )
 }

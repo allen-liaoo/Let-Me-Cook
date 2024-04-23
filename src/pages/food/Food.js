@@ -23,10 +23,11 @@ export default function Food() {
     }, [])
 
     return <div>
-        <ItemHeader name={item.name} image={item.image} />
+        <ItemHeader name={item.name} image={item.image} editLink={'/food/edit/'+id} />
         <div>
             <span>Quantity: {item.quantity}</span>
             <span>Expiration Date: {item.expirationDate}</span>
+          
         </div>
         {/* <div>
             <span>Recipes in:</span>
