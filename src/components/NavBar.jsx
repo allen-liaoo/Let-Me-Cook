@@ -8,7 +8,7 @@ function NavBar() {
     <div className={styles.navbar}>
        
   
-                <Link  to="/food/create"  className={styles.navlink}>Food</Link>
+                <Link  to="/foods"  className={styles.navlink}>Food</Link>
                 <Link  to="/recipes"  className={styles.navlink}>Recipe</Link>
                 <Link  to="/queue"  className={styles.navlink}>Queue</Link>
                 <Link  to="/"  className={styles.navlink}>My Account</Link>

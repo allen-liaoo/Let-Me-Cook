@@ -14,6 +14,10 @@ export default function CreateFood() {
           },
           body: JSON.stringify({food: food})
         })
+        if (!res.ok) {
+          window.alert("Failed searching food!")
+          return
+      }
         const foods = await res.json()
         console.log(foods)
         setResults(foods.data)

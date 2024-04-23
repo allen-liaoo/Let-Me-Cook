@@ -9,7 +9,7 @@ import button from '../css/Buttons.module.css'
 export default function ListItem({name, description, image, viewLink, editLink}) {
     const navigate = useNavigate()
     return (
-        <Container>
+        // <Container>
         <Row  className={styles.listItem}>
             {image ?
                 <Col onClick={()=>navigate(viewLink)}>
@@ -27,6 +27,6 @@ export default function ListItem({name, description, image, viewLink, editLink})
                 <Link to={editLink} className={styles.editButton}>Edit</Link>
             </Col>
         </Row>
-        </Container>
+        // {/* </Container> */}
     )
 }
