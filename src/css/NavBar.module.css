@@ -2,11 +2,12 @@
     display: flex;
     width: 100%;
     background-color: #eeeca2;
-    
+    z-index: 3;
 }
 
 .meAuto {
     width: 100%;
+    z-index: 3;
 }
 
 
@@ -19,10 +20,10 @@
     border: double 5px #eeeca2;
     padding: 1em;
     flex-grow: 1;
-    
+    z-index: 3;
 }
 .navlink:hover{
-    background-color: #d0ce86;
+    background-color: #e1c79a;
     
 }
 @media only screen and (min-width: 600px) {
@@ -34,6 +35,7 @@
         background-color: #eeeca2;
         width: 100%;
         height: 5em;
+        z-index: 3;
     }
     
   }
@@ -45,6 +47,8 @@
         display: flex;
         background-color: #eeeca2;
         width: 100%;
+        height: 5em;
+        z-index: 3;
     }
     
 }

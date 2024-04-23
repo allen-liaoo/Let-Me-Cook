@@ -1,9 +1,12 @@
 .listItem {
     cursor: pointer;
-    background-color: #c2d0a1;
-    border-radius: 1em;
+    background-color: #ffffff;
+    border-radius: 10px;
     position: relative;
-
+    margin: 1em;
+    border: double 3px #b6c399;
+    
+      
 }
 .image{
     width: 5em;
@@ -16,7 +19,8 @@
     color:  #0d2714;
     background-color: #b6c399;
     padding: 0.5em;
-    margin: 0.5em;
+    margin: 1em;
+    margin-top: 2em;
     border-radius: 5px;
     border: none;
     width: 8em;
@@ -34,9 +38,9 @@
 }
 .editContaier{
     align-self: stretch;
-    right: 0;
+
     height: 100%;
-    position:absolute;
+    
 }
 .editButton:hover{
     background-color: #8d9a6e;
@@ -45,6 +49,9 @@
 .content{
     min-width: 10em;
 
+}
+.title{
+    margin-top: .5em;
 }
 @media only screen and (max-width: 400px) {
     .description{

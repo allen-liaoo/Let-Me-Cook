@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom"
-
+import searchStyle from "../../css/Search.module.css"
+import SerarchResult from "../../components/SearchResult";
 export default function CreateRecipe() {
     const navigate = useNavigate()
     const [recipe, setRecipe] = useState("")
@@ -36,15 +37,33 @@ export default function CreateRecipe() {
         const body = await res.json()
         navigate('/recipe/'+body._id)
     }
+    const [iconContainer, setIconContainer] = useState(searchStyle.searchIconContainer)
+    useEffect(()=>{
+      if(recipe == ""){
+        setIconContainer(searchStyle.searchIconContainer)
+      }else{
+        setIconContainer(searchStyle.searchIconContainerWithText + " " + searchStyle.searchIconContainer)
+      }
 
+    },[recipe])
     return <>
-      <input type="text" value={recipe} onInput={(e)=>{setRecipe(e.target.value)}}/>
-      <button onClick={searchRecipe}>Search</button>
+    <div class={searchStyle.centerContents}>
+      <div className={iconContainer} >
+      <input type="text" value={recipe} onInput={(e)=>{setRecipe(e.target.value)}} className={searchStyle.container}/>
+      <button onClick={searchRecipe} className ={searchStyle.searchbutton}>
+
+       
+        <p  className ={searchStyle.searchText}>Search</p>
+        <img src ="https://upload.wikimedia.org/wikipedia/commons/0/0b/Search_Icon.svg" alt= "search"  className={searchStyle.searchicon}></img>
+        
+        </button>
+      </div>
+       </div>
       { results && results.length !== 0 ? 
         results.map((e,i) => 
         // using array index as keys here is fine so long as there is no way to add/remove elements from the array
           <div key={i} onClick={()=>{createRecipe(e)}}>
-            <span>{ e.name }</span>
+            <SerarchResult name={ e.name } image ={e.image}></SerarchResult>
           </div>
         ) : <></> }
     </>

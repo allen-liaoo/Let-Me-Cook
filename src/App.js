@@ -19,7 +19,10 @@ function App() {
      <ItemHeaderEditable  src = "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg" 
     alt = "tomato" title = "Tomato"></ItemHeaderEditable > */}
     <NavBar></NavBar>
+    <div class="content">
     <Outlet />
+    </div>
+    
     </div>
   );
 }

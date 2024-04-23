@@ -1,14 +1,146 @@
 .searchicon{
-    height: 2em;
+    height: 4em;
     width: 2em;
+    padding-left: 0.5em;
 
 }
-.searchIconContainer{
-    border:none;
-    background-color: #00000000;
+.centerContents{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+.searchIconContainer{
+    outline: 1px solid #49c85d;
+    background-color: #00000000;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    border-radius: 3px;
+    width: 7.65em;
+    height: 41.5px;
+    transition: width 0.5s;
+    background-color: #ffffff;
+    margin: 1em;
+}
+.searchIconContainer:hover{
+    outline: 3px solid #000000;
+    border-radius: 5px ;
+    background-color: #ffffff;
+    width: 90%;
+}
+
 .container{
-    border: 1px solid #000000;
-    border-radius: 5px;
-    width:14.5em;
+    border-top: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+    border-right:none;
+    border-radius: 1px 0px 0px 1px;
+    display: none;
+    width: 0em;
+    caret-color: #00000000;
+    background-color: #ffffff;
+   
+    transition: width 0.5s;
+   transition: width 0.5s;
+}
+.container:focus{
+    display: block;
+    border: none;
+    width: 100%;
+    background-color: #ffffff;
+    outline: none ;
+
+}
+.searchIconContainer:hover .container{
+    display: block;
+    border: none;
+    width: 100%;
+    background-color: #ffffff;
+
+    outline: none ;
+}
+.searchIconContainer:focus-within .container{
+    border: none;
+
+    display: block;
+    width: 100%;
+    background-color: #ffffff;
+
+    outline: none ;
+}
+@keyframes cursor {
+    0%   { border-right: solid 1px #000000;}
+    
+    50%  { border-right: solid 1px #ffffff;}
+
+    100% { border-right: solid 1px #000000;}
+  }
+.searchIconContainer:focus-within::before{
+    align-self: center;
+    border-right: solid 1px #000000;
+    margin-top: 2px;
+    width: 4px;
+    height: 1.25em;
+    content: " ";
+    animation-name: cursor;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: steps(1, jump-start);
+}
+.searchIconContainer:focus-within{
+    background-color: #ffffff;
+}
+.searchIconContainerWithText{
+    color: #000000;
+    width: 90%;
+    .container{
+        width: 100%;
+        display: block;
+        caret-color: #000000;
+    }
+}
+.searchIconContainerWithText.searchIconContainerWithText:focus-within::before{
+    align-self: center;
+    border-right: solid 1px #ffffff;
+    width: 4px;
+    height: 1em;
+    content: " ";
+    animation: none;
+}
+.searchIconContainerWithText.searchIconContainerWithText::before{
+    align-self: center;
+    border-right: solid 1px #ffffff;
+    width: 4px;
+    height: 1em;
+    content: " ";
+    animation: none;
+}
+.searchbutton{
+    color:  #0d2714;
+    background-color: #49c85d;
+    border: 5px solid #49c85d;
+    box-shadow: -2px 0px 0px 0px #49c85d;
+    height: 30px;
+    padding: 5px;
+    padding: 1em;
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 0;
+    border-radius:  3px;
+
+}
+.searchbutton:hover{
+    background-color: #35b148;
+    border: 5px solid #35b148;
+    box-shadow: -9px 0px 0px 0px #35b148;
+}
+.searchbar{
+    width: 14em;
+    height: 2em;
+}
+.searchText{
+    padding-top:0.8em;
 }
