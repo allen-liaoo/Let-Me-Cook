@@ -5,7 +5,12 @@ export default function ItemHeaderEditable({ name, image, alt, updateName, updat
     async function uploadImage(e) {
         if (e.target.files.length <= 0) return
         const file = e.target.files.item(0);
-        console.log(file)
+        console.log("Image selected", file)
+        if (file.size() > 10000000) {    // 10,000,000 bytes = 10 mb
+            console.alert("Image file is too large (> 10mb)!")
+            return
+        }
+        updateImage(file)
     }
 
     return <div className={styles.headerContainer} >
@@ -19,7 +24,7 @@ export default function ItemHeaderEditable({ name, image, alt, updateName, updat
                 </label>
                 {/* Upload image */}
                 <UploadImage className={styles.uploadSvg}/>
-                <input id="file-input" type="file" accept="image/*, video/*" capture="environment"
+                <input id="file-input" type="file" accept="image/*" capture="environment"
                     onChange={uploadImage} />
             </div>
         </div>

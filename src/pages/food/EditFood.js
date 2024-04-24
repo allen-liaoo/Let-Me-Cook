@@ -4,11 +4,13 @@ import SaveButton from '../../components/SaveButton'
 import RemoveButton from '../../components/RemoveButton'
 import ItemHeaderEditable from '../../components/ItemHeaderEditable'
 import Layout from "../../css/ItemPageLayout.module.css"
+
 export default function EditFood() {
     const navigate = useNavigate()
     const { id: _id } = useParams()
     const [name, setName] = useState("")
     const [image, setImage] = useState("")
+    const [newImageFile, setNewImageFile] = useState(null)
     const [quantity, setQuantity] = useState(0)
     const [expirationDate, setExpirationDate] = useState("")
 
@@ -37,7 +39,6 @@ export default function EditFood() {
             },
             body: JSON.stringify({
                 name,
-                image,
                 quantity,
                 expirationDate
             })
@@ -47,6 +48,24 @@ export default function EditFood() {
             window.alert("Failed editing food!")
             return
         }
+
+        if (newImageFile != null) {
+            const formData = new FormData()
+            formData.append('image', newImageFile)
+            const res = await fetch('/api/food/edit/image/'+_id, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                },
+                body: formData
+            })
+            console.log('Changing image of food', res)
+            if (!res.ok) {
+                window.alert("Failed to change image of food!")
+                return
+            }
+        }
+
         navigate('/food/' + _id)
     }
 
@@ -61,8 +80,8 @@ export default function EditFood() {
     }
 
     return <div className={Layout.switchRowCol}>
-      <ItemHeaderEditable name={name} image={image} updateName={setName} />
-        <div className={Layout.row+" "+Layout.ajustright}>
+      <ItemHeaderEditable name={name} image={image} updateName={setName} updateImage={setNewImageFile} />
+        <div className={Layout.row+" "+Layout.ajustup+" "+Layout.ajustup}>
         <SaveButton onClick={editFood}/>
         <RemoveButton onClick={removeFood}/> 
         </div>

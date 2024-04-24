@@ -61,13 +61,15 @@ export default function EditRecipe() {
   return <div className={Layout.switchRowCol}>
      <div className={Layout.flexgrow+" "+Layout.ref}>
     <ItemHeaderEditable name={name} image={image} updateName={setName} />
-    <div className={Layout.row+" "+Layout.ajustright}>
-    <SaveButton onClick={editRecipe}/>
-    <RemoveButton onClick={removeRecipe}/>
-    </div>
+   
     </div>
     <div className={Layout.movecenter}>
-         <div>
+    <div>
+    <div className={Layout.row+" "+Layout.ajustright}>
+    
+    <RemoveButton onClick={removeRecipe}/>
+    <SaveButton onClick={editRecipe}/>
+    </div>
         { "Instructions: "}
           <a href={ instructions }>{"Here"}</a>
           <br />

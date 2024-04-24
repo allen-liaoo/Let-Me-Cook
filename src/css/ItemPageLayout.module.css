@@ -28,6 +28,10 @@
     position: static;
    margin-left: 4vh;
 }
+.ajustup{
+    position: static;
+    margin-left: 4vh;
+}
 .switchRowCol{
     display: flex;
     justify-content: center;
@@ -54,6 +58,11 @@
         position: absolute;
         left: calc(15vw - 7em);
         bottom: -3em;
+    }
+    .ajustup{
+        position: absolute;
+        left: calc(15vw - 7em);
+        bottom: calc(100% - 11em - 30vw);
     }
     
   }

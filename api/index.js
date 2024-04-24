@@ -314,8 +314,11 @@ app.http("insertFood", {
       const name = body.name;
       const image = body.image;
       const apiId = body.apiId;
-      const quantity = null;
-      const expirationDate = null;
+      const quantity = 0;
+      const timeElapsed = Date.now();
+      const today = new Date(timeElapsed);
+      const expirationDate = today.toLocaleDateString();
+      // const expirationDate = null;
       const payload = {userId, apiId, name, image, quantity, expirationDate};
       context.log("payload= " + JSON.stringify(payload));
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
@@ -527,35 +530,12 @@ app.http('editFood', {
         const body = await request.json();
         if (body) {
           const name = body.name;
-          const image = body.image;
           const quantity = ((body.quantity >= 0) ? body.quantity : 0);
           const expirationDate = body.expirationDate;
           const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
-          let result;
-          if (image) {
-            // const containerName = 'food-container';
-            // const blobName = 'food-pics';
-            // const fileName = _id + '.txt';
-            // const filePath = baseUrl + '/' + containerName + '/' + blobName + '/' + fileName;
-
-            // // // create container client
-            // const containerClient = await blobServiceClient.getContainerClient(containerName);
-
-            // // // create blob client
-            // const blobClient = await containerClient.getBlockBlobClient(blobName);
-
-            // // // download file
-            // await blobClient.downloadToFile(fileName);
-            result = await client.db("LetMeCookDB").collection("foods")
-                .updateOne({_id: new ObjectId(_id), userId: userId}, 
-                  {$set: {name: name, image: image, quantity: quantity, expirationDate: expirationDate}});
-                    // {$set: {name: name, image: filePath, quantity: quantity, expirationDate: expirationDate}});
-          }
-          else {
-            result = await client.db("LetMeCookDB").collection("foods")
+          const result = await client.db("LetMeCookDB").collection("foods")
                 .updateOne({_id: new ObjectId(_id), userId: userId}, 
                     {$set: {name: name, quantity: quantity, expirationDate: expirationDate}});
-          }
           client.close();
           if (result.matchedCount > 0) {
             return {
@@ -585,6 +565,97 @@ app.http('editFood', {
   },
 });
 
+app.http('editFoodImage', {
+  methods: ['POST'],
+  authLevel: 'anonymous',
+  route: 'food/edit/image/{id}',
+  handler: async (request, context) => {
+  //   if (request.headers['content-type'].indexOf("multipart/form-data") !== -1) {
+  //     // Parse the multipart data
+  //     const boundary = multipart.getBoundary(request.headers['content-type']);
+  //     const parts = multipart.Parse(request.body, boundary);
+
+  //     // parts is an array of file attachments
+  //     // You could then iterate over the parts to handle file storage, etc.
+  //     for (const part of parts) {
+  //         // Use Azure Storage SDK to upload files to a blob container...
+  //     }
+
+  //     // Respond to the client
+  //     context.res = {
+  //         status: 200,
+  //         body: "Files uploaded successfully"
+  //     };
+  // } else {
+  //     context.res = {
+  //         status: 400,
+  //         body: "Not a multipart request"
+  //     };
+  // }
+  },
+});
+
+// app.http('editFoodImage', {
+//   methods: ['POST'],
+//   authLevel: 'anonymous',
+//   route: 'food/edit/image/{id}',
+//   handler: async (request, context) => {
+//     const _id = request.params.id;
+//     if (ObjectId.isValid(_id)) {
+//       const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+//       let token = null;
+//       if (auth_header) {
+//         token = Buffer.from(auth_header, "base64");
+//         token = JSON.parse(token.toString());
+//         context.log("token= " + JSON.stringify(token));
+//         const userId = token.userId;
+//         const body = await request.json();
+//         if (body) {
+//           const image = body.image;
+//           const containerName = 'food-container';
+//           const blobName = 'food-pics';
+//           // TODO: figure out how to put image context into fileName
+//           const fileName = _id + '.png';
+//           const filePath = baseUrl + '/' + containerName + '/' + blobName + '/' + fileName;
+
+//           // create container client
+//           const containerClient = await blobServiceClient.getContainerClient(containerName);
+
+//           // create blob client
+//           const blobClient = await containerClient.getBlockBlobClient(blobName);
+
+//           // download file
+//           await blobClient.downloadToFile(image);
+//           const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
+//           const result = await client.db("LetMeCookDB").collection("foods").updateOne({_id: new ObjectId(_id), userId: userId}, {$set : {image: filePath}});
+//           if (result.matchedCount > 0) {
+//             return {
+//               status: 201,
+//               jsonBody: {_id: _id}
+//             }
+//           }
+//           return {
+//             status: 403,
+//             jsonBody: {error: "Authorization failed for editing food image with id: " + _id}
+//           }
+//         }
+//         return {
+//           status: 405,
+//           jsonBody: {error: "Empty content sent to edit food with id: " + _id}
+//         }
+//       }
+//       return {
+//         status: 403,
+//         jsonBody: {error: "Authorization failed for editing food image with id: " + _id}
+//       }
+//     }
+//     return {
+//       status: 404,
+//       jsonBody: {error: "Unknown food with id: " + _id}
+//     }
+//   },
+// });
+
 app.http('editRecipe', {
   methods: ['POST'],
   authLevel: 'anonymous',
@@ -601,10 +672,9 @@ app.http('editRecipe', {
         const userId = token.userId;
         const body = await request.json();
         const name = body.name;
-        const image = body.image;
         const instructions = body.instructions;
         const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
-        const result = await client.db("LetMeCookDB").collection("recipes").updateOne({_id: new ObjectId(_id), userId: userId}, {$set: {name: name, image: image, instructions: instructions}});
+        const result = await client.db("LetMeCookDB").collection("recipes").updateOne({_id: new ObjectId(_id), userId: userId}, {$set: {name: name, instructions: instructions}});
         client.close();
         if (result.matchedCount > 0) {
           return {
@@ -620,6 +690,67 @@ app.http('editRecipe', {
       return {
         status: 403,
         jsonBody: {error: "Authorization failed for editing recipe with id: " + _id}
+      }
+    }
+    return {
+      status: 404,
+      jsonBody: {error: "Unknown recipe with id: " + _id}
+    }
+  },
+});
+
+app.http('editRecipeImage', {
+  methods: ['POST'],
+  authLevel: 'anonymous',
+  route: 'recipe/edit/image/{id}',
+  handler: async (request, context) => {
+    const _id = request.params.id;
+    if (ObjectId.isValid(_id)) {
+      const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+      let token = null;
+      if (auth_header) {
+        token = Buffer.from(auth_header, "base64");
+        token = JSON.parse(token.toString());
+        context.log("token= " + JSON.stringify(token));
+        const userId = token.userId;
+        const body = await request.json();
+        if (body) {
+          const image = body.image;
+          const containerName = 'recipe-container';
+          const blobName = 'recipe-pics';
+          // TODO: figure out how to put image context into fileName
+          const fileName = _id + '.png';
+          const filePath = baseUrl + '/' + containerName + '/' + blobName + '/' + fileName;
+
+          // create container client
+          const containerClient = await blobServiceClient.getContainerClient(containerName);
+
+          // create blob client
+          const blobClient = await containerClient.getBlockBlobClient(blobName);
+
+          // download file
+          await blobClient.downloadToFile(image);
+          const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
+          const result = await client.db("LetMeCookDB").collection("recipes").updateOne({_id: new ObjectId(_id), userId: userId}, {$set : {image: filePath}});
+          if (result.matchedCount > 0) {
+            return {
+              status: 201,
+              jsonBody: {_id: _id}
+            }
+          }
+          return {
+            status: 403,
+            jsonBody: {error: "Authorization failed for editing recipe image with id: " + _id}
+          }
+        }
+        return {
+          status: 405,
+          jsonBody: {error: "Empty content sent to edit recipe with id: " + _id}
+        }
+      }
+      return {
+        status: 403,
+        jsonBody: {error: "Authorization failed for editing recipe image with id: " + _id}
       }
     }
     return {

@@ -41,7 +41,7 @@ function Foods() {
 
     return (
         <div>
-            <div className ={Layout.center}>
+            <div className ={Layout.centerrow}>
             <AddButton onClick={()=>{navigate('/food/create')}}/>
             </div>
             <Container>
