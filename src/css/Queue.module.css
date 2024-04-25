@@ -1,0 +1,12 @@
+.queueList {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    /* TODO: Remove when the navbar is fixed and doens't overlap */
+    margin-bottom: 100px;
+}
