@@ -17,7 +17,7 @@ export default function Queue({ itemName, ingredients, image, handleNameChange, 
             <Card.Text onChange={handleNameChange} className={styles.cardText}>{itemName}</Card.Text>
             <Card.Text className={styles.cardText}>Info</Card.Text>
           </div>
-          <div className={styles.iconContainer}>
+          <div className={styles.iconContainer}> 
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" height="25px">
               <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
               <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
