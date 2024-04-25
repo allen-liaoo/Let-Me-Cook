@@ -4,16 +4,16 @@
     border-radius: 1em;
     border: 3px solid #171707;
     position: static;
-    
 }
+
 .imageContainer{
     position: static;
     height: auto;
     width:30vw;
     border-radius: 1em;
     position: relative;
-   
 }
+
 .inputTitle{
     position: absolute;
     font-family: "Nunito", sans-serif;
@@ -25,6 +25,7 @@
     font-weight: 500;
     line-height: 1.2;
     padding: 5px;
+    z-index: 5;
 }
 .title{
     position: absolute;
@@ -36,6 +37,7 @@
     background-color: #ffffff88;
     border-radius: 1em;
     margin-left: 1em;
+    font-size: 2vh;
 }
 
 .editButton{
@@ -43,14 +45,14 @@
     background-color: #eeeca3;
     padding: 0.5em;
     margin: 0.5em;
-    border-radius: 5px;
-   
+    border-radius: 5px  5px 15px 5px;
+
     position: absolute;
     bottom: 0;
-    right: 0;
+    left: 25vh;
     width: 6em;
     height: 3em;
-    border: 3px solid #171707;
+    border:none;
    
 
 }
@@ -59,5 +61,72 @@
 }
 .headerContainer{
     position: relative;
- left: calc(50vw - 20vh);   
+    left: calc(50vw - 20vh); 
+    margin: 1em;  
+}
+
+.imageUpload > input {
+    display: none;
+}
+
+.imageUpload {
+    cursor: pointer;
+    position: relative;
+}
+.imageUpload .uploadSvg{
+    display: none;
+}
+.imageUpload:hover .uploadSvg {
+    display: block;
+    position: absolute;
+    top: calc(14vh - 2.5em);
+    left: calc(20vh - 2.5em);
+    width: 5em;
+    z-index: 4;
+}
+
+
+.imageUpload:hover {
+    opacity: 80%;
+}
+
+@media only screen and (min-width: 900px) {
+    .headerContainer{
+    position:static;
+     flex-grow: 1;
+     margin: 1em;  
+    }
+    .image{
+        height:30vw ;
+        width:40vw;
+        border-radius: 1em;
+        border: 3px solid #171707;
+        position: static;
+        
+    }
+    .editButton{
+        color:  #0d2714;
+        background-color: #eeeca3;
+        padding: 0.5em;
+        margin: 0.5em;
+        border-radius: 5px  5px 15px 5px;
+    
+        position: absolute;
+        bottom: 0;
+        left: calc(40vw - 7em);
+        width: 6em;
+        height: 3em;
+        border:none;
+       
+    
+    }
+    .imageUpload:hover .uploadSvg {
+        display: block;
+        position: absolute;
+        top: calc(14vw - 2.5em);
+        left: calc(20vw - 2.5em);
+        width: 5em;
+        z-index: 4;
+    }
+    
 }
