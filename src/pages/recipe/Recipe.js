@@ -19,28 +19,20 @@ export default function Recipe() {
         })()
     }, [])
 
-    return <div  className={Layout.switchRowCol}>
-        <ItemHeader name={recipe.name} image={recipe.image} editLink={'/recipe/edit/'+id} />
-        
- 
-        <div className={Layout.movecenter}>
-            <div>
-            Instructions: 
-            <a href={ recipe.instructions }> Here</a>
-            <br />
-            Ingredients:
+    return <div clasName={Layout.center}>
+        <ItemHeader name={recipe.name} image={recipe.image}  />
+        <div clasName={Layout.center}>Instructions: {recipe.instructions}</div>
+        <div clasName={Layout.center}>Ingredients:
           { recipe.ingredients ? 
             recipe.ingredients.map((e,i) => {
                 return <div key={i} >
-                    { e.text } <br />
-                    {/* Name: { e.name } <br />
+                    Name: { e.name } <br />
                     Amount: { e.amount } <br />
                     Unit: { e.unit } <br />
-                    Text: { e.text } <br /> */}
+                    Text: { e.text } <br />
                 </div>
             }) 
             : <></> }
-              </div>
         </div>
     </div>
 }

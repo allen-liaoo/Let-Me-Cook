@@ -47,7 +47,7 @@ export default function CreateRecipe() {
 
     },[recipe])
     return <>
-    <div className={searchStyle.centerContents}>
+    <div class={searchStyle.centerContents}>
       <div className={iconContainer} >
       <input type="text" value={recipe} onInput={(e)=>{setRecipe(e.target.value)}} className={searchStyle.container}/>
       <button onClick={searchRecipe} className ={searchStyle.searchbutton}>

@@ -8,16 +8,6 @@
     
       
 }
-.listItem:hover {
-    cursor: pointer;
-    background-color: #ffffff;
-    border-radius: 10px;
-    position: relative;
-    margin: 1em;
-    border: solid 3px #b6c399;
-    
-}
-
 .image{
     width: 5em;
     height: 4em;
