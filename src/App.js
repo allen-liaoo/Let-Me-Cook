@@ -1,5 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 import NavBar from "./components/NavBar";
+// import NavBarOld2 from "./components/NavBarOld2";
 import "./css/page.css"
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
      <ItemHeaderEditable  src = "https://upload.wikimedia.org/wikipedia/commons/8/89/Tomato_je.jpg" 
     alt = "tomato" title = "Tomato"></ItemHeaderEditable > */}
     <NavBar></NavBar>
-    <div class="content">
+    <div className="content">
     <Outlet />
     </div>
     

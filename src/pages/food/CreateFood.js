@@ -51,7 +51,7 @@ export default function CreateFood() {
     },[food])
 
     return (<div>
-    <div class={searchStyle.centerContents}>
+    <div className={searchStyle.centerContents}>
       <div className={iconContainer} >
         <input type="text" value={food} onInput={(e)=>{setFood(e.target.value)}} className={searchStyle.container} />
         <button onClick={searchFood}  className ={searchStyle.searchbutton}>

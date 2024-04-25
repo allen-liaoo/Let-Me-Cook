@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container'
 import { useNavigate } from "react-router-dom"
 import ListItem from '../../components/ListItem'
 import AddButton from '../../components/AddButton'
+import Layout from "../../css/ItemPageLayout.module.css"
 
 const testItems = [{
     _id: 12,
@@ -40,6 +41,9 @@ function Foods() {
 
     return (
         <div>
+            <div className ={Layout.centerrow}>
+            <AddButton onClick={()=>{navigate('/food/create')}}/>
+            </div>
             <Container>
                 { items.map(e => 
                     <ListItem 
@@ -51,7 +55,7 @@ function Foods() {
                         editLink={'/food/edit/'+e._id}
                     />)}
             </Container>
-            <AddButton onClick={()=>{navigate('/food/create')}}/>
+           
         </div>
     );
 }
