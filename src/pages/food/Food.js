@@ -16,7 +16,7 @@ export default function Food() {
                 window.alert("Error getting food!")
                 return
             }
-            const resJson = await res.json()
+            const resJson = await res.json() 
             setItem(resJson.food)
             // setRecipesIn([])
         })()
