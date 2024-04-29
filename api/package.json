@@ -9,7 +9,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/functions": "^4.3.0",
-    "mongodb": "^6.5.0"
+    "@azure/functions": "^4.4.0",
+    "@azure/identity": "^4.1.0",
+    "@azure/storage-blob": "^12.17.0",
+    "dotnet": "^1.1.4",
+    "mongodb": "^6.5.0",
+    "multi-part": "^4.0.0",
+    "parse-multipart": "^1.0.4"
   }
 }

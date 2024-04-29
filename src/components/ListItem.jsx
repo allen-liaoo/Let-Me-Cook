@@ -6,7 +6,7 @@ import styles from '../css/ListItem.module.css'
 import button from '../css/Buttons.module.css'
 
 
-export default function ListItem({name, description, image, viewLink, editLink}) {
+export default function ListItem({name, quantity, image, viewLink, editLink}) {
     const navigate = useNavigate()
     return (
         // <Container>
@@ -21,7 +21,7 @@ export default function ListItem({name, description, image, viewLink, editLink})
                     <h4 className={styles.title}> {name} </h4>
                     </Col>
                 <Col onClick={()=>navigate(viewLink)} >
-                    <p className={styles.description}> {description}</p></Col>
+                    <p className={styles.quantity}> {quantity}</p></Col>
             </Col>
             <Col className={styles.editContaier}>
                 <Link to={editLink} className={styles.editButton}>Edit</Link>

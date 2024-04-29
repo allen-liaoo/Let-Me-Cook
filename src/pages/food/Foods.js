@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import Container from 'react-bootstrap/Container'
 import { useNavigate } from "react-router-dom"
-import ListItem from '../../components/ListItem'
+import ListItem from '../../components/ListItemBootstrap'
 import AddButton from '../../components/AddButton'
 import Layout from "../../css/ItemPageLayout.module.css"
 
@@ -44,13 +44,13 @@ function Foods() {
             <div className ={Layout.centerrow}>
             <AddButton onClick={()=>{navigate('/food/create')}}/>
             </div>
-            <Container>
+            <Container >
                 { items.map(e => 
                     <ListItem 
                         key={e._id}
                         name={e.name} 
                         image={e.image}
-                        description={"Quantity: "+e.quantity}
+                        quantity={"Quantity: "+e.quantity}
                         viewLink={'/food/'+e._id}
                         editLink={'/food/edit/'+e._id}
                     />)}

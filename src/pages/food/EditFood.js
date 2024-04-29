@@ -54,9 +54,9 @@ export default function EditFood() {
             formData.append('image', newImageFile)
             const res = await fetch('/api/food/edit/image/'+_id, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                },
+                // headers: {
+                //     "Content-Type": "multipart/form-data"
+                // },  // dont specify content type so it is set with boundary
                 body: formData
             })
             console.log('Changing image of food', res)

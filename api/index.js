@@ -6,7 +6,8 @@ const mongoClient = require("mongodb").MongoClient;
 // Azure Storage dependency
 const { StorageSharedKeyCredential, BlobServiceClient } = require("@azure/storage-blob");
 const { DefaultAzureCredential } = require('@azure/identity');
-// require('dotenv').config()
+const multipart = require("parse-multipart");
+require('dotenv').config();
 
 const accountName = process.env.AZURE_STORAGE_ACCOUNT_NAME;
 if (!accountName) throw Error('Azure Storage accountName not found');
@@ -570,6 +571,22 @@ app.http('editFoodImage', {
   authLevel: 'anonymous',
   route: 'food/edit/image/{id}',
   handler: async (request, context) => {
+    context.log("FOOD/EDIT/IMAGE CALLED");
+    const formData = request.headers.get('content-type');
+    context.log('formData:', formData)
+    if (formData) {
+      const boundary = multipart.getBoundary(formData);
+      context.log('boundary:', boundary)
+      const body = request.body;
+      const parts = multipart.Parse(body, boundary);
+      context.log('body:', body)
+      context.log('parts:', parts)
+      for (const part in parts) {
+        context.log("part= ");
+        context.log(part);
+      }
+    }
+
   //   if (request.headers['content-type'].indexOf("multipart/form-data") !== -1) {
   //     // Parse the multipart data
   //     const boundary = multipart.getBoundary(request.headers['content-type']);
