@@ -48,11 +48,13 @@ function Foods() {
                 { items.map(e => 
                     <ListItem 
                         key={e._id}
+                        id={e._id}
                         name={e.name} 
                         image={e.image}
-                        quantity={"Quantity: "+e.quantity}
+                        quantity={e.quantity}
                         viewLink={'/food/'+e._id}
                         editLink={'/food/edit/'+e._id}
+                        date = {e.expirationDate}
                     />)}
             </Container>
            

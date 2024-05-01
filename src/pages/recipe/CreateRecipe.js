@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom"
 import searchStyle from "../../css/Search.module.css"
-import SerarchResult from "../../components/SearchResult";
+import SerarchResult from "../../components/SearchResultBootstrap";
 export default function CreateRecipe() {
     const navigate = useNavigate()
     const [recipe, setRecipe] = useState("")
@@ -59,11 +59,14 @@ export default function CreateRecipe() {
         </button>
       </div>
        </div>
+   
       { results && results.length !== 0 ? 
         results.map((e,i) => 
+        
         // using array index as keys here is fine so long as there is no way to add/remove elements from the array
           <div key={i} onClick={()=>{createRecipe(e)}}>
-            <SerarchResult name={ e.name } image ={e.image}></SerarchResult>
+          
+            <SerarchResult name={ e.name } image ={e.image} url={e.url}></SerarchResult>
           </div>
         ) : <></> }
     </>

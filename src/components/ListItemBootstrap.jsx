@@ -1,22 +1,177 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from "../css/QueueItem.module.css";
+import img from  "../css/ItemHeader.module.css";
+import Layout from "../css/ItemPageLayout.module.css";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
+import { ReactComponent as UploadImage }  from '../assets/upload.svg'
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom'
+import SaveButton from './SaveButton'
+import RemoveButton from './RemoveButton'
 
 
-export default function ListItem({ name,date,quantiy, image, handleNameChange, handleImageChange }){
+export default function ListItem({id, name,date,quantity, image, handleNameChange, handleImageChange}){
+  const [editMode, setEditMode] = useState(0);
+  const [newName,setName] = useState(name)
+  const [newImage, setImage] = useState(image)
+  const [newImageFile, setNewImageFile] = useState(null)
+  const [newQuantity, setQuantity] = useState(quantity)
+  const [newExpirationDate, setExpirationDate] = useState(date)
+  const [setofclasses, Setsetofclases] = useState(styles.wholeCard +" "+Layout.centerrow)
+  const [getinfo,setGetinfo] = useState(1);
+  const [imgFiles] = useState([]);
+  useEffect(() => {
+    (async () => {
+      if(getinfo){
+        const res = await fetch("/api/food/"+id, { method: "GET" })
+        if (!res.ok) {
+            console.log(res)
+            window.alert("Error getting food on edit food page!")
+            return
+        }
+        const resJson = await res.json()
+        const food = resJson.food
+        console.log("updating");
+        console.log(food.name);
+        setName(food.name)
+        setImage(food.image)
+        setQuantity(food.quantity)
+        setExpirationDate(food.expirationDate)
+    }})()
+}, [editMode])
+  
+  async function editFood() {
+    const res = await fetch('/api/food/edit/'+id, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name: newName,
+            quantity: newQuantity,
+            expirationDate: newExpirationDate
+        })
+    })
+    console.log('Editing Food', res)
+    if (!res.ok) {
+        window.alert("Failed editing food!")
+        return
+    }
 
+    if (newImageFile != null) {
+        const formData = new FormData()
+        formData.append('image', newImageFile)
+        const res = await fetch('/api/food/edit/image/'+id, {
+            method: "POST",
+            // headers: {
+            //     "Content-Type": "multipart/form-data"
+            // },  // dont specify content type so it is set with boundary
+            body: formData
+        })
+        console.log('Changing image of food', res)
+        if (!res.ok) {
+            window.alert("Failed to change image of food!")
+            return
+        }
+    }
+
+    //navigate('/food/' + id)
+    setEditMode(0)
+}
+
+async function removeFood() {
+    const res = await fetch('/api/food/delete/'+id, { method: "POST" })
+    console.log('Deleting Food', res)
+    if (!res.ok) {
+        window.alert("Failed deleting food!")
+        return
+    }
+    //navigate('/foods')
+    Setsetofclases(styles.wholeCard +" "+Layout.centerrow+" "+Layout.hidden)
+    setGetinfo(0)
+    setEditMode(0)
+    console.log(editMode)
+    
+}
+
+
+  async function uploadImage(e) {
+      if (e.target.files.length <= 0) return
+      const file = e.target.files.item(0);
+      console.log("Image selected", file)
+      if (file.size > 10000000) {    // 10,000,000 bytes = 10 mb
+          console.alert("Image file is too large (> 10mb)!")
+          return
+      }
+      setImage(file)
+  }
+
+  if(editMode){
+    return(
+    <div className={setofclasses}>
+     
+        <Card className={styles.customCard}>
+          <Card.Body className={styles.cardBody}>
+            <div className={styles.innerBodyContainer}>
+              
+           
+                <label htmlFor="file-input" className={styles.imgcontainer}>
+             
+                  {image?
+                  <Card.Img onChange={handleImageChange} className={styles.cardImg} src={image}/>:
+                  <div className={styles.cardImgHolder} ></div>}
+                
+                  <UploadImage className={styles.uploadSvg}/>
+                </label>
+                {/* Upload image */}
+                <input id="file-input" type="file" accept="image/*" capture="environment"
+                    value={imgFiles}
+                    onChange={uploadImage} className={styles.hidden}/>
+            
+              <div className={styles.cardTextContainer}>
+                {/* Change text */}
+              <input className={styles.inputTitle} 
+                value={newName} onInput={(e)=>setName(e.target.value)}
+                maxLength="50" />
+              </div>
+             
+               
+            </div>
+          </Card.Body>
+          <ListGroup className="list-group-flush">
+          <div className={Layout.text}>Quantity:   &ensp;
+                    <input type="number" 
+                        value={newQuantity} onChange={(e)=>setQuantity(e.target.value)}
+                        min="0" />
+                        </div>
+        </ListGroup>
+        
+        <ListGroup className="list-group-flush">
+        <div className={Layout.text}>Expiration Date: &ensp;
+                    <input type="date" value={newExpirationDate} onChange={(e)=>setExpirationDate(e.target.value)}/>
+                    </div>
+        </ListGroup>
+        <ListGroup className="list-group-flush">
+          <div className = {Layout.centerrow}>
+            <RemoveButton onClick={removeFood}/>
+            <SaveButton onClick={editFood}/>
+            </div>
+            
+        </ListGroup>
+        </Card>
+      </div>)
+  }else{
   return (
-  <div className={styles.wholeCard}>
+  <div className={setofclasses}>
     <Card className={styles.customCard} style={{ width: '18rem' }}>
       <Card.Body>
         <div className={styles.innerBodyContainer}>
           <Card.Img onChange={handleImageChange} className={styles.cardImg} src={image}/>
-          {/* TODO: Get the Card.Text overflow to look better or hide the overflow */}
           <div className={styles.cardTextContainer}>
-            <Card.Text onChange={handleNameChange} className={styles.cardText}>{name}</Card.Text>
+            <Card.Text onChange={handleNameChange} className={styles.cardText}className={styles.cardText}>{newName}</Card.Text>
           </div>
-          <button className={styles.iconContainer}> 
+          <button className={styles.iconContainer+ " "+styles.editButton} onClick={(e)=>setEditMode(1)}> 
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" height="25px">
               <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
               <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
@@ -28,12 +183,19 @@ export default function ListItem({ name,date,quantiy, image, handleNameChange, h
           </button>
         </div>
       </Card.Body>
-      <ListGroup className="list-group-flush">
-        {quantiy}
-      </ListGroup>
-      <ListGroup className="list-group-flush">
-        {date}
-    </ListGroup>
+      {newQuantity?
+      <ListGroup className={Layout.text+" "+"list-group-flush"}>
+        Quantiny: {newQuantity}
+    </ListGroup>:<ListGroup className={Layout.text+" "+"list-group-flush"}>
+        No Quantity Entered
+    </ListGroup>}
+      {newExpirationDate?
+      <ListGroup className={Layout.text+" "+"list-group-flush"}>
+        Experation date: {newExpirationDate}
+    </ListGroup>:<ListGroup className={Layout.text+" "+"list-group-flush"}>
+       No Experation date Entered
+    </ListGroup>}
     </Card>
   </div>)
+}
 }

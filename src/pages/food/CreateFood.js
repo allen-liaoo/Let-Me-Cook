@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom"
 import searchStyle from "../../css/Search.module.css"
-import SerarchResult from "../../components/SearchResult";
+import SerarchResult from "../../components/SearchResultBootstrap";
 export default function CreateFood() {
     const navigate = useNavigate()
     const [food, setFood] = useState("")
@@ -38,7 +38,7 @@ export default function CreateFood() {
             return
         }
         const body = await res.json()
-        navigate('/food/'+body._id)
+        navigate('/foods')
     }
     const [iconContainer, setIconContainer] = useState(searchStyle.searchIconContainer)
     useEffect(()=>{
