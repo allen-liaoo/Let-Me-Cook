@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import Container from 'react-bootstrap/Container'
 import { useNavigate } from "react-router-dom"
-import ListItem from '../../components/ListItem'
+import ListItem from '../../components/RecipeItemBootstrap'
 import AddButton from '../../components/AddButton'
 import Layout from "../../css/ItemPageLayout.module.css"
 
@@ -33,6 +33,7 @@ export default function Recipes() {
                 { items.map(e => 
                     <ListItem 
                         key={e._id}
+                        id = {e._id}
                         name={e.name} 
                         description={e.instructions ? (e.instructions.slice(0,20) + '...') : ""}
                         image={e.image}
