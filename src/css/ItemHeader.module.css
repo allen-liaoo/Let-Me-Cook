@@ -3,15 +3,21 @@
     position: relative;
     flex-grow: 1; 
     display:flex;
+    justify-content: center;
+    align-items: flex-start;
 }
-.image{
+
+.image {
     height:30vh ;
     width:40vh;
     border-radius: 1em;
-    border: 3px solid #171707;
+    /* border: 3px solid #171707; */
     position: static;
 }
 
+.imageContainer{
+    position: relative;
+}
 
 .inputTitle{
     position: absolute;
@@ -26,6 +32,7 @@
     padding: 5px;
     z-index: 5;
 }
+
 .title{
     position: absolute;
     padding: 1vw;
@@ -52,13 +59,11 @@
     width: 6em;
     height: 3em;
     border:none;
-   
-
 }
+
 .editButton:hover{
     background-color: #cfcc7e;
 }
-
 
 .imageUpload > input {
     display: none;
@@ -69,9 +74,11 @@
     position: relative;
     flex-grow: 1;
 }
+
 .imageUpload .uploadSvg{
     display: none;
 }
+
 .imageUpload:hover .uploadSvg {
     display: block;
     position: absolute;
@@ -81,43 +88,44 @@
     z-index: 4;
 }
 
-
 .imageUpload:hover {
     opacity: 80%;
 }
+
 .hidden{
     display: none;
 }
+
 @media only screen and (min-width: 900px) {
     .headerContainer{
         position: relative;
         flex-grow: 1; 
         display:flex;
     }
+
     .image{
         height:30vw ;
         width:40vw;
         border-radius: 1em;
-        border: 3px solid #171707;
+        /* border: 3px solid #171707; */
         position: static;
-        
     }
+
     .editButton{
         color:  #0d2714;
         background-color: #eeeca3;
         padding: 0.5em;
         margin: 0.5em;
         border-radius: 5px  5px 15px 5px;
-    
+
         position: absolute;
         bottom: 0;
         left: calc(40vw - 7em);
         width: 6em;
         height: 3em;
         border:none;
-       
-    
     }
+
     .imageUpload:hover .uploadSvg {
         display: block;
         position: absolute;
@@ -126,5 +134,4 @@
         width: 5em;
         z-index: 4;
     }
-    
 }

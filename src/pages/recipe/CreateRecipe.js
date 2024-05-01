@@ -46,11 +46,20 @@ export default function CreateRecipe() {
       }
 
     },[recipe])
+
+    // Let user search by clicking enter button
+    document.addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("searchNewRecipesButton").click();
+      }
+    });
+
     return <>
     <div className={searchStyle.centerContents}>
       <div className={iconContainer} >
       <input type="text" value={recipe} onInput={(e)=>{setRecipe(e.target.value)}} className={searchStyle.container}/>
-      <button onClick={searchRecipe} className ={searchStyle.searchbutton}>
+      <button onClick={searchRecipe} id="searchNewRecipesButton" className ={searchStyle.searchbutton}>
 
        
         <p  className ={searchStyle.searchText}>Search</p>

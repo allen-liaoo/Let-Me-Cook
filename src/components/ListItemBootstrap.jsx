@@ -1,20 +1,18 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from "../css/QueueItem.module.css";
-import img from  "../css/ItemHeader.module.css";
 import Layout from "../css/ItemPageLayout.module.css";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { ReactComponent as UploadImage }  from '../assets/upload.svg'
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'
 import SaveButton from './SaveButton'
 import RemoveButton from './RemoveButton'
 
 
-export default function ListItem({id, name,date,quantity, image, handleNameChange, handleImageChange}){
+export default function ListItem({id, name, date, quantity, image: oldImage}){
   const [editMode, setEditMode] = useState(0);
   const [newName,setName] = useState(name)
-  const [newImage, setImage] = useState(image)
+  const [image, setImage] = useState(oldImage)
   const [newImageFile, setNewImageFile] = useState(null)
   const [newQuantity, setQuantity] = useState(quantity)
   const [newExpirationDate, setExpirationDate] = useState(date)
@@ -92,7 +90,6 @@ async function removeFood() {
     setGetinfo(0)
     setEditMode(0)
     console.log(editMode)
-    
 }
 
 
@@ -104,39 +101,38 @@ async function removeFood() {
           console.alert("Image file is too large (> 10mb)!")
           return
       }
-      setImage(file)
+      setNewImageFile(file)
   }
 
   if(editMode){
     return(
     <div className={setofclasses}>
-     
+
         <Card className={styles.customCard}>
           <Card.Body className={styles.cardBody}>
             <div className={styles.innerBodyContainer}>
-              
-           
                 <label htmlFor="file-input" className={styles.imgcontainer}>
-             
+
                   {image?
-                  <Card.Img onChange={handleImageChange} className={styles.cardImg} src={image}/>:
+                 
+                  <Card.Img className={styles.cardImg} src={image}/>
+                  :
                   <div className={styles.cardImgHolder} ></div>}
-                
+
                   <UploadImage className={styles.uploadSvg}/>
                 </label>
                 {/* Upload image */}
                 <input id="file-input" type="file" accept="image/*" capture="environment"
                     value={imgFiles}
                     onChange={uploadImage} className={styles.hidden}/>
-            
+
               <div className={styles.cardTextContainer}>
                 {/* Change text */}
               <input className={styles.inputTitle} 
                 value={newName} onInput={(e)=>setName(e.target.value)}
                 maxLength="50" />
               </div>
-             
-               
+
             </div>
           </Card.Body>
           <ListGroup className="list-group-flush">
@@ -146,7 +142,7 @@ async function removeFood() {
                         min="0" />
                         </div>
         </ListGroup>
-        
+
         <ListGroup className="list-group-flush">
         <div className={Layout.text}>Expiration Date: &ensp;
                     <input type="date" value={newExpirationDate} onChange={(e)=>setExpirationDate(e.target.value)}/>
@@ -157,19 +153,18 @@ async function removeFood() {
             <RemoveButton onClick={removeFood}/>
             <SaveButton onClick={editFood}/>
             </div>
-            
         </ListGroup>
         </Card>
       </div>)
   }else{
   return (
   <div className={setofclasses}>
-    <Card className={styles.customCard} style={{ width: '18rem' }}>
+    <Card className={styles.customCard}>
       <Card.Body>
         <div className={styles.innerBodyContainer}>
-          <Card.Img onChange={handleImageChange} className={styles.cardImg} src={image}/>
+          <Card.Img className={styles.cardImg} src={image}/>
           <div className={styles.cardTextContainer}>
-            <Card.Text onChange={handleNameChange} className={styles.cardText}className={styles.cardText}>{newName}</Card.Text>
+            <Card.Text className={styles.cardText}>{newName}</Card.Text>
           </div>
           <button className={styles.iconContainer+ " "+styles.editButton} onClick={(e)=>setEditMode(1)}> 
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" height="25px">
@@ -185,16 +180,16 @@ async function removeFood() {
       </Card.Body>
       {newQuantity?
       <ListGroup className={Layout.text+" "+"list-group-flush"}>
-        Quantiny: {newQuantity}
-    </ListGroup>:<ListGroup className={Layout.text+" "+"list-group-flush"}>
-        No Quantity Entered
-    </ListGroup>}
-      {newExpirationDate?
-      <ListGroup className={Layout.text+" "+"list-group-flush"}>
-        Experation date: {newExpirationDate}
-    </ListGroup>:<ListGroup className={Layout.text+" "+"list-group-flush"}>
-       No Experation date Entered
-    </ListGroup>}
+          Quantiny: {newQuantity}
+      </ListGroup>:<ListGroup className={Layout.text+" "+"list-group-flush"}>
+          No Quantity Entered
+      </ListGroup>}
+          {newExpirationDate?
+            <ListGroup className={Layout.text+" "+"list-group-flush"}>
+              Expiration Date: {newExpirationDate}
+            </ListGroup>:<ListGroup className={Layout.text+" "+"list-group-flush"}>
+              No Expiration Date Entered
+          </ListGroup>}
     </Card>
   </div>)
 }

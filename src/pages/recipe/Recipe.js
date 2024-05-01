@@ -21,8 +21,6 @@ export default function Recipe() {
 
     return <div  className={Layout.switchRowCol}>
         <ItemHeader name={recipe.name} image={recipe.image} editLink={'/recipe/edit/'+id} />
-        
- 
         <div className={Layout.movecenter}>
             <div>
             Instructions: 
@@ -32,11 +30,11 @@ export default function Recipe() {
           { recipe.ingredients ? 
             recipe.ingredients.map((e,i) => {
                 return <div key={i} >
-                    { e.text } <br />
-                    {/* Name: { e.name } <br />
-                    Amount: { e.amount } <br />
-                    Unit: { e.unit } <br />
-                    Text: { e.text } <br /> */}
+                    { e.name + ' (' + e.amount + 
+                        (e.unit 
+                            && e.unit !== '' 
+                            && e.unit !== '<unit>' ? ' ' + e.unit + 's' : '')
+                         +')' } <br />
                 </div>
             }) 
             : <></> }

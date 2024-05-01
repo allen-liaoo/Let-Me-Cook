@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom"
 import searchStyle from "../../css/Search.module.css"
-import SerarchResult from "../../components/SearchResultBootstrap";
+import SearchResult from "../../components/SearchResultBootstrap";
 export default function CreateFood() {
     const navigate = useNavigate()
     const [food, setFood] = useState("")
@@ -42,7 +42,7 @@ export default function CreateFood() {
     }
     const [iconContainer, setIconContainer] = useState(searchStyle.searchIconContainer)
     useEffect(()=>{
-      if(food == ""){
+      if(food === ""){
         setIconContainer(searchStyle.searchIconContainer)
       }else{
         setIconContainer(searchStyle.searchIconContainerWithText + " " + searchStyle.searchIconContainer)
@@ -50,23 +50,31 @@ export default function CreateFood() {
 
     },[food])
 
+    // Let user search by clicking enter button
+    document.addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("searchNewFoodsButton").click();
+      }
+    });
+
     return (<div>
     <div className={searchStyle.centerContents}>
       <div className={iconContainer} >
         <input type="text" value={food} onInput={(e)=>{setFood(e.target.value)}} className={searchStyle.container} />
-        <button onClick={searchFood}  className ={searchStyle.searchbutton}>
+        <button id="searchNewFoodsButton" onClick={searchFood}  className ={searchStyle.searchbutton}>
         <p  className ={searchStyle.searchText}>Search</p>
         <img src ="https://upload.wikimedia.org/wikipedia/commons/0/0b/Search_Icon.svg" alt= "search"  className={searchStyle.searchicon}></img>
         
         </button>
+        {/* ADD DUMMY BUTTON w/ DUMMY DATA */}
       </div>
     </div>
       { results && results.length !== 0 ? 
         results.map((e,i) => 
         // using array index as keys here is fine so long as there is no way to add/remove elements from the array
           <div key={i} onClick={()=>{createFood(e)}}> 
-            <SerarchResult name={ e.name } image ={e.image}></SerarchResult>
-            
+            <SearchResult name={ e.name } image ={e.image}></SearchResult>
           </div>
         ) : <></> }
     </div>)

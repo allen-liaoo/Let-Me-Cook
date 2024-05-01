@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import SaveButton from '../../components/SaveButton'
 import RemoveButton from '../../components/RemoveButton'
 import ItemHeaderEditable from '../../components/ItemHeaderEditable'
 import Layout from "../../css/ItemPageLayout.module.css"
+import Buttons from "../../css/Buttons.module.css"
 export default function EditRecipe() {
   const navigate = useNavigate()
   const { id: _id } = useParams()
@@ -11,6 +15,7 @@ export default function EditRecipe() {
   const [image, setImage] = useState("")
   const [instructions, setInstructions] = useState("")
   const [ingredients, setIngredients] = useState([])
+  const [newImageFile, setNewImageFile] = useState(null)
 
   useEffect(() => {
       (async () => {
@@ -37,7 +42,8 @@ export default function EditRecipe() {
           },
           body: JSON.stringify({
               name,
-              image
+              image,
+              ingredients
           })
       })
       console.log('Editing Recipe', res)
@@ -45,7 +51,22 @@ export default function EditRecipe() {
           window.alert("Failed editing recipe!")
           return
       }
-      navigate('/recipe/' + _id)
+
+      if (newImageFile != null) {
+        const formData = new FormData()
+        formData.append('image', newImageFile)
+        const res = await fetch('/api/recipe/edit/image/'+_id, {
+            method: "POST",
+            // dont specify content type so it is set with boundary
+            body: formData
+        })
+        console.log('Changing recipe of food', res)
+        if (!res.ok) {
+            window.alert("Failed to change image of recipe!")
+            return
+        }
+    }
+    navigate('/recipe/' + _id)
   }
 
   async function removeRecipe() {
@@ -58,34 +79,74 @@ export default function EditRecipe() {
       navigate('/recipes')
   }
 
-  return <div className={Layout.switchRowCol}>
-     <div className={Layout.flexgrow+" "+Layout.ref}>
-    <ItemHeaderEditable name={name} image={image} updateName={setName} />
+  function changeIngredients(idx,field,value) {
+    ingredients.map((e,i) => {
+        if (i===idx) e[field] = value
+        return e
+    })
+    setIngredients([...ingredients]);
+  }
+  
+  function addIngredients() {
+    setIngredients([...ingredients, {name:"",unit:"",amount:0}])
+  }
+ 
+  function removeIngredients(idx) {
+    const newIng = ingredients.filter((e,i) => {
+        return i !== idx
+    })
+    console.log(idx)
+    console.log(newIng)
+    setIngredients(newIng);
+  }
+
+  return (
+  <div className={Layout.switchRowCol}>
+    <div className={Layout.flexgrow+" "+Layout.ref+" "+Layout.centerrow}>
+        <ItemHeaderEditable name={name} image={image} updateName={setName} updateImage={setNewImageFile} />
    
     </div>
     <div className={Layout.movecenter}>
-    <div>
-    <div className={Layout.row+" "+Layout.ajustright}>
+        <div>
+            <div className={Layout.row+" "+Layout.ajustright}>
+        </div>
+        <div className={Layout.row}>
+        <RemoveButton onClick={removeRecipe}/>
+        <SaveButton onClick={editRecipe}/>
+        </div>
     
-    <RemoveButton onClick={removeRecipe}/>
-    <SaveButton onClick={editRecipe}/>
-    </div>
         { "Instructions: "}
-          <a href={ instructions }>{"Here"}</a>
-          <br />
-          { ingredients ? <span>Ingredients: </span> : <></> }
-          { ingredients ? 
-                ingredients.map((e,i) => {
-                    return <div key={i} >
-                       {/* { e.text } <br /> */}
-                        Name: { e.name } &ensp;
-                        Amount: { e.amount } &ensp;
-                        Unit: { e.unit } &ensp;
-                        
-                    </div>
-                })
+        <a href={ instructions }>{"Here"}</a>
+        <br />
+        { ingredients ? <span>Ingredients: </span> : <></> }
+        { ingredients ? 
+            (<Container>
+            { ingredients.map((e,i) => 
+                <Row xs="3" md="4" lg="5" key={i} className={Layout.centerrow}>
+                {/* <div key={i} className={Layout.centerrow}> */}
+                    <Col><input type="number" className={Layout.ingredientInput} onChange={(e)=>changeIngredients(i,"amount",e.target.value)}
+                        value={e.amount} 
+                        min="0" /></Col>
+                    <Col><input type="text" className={Layout.ingredientInput} onChange={(e)=>changeIngredients(i,"unit",e.target.value)}
+                        value={
+                            !e.unit || e.unit === "<unit>" ? "" : e.unit
+                        } placeholder="unit" /></Col>
+                    <Col><div >(s)&ensp; of&ensp;</div></Col>
+                    <Col><input type="text" className={Layout.ingredientInput} onChange={(e)=>changeIngredients(i,"name",e.target.value)}
+                        value={e.name}/></Col>
+                    <Col><button className={Buttons.minusButton} onClick={()=>removeIngredients(i)}>-</button></Col>
+                {/* </div> */}
+                </Row>
+            )}
+            </Container>)
             : <></> }
-      </div>
-      </div>
-  </div>
+        <div className = {Layout.centerrow}>
+            <button className = {Buttons.saveButton} onClick ={ addIngredients}> + </button>
+        </div>
+             
+    </div>
+     
+    </div>
+     
+  </div>)
 }

@@ -9,47 +9,78 @@
     flex-direction: column;
    
 }
+
+.ingredientInput {
+    border-radius: 5px;
+    border: none;
+    height: 1.5em;
+    margin: 0.2em;
+}
+
+.smallinput{
+    /* width: 5em; */
+}
+
+.growinput{
+    
+}
+
+.mediuminput{
+    /* width: 7em; */
+}
+
 .centerrow{
     display: flex;
     justify-content: center;
 }
+
 .ref{
     position: relative;
 }
+
 .text{
     padding: 1em;
 }
+
 .row{
     display: flex;
     justify-content: center;
     flex-direction: row;
 }
+
 .ajustright{
     position: static;
    margin-left: 4vh;
 }
+
 .ajustup{
     position: static;
     margin-left: 4vh;
 }
+
 .switchRowCol{
     display: flex;
     justify-content: center;
     flex-direction: column;
+    align-items: center;
 }
+
 .flexgrow{
     display: flex;
     flex-grow: 1;
     flex-direction: column;
 }
+
 .hidden{
     display: none;
 }
+
 @media only screen and (min-width: 900px) {
     .switchRowCol{
         display: flex;
         justify-content: center;
         flex-direction: row;
+        align-items: flex-start;
     }
     .movecenter{
         display: flex;

@@ -5,6 +5,13 @@
 .removewhensmall{
     display: none;
 }
+
+.x{
+    justify-content:end;
+    color:red;
+    background-color: red;
+}
+
 @media only screen and (min-width: 600px) {
     .removewhensmall{
         display:block;

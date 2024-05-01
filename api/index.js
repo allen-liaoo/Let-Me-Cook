@@ -6,7 +6,7 @@ const mongoClient = require("mongodb").MongoClient;
 // Azure Storage dependency
 const { StorageSharedKeyCredential, BlobServiceClient } = require("@azure/storage-blob");
 const { DefaultAzureCredential } = require('@azure/identity');
-const multipart = require("parse-multipart");
+// const multipart = require("parse-multipart-data");
 require('dotenv').config();
 
 const accountName = process.env.AZURE_STORAGE_ACCOUNT_NAME;
@@ -53,7 +53,7 @@ app.http('searchFoods', {
       if (auth_header) {
           authToken = Buffer.from(auth_header, "base64");
           authToken = JSON.parse(authToken.toString()).userId;
-          context.log("AUTH TOKEN: ", authToken);
+          // context.log("AUTH TOKEN: ", authToken);
       }
       else{
           return {
@@ -65,12 +65,12 @@ app.http('searchFoods', {
       const food = body.food;
       const appId = process.env.EDAMAME_FOOD_SEARCH_APP_ID;
       const appKey = process.env.EDAMAME_FOOD_SEARCH_APP_KEY;
-      context.log("Food: ", food);
-      context.log("appID: ", appId);
-      context.log("appKey: ", appKey);
+      // context.log("Food: ", food);
+      // context.log("appID: ", appId);
+      // context.log("appKey: ", appKey);
 
       const url = `https://api.edamam.com/api/food-database/v2/parser?app_id=${appId}&ingr=${encodeURIComponent(food)}&app_key=${appKey}`;
-      context.log("URL: ", url);
+      // context.log("URL: ", url);
       const response = await fetch(url);
 
       if (!response.ok) {
@@ -80,14 +80,14 @@ app.http('searchFoods', {
       }
 
       const foodRes = await response.json();
-      context.log("FoodRes: ", foodRes);
+      // context.log("FoodRes: ", foodRes);
       const foods = foodRes.hints.slice(0, 20);  // get first 20 results
       const extractedData = foods.map(item => ({
         apiId: item.food.foodId,
         name: item.food.label,
         image: item.food.image
     }));
-    context.log("Extracted data: ", extractedData);
+    // context.log("Extracted data: ", extractedData);
     return {
         jsonBody: {data: extractedData}
     }
@@ -109,7 +109,7 @@ app.http('searchRecipes', {
       if (auth_header) {
           authToken = Buffer.from(auth_header, "base64");
           authToken = JSON.parse(authToken.toString()).userId;
-          context.log("AUTH TOKEN: ", authToken);
+          // context.log("AUTH TOKEN: ", authToken);
       }
       else{
           return {
@@ -122,7 +122,7 @@ app.http('searchRecipes', {
       const appId = process.env.EDAMAME_RECIPE_SEARCH_APP_ID;
       const appKey = process.env.EDAMAME_RECIPE_SEARCH_APP_KEY;
       const url = `https://api.edamam.com/api/recipes/v2?type=public&app_id=${appId}&app_key=${appKey}&q=${encodeURIComponent(q)}`;
-      context.log("Query: ", q);
+      // context.log("Query: ", q);
 
       const response = await fetch(url);
       if (!response.ok) {
@@ -133,7 +133,7 @@ app.http('searchRecipes', {
 
       const recipeRes = await response.json();
       const recipes = recipeRes.hits.slice(0, 20);
-      context.log("First 20 unfiltered results: ", recipes);
+      // context.log("First 20 unfiltered results: ", recipes);
       const extractedData = recipes.map(r => {
         // URI looks like: 
         // https://www.edamam.com/ontologies/edamam.owl#recipe_7a4555745d484bec92c26b26d7d74cd3
@@ -168,7 +168,7 @@ app.http('getFoods', {
     if (auth_header) {
       token = Buffer.from(auth_header, "base64");
       token = JSON.parse(token.toString());
-      context.log("token= " + JSON.stringify(token));
+      // context.log("token= " + JSON.stringify(token));
       const userId = token.userId;
       const name = token.userDetails;
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
@@ -200,13 +200,13 @@ app.http('getFood', {
     const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
     if (auth_header) {
       const _id = request.params.id;
-      context.log("_id= " + _id);
+      // context.log("_id= " + _id);
       if (ObjectId.isValid(_id)) {
         const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
         // const food = await client.db("LetMeCookDB").collection("foods").findOne({_id: _id});
         const food = await client.db("LetMeCookDB").collection("foods").findOne({_id: new ObjectId(_id)});
         
-        context.log("food= " + JSON.stringify(food));
+        // context.log("food= " + JSON.stringify(food));
         client.close();
         if (food) {
           return {
@@ -239,7 +239,7 @@ app.http("getRecipe", {
     if (auth_header) {
       token = Buffer.from(auth_header, "base64");
       token = JSON.parse(token.toString());
-      context.log("token= " + JSON.stringify(token));
+      // context.log("token= " + JSON.stringify(token));
       const userId = token.userId;
       const _id = request.params.id;
       if (ObjectId.isValid(_id)) {
@@ -276,7 +276,7 @@ app.http("getRecipes", {
     if (auth_header) {
       token = Buffer.from(auth_header, "base64");
       token = JSON.parse(token.toString());
-      context.log("token= " + JSON.stringify(token));
+      // context.log("token= " + JSON.stringify(token));
       const userId = token.userId;
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
       const recipes = await client.db("LetMeCookDB").collection("recipes").find({userId: userId}).toArray();
@@ -309,7 +309,7 @@ app.http("insertFood", {
     if (auth_header) {
       token = Buffer.from(auth_header, "base64");
       token = JSON.parse(token.toString());
-      context.log("token= " + JSON.stringify(token));
+      // context.log("token= " + JSON.stringify(token));
       const userId = token.userId;
       const userName = token.userDetails;
       const body = await request.json();
@@ -322,15 +322,15 @@ app.http("insertFood", {
       const expirationDate = today.toLocaleDateString();
       // const expirationDate = null;
       const payload = {userId, apiId, name, image, quantity, expirationDate};
-      context.log("payload= " + JSON.stringify(payload));
+      // context.log("payload= " + JSON.stringify(payload));
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
       const result = await client.db("LetMeCookDB").collection("foods").insertOne(payload);
-      console.log("result= " + JSON.stringify(result));
+      // console.log("result= " + JSON.stringify(result));
       // db.companies.updateOne({ "_id": "123" },
       // { $push: { "company.employees": { "firstname": "Maxime", "surname": "Beugnet", "role": "Senior Developer Advocate" } } })
       await client.db("LetMeCookDB").collection("users").updateOne({name: userName, userId: userId}, {$push: {foods: {_id: result.insertedId}}});
       const userInfo = await client.db("LetMeCookDB").collection("users").findOne({name: userName, userId: userId})
-      context.log("userInfo: " + JSON.stringify(userInfo))
+      // context.log("userInfo: " + JSON.stringify(userInfo))
       client.close();
       return {
         status: 201,
@@ -392,7 +392,7 @@ app.http('insertRecipe', {
       if (auth_header) {
         token = Buffer.from(auth_header, "base64");
         token = JSON.parse(token.toString());
-        context.log("token= " + JSON.stringify(token));
+        // context.log("token= " + JSON.stringify(token));
         const userId = token.userId;
         // const userName = token.userDetails;
 
@@ -402,7 +402,7 @@ app.http('insertRecipe', {
         const appId = process.env.EDAMAME_RECIPE_SEARCH_APP_ID;
         const appKey = process.env.EDAMAME_RECIPE_SEARCH_APP_KEY;
         const url = `https://api.edamam.com/api/recipes/v2/${apiId}?type=public&app_id=${appId}&app_key=${appKey}`;
-        context.log("apiId for recipe: ", apiId);
+        // context.log("apiId for recipe: ", apiId);
   
         // Make API call
         const response = await fetch(url);
@@ -463,7 +463,7 @@ app.http('checkUser', {
     if (auth_header) {
       token = Buffer.from(auth_header, "base64");
       token = JSON.parse(token.toString());
-      context.log("token= " + JSON.stringify(token));
+      // context.log("token= " + JSON.stringify(token));
       const userId = token.userId;
       const name = token.userDetails;
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
@@ -474,14 +474,14 @@ app.http('checkUser', {
         const payload = { name, userId, foods, recipes };
         res = await client.db("LetMeCookDB").collection("users").insertOne(payload);
         client.close();
-        context.log("user was created!");
+        // context.log("user was created!");
         return {
           status: 201,
           jsonBody: {_id: res.insertedId, message: "user was created!"}
         }
       } else {
         client.close();
-        context.log("user was found!");
+        // context.log("user was found!");
         return {
           status: 201,
           jsonBody: {_id: res.insertedId, message: "user was found!"}
@@ -527,7 +527,7 @@ app.http('editFood', {
       if (auth_header) {
         token = Buffer.from(auth_header, "base64");
         token = JSON.parse(token.toString());
-        context.log("token= " + JSON.stringify(token));
+        // context.log("token= " + JSON.stringify(token));
         const userId = token.userId;
         const body = await request.json();
         if (body) {
@@ -572,107 +572,58 @@ app.http('editFoodImage', {
   authLevel: 'anonymous',
   route: 'food/edit/image/{id}',
   handler: async (request, context) => {
-    context.log("FOOD/EDIT/IMAGE CALLED");
-    const formData = request.headers.get('content-type');
-    context.log('formData:', formData)
-    if (formData) {
-      const boundary = multipart.getBoundary(formData);
-      context.log('boundary:', boundary)
-      const body = request.body;
-      const parts = multipart.Parse(body, boundary);
-      context.log('body:', body)
-      context.log('parts:', parts)
-      for (const part in parts) {
-        context.log("part= ");
-        context.log(part);
+    const _id = request.params.id;
+    if (ObjectId.isValid(_id)) {
+      const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+      let token = null;
+      if (auth_header) {
+        token = Buffer.from(auth_header, "base64");
+        token = JSON.parse(token.toString());
+        // context.log("token= " + JSON.stringify(token));
+        const userId = token.userId;
+        // context.log("FOOD/EDIT/IMAGE CALLED");
+
+        const fd = await request.formData();
+        // context.log(fd);
+        const image = fd.get('image');
+
+        const containerName = 'food-container';
+        // TODO: figure out how to put image context into fileName
+
+        const fileName = _id + '.png';
+        const blobName = fileName;
+
+        // create container client
+        const containerClient = await blobServiceClient.getContainerClient(containerName);
+        // context.log(containerClient);
+
+        // create blob client
+        const blobClient = await containerClient.getBlockBlobClient(blobName);
+        // context.log(blobClient);
+
+        // Upload buffer
+        const uploadResult = await blobClient.uploadData(await image.arrayBuffer());
+        // context.log("UPLOAD RESULT== ");
+        // context.log(uploadResult);
+        const status = uploadResult._response.status
+        if (status >= 200 && status < 300) {
+          const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
+          const result = await client.db("LetMeCookDB").collection("foods").updateOne({_id: new ObjectId(_id), userId: userId}, {$set : {image: blobClient.url}});
+          if (result.matchedCount > 0) {
+            return {
+              status: 201,
+              jsonBody: {_id: _id}
+            }
+          } 
+        }
       }
     }
-
-  //   if (request.headers['content-type'].indexOf("multipart/form-data") !== -1) {
-  //     // Parse the multipart data
-  //     const boundary = multipart.getBoundary(request.headers['content-type']);
-  //     const parts = multipart.Parse(request.body, boundary);
-
-  //     // parts is an array of file attachments
-  //     // You could then iterate over the parts to handle file storage, etc.
-  //     for (const part of parts) {
-  //         // Use Azure Storage SDK to upload files to a blob container...
-  //     }
-
-  //     // Respond to the client
-  //     context.res = {
-  //         status: 200,
-  //         body: "Files uploaded successfully"
-  //     };
-  // } else {
-  //     context.res = {
-  //         status: 400,
-  //         body: "Not a multipart request"
-  //     };
-  // }
+    return {
+      status: 405,
+      jsonBody: {error: "Unable to save image to specified food"}
+    }
   },
 });
-
-// app.http('editFoodImage', {
-//   methods: ['POST'],
-//   authLevel: 'anonymous',
-//   route: 'food/edit/image/{id}',
-//   handler: async (request, context) => {
-//     const _id = request.params.id;
-//     if (ObjectId.isValid(_id)) {
-//       const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
-//       let token = null;
-//       if (auth_header) {
-//         token = Buffer.from(auth_header, "base64");
-//         token = JSON.parse(token.toString());
-//         context.log("token= " + JSON.stringify(token));
-//         const userId = token.userId;
-//         const body = await request.json();
-//         if (body) {
-//           const image = body.image;
-//           const containerName = 'food-container';
-//           const blobName = 'food-pics';
-//           // TODO: figure out how to put image context into fileName
-//           const fileName = _id + '.png';
-//           const filePath = baseUrl + '/' + containerName + '/' + blobName + '/' + fileName;
-
-//           // create container client
-//           const containerClient = await blobServiceClient.getContainerClient(containerName);
-
-//           // create blob client
-//           const blobClient = await containerClient.getBlockBlobClient(blobName);
-
-//           // download file
-//           await blobClient.downloadToFile(image);
-//           const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
-//           const result = await client.db("LetMeCookDB").collection("foods").updateOne({_id: new ObjectId(_id), userId: userId}, {$set : {image: filePath}});
-//           if (result.matchedCount > 0) {
-//             return {
-//               status: 201,
-//               jsonBody: {_id: _id}
-//             }
-//           }
-//           return {
-//             status: 403,
-//             jsonBody: {error: "Authorization failed for editing food image with id: " + _id}
-//           }
-//         }
-//         return {
-//           status: 405,
-//           jsonBody: {error: "Empty content sent to edit food with id: " + _id}
-//         }
-//       }
-//       return {
-//         status: 403,
-//         jsonBody: {error: "Authorization failed for editing food image with id: " + _id}
-//       }
-//     }
-//     return {
-//       status: 404,
-//       jsonBody: {error: "Unknown food with id: " + _id}
-//     }
-//   },
-// });
 
 app.http('editRecipe', {
   methods: ['POST'],
@@ -686,13 +637,14 @@ app.http('editRecipe', {
       if (auth_header) {
         token = Buffer.from(auth_header, "base64");
         token = JSON.parse(token.toString());
-        context.log("token= " + JSON.stringify(token));
+        // context.log("token= " + JSON.stringify(token));
         const userId = token.userId;
         const body = await request.json();
         const name = body.name;
         const instructions = body.instructions;
+        const ingredients = body.ingredients;
         const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
-        const result = await client.db("LetMeCookDB").collection("recipes").updateOne({_id: new ObjectId(_id), userId: userId}, {$set: {name: name, instructions: instructions}});
+        const result = await client.db("LetMeCookDB").collection("recipes").updateOne({_id: new ObjectId(_id), userId: userId}, {$set: {name: name, instructions: instructions, ingredients:ingredients}});
         client.close();
         if (result.matchedCount > 0) {
           return {
@@ -729,54 +681,52 @@ app.http('editRecipeImage', {
       if (auth_header) {
         token = Buffer.from(auth_header, "base64");
         token = JSON.parse(token.toString());
-        context.log("token= " + JSON.stringify(token));
+        // context.log("token= " + JSON.stringify(token));
         const userId = token.userId;
-        const body = await request.json();
-        if (body) {
-          const image = body.image;
-          const containerName = 'recipe-container';
-          const blobName = 'recipe-pics';
-          // TODO: figure out how to put image context into fileName
-          const fileName = _id + '.png';
-          const filePath = baseUrl + '/' + containerName + '/' + blobName + '/' + fileName;
+        // context.log("RECIPE/EDIT/IMAGE CALLED");
 
-          // create container client
-          const containerClient = await blobServiceClient.getContainerClient(containerName);
+        const fd = await request.formData();
+        // context.log(fd);
+        const image = fd.get('image');
 
-          // create blob client
-          const blobClient = await containerClient.getBlockBlobClient(blobName);
+        const containerName = 'recipe-container';
+        // TODO: figure out how to put image context into fileName
 
-          // download file
-          await blobClient.downloadToFile(image);
+        const fileName = _id + '.png';
+        const blobName = fileName;
+
+        // create container client
+        const containerClient = await blobServiceClient.getContainerClient(containerName);
+        // context.log(containerClient);
+
+        // create blob client
+        const blobClient = await containerClient.getBlockBlobClient(blobName);
+        // context.log(blobClient);
+
+        // Upload buffer
+        const uploadResult = await blobClient.uploadData(await image.arrayBuffer());
+        // context.log("UPLOAD RESULT== ");
+        // context.log(uploadResult);
+        const status = uploadResult._response.status
+        if (status >= 200 && status < 300) {
           const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
-          const result = await client.db("LetMeCookDB").collection("recipes").updateOne({_id: new ObjectId(_id), userId: userId}, {$set : {image: filePath}});
+          const result = await client.db("LetMeCookDB").collection("recipes").updateOne({_id: new ObjectId(_id), userId: userId}, {$set : {image: blobClient.url}});
           if (result.matchedCount > 0) {
             return {
               status: 201,
               jsonBody: {_id: _id}
             }
-          }
-          return {
-            status: 403,
-            jsonBody: {error: "Authorization failed for editing recipe image with id: " + _id}
-          }
+          } 
         }
-        return {
-          status: 405,
-          jsonBody: {error: "Empty content sent to edit recipe with id: " + _id}
-        }
-      }
-      return {
-        status: 403,
-        jsonBody: {error: "Authorization failed for editing recipe image with id: " + _id}
       }
     }
     return {
-      status: 404,
-      jsonBody: {error: "Unknown recipe with id: " + _id}
+      status: 405,
+      jsonBody: {error: "Unable to save image to specified recipe"}
     }
   },
 });
+
 
 app.http('removeFood', {
   methods: ['POST'],
@@ -790,7 +740,7 @@ app.http('removeFood', {
       if (auth_header) {
         token = Buffer.from(auth_header, "base64");
         token = JSON.parse(token.toString());
-        context.log("token= " + JSON.stringify(token));
+        // context.log("token= " + JSON.stringify(token));
         const userId = token.userId;
         const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
         const resultOne = await client.db("LetMeCookDB").collection("users").updateOne({userId: userId}, {$pull : {foods: {_id: new ObjectId(_id)}}});
@@ -834,7 +784,7 @@ app.http('removeRecipe', {
       if (auth_header) {
         token = Buffer.from(auth_header, "base64");
         token = JSON.parse(token.toString());
-        context.log("token= " + JSON.stringify(token));
+        // context.log("token= " + JSON.stringify(token));
         const userId = token.userId;
         const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
         const resultOne = await client.db("LetMeCookDB").collection("users").updateOne({userId: userId}, {$pull : {recipes: {_id: new ObjectId(_id)}}});
@@ -879,7 +829,7 @@ app.http('addRecipeToQueue', {
       if (auth_header) {
         token = Buffer.from(auth_header, "base64");
         token = JSON.parse(token.toString());
-        context.log("token= " + JSON.stringify(token));
+        // context.log("token= " + JSON.stringify(token));
         const userId = token.userId;
         const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
         const result = await client.db("LetMeCookDB").collection("users").updateOne({userId: userId}, {$push : {recipeQueue: {_id: new ObjectId(_id)}}});
@@ -919,7 +869,7 @@ app.http('removeRecipeFromQueue', {
       if (auth_header) {
         token = Buffer.from(auth_header, "base64");
         token = JSON.parse(token.toString());
-        context.log("token= " + JSON.stringify(token));
+        // context.log("token= " + JSON.stringify(token));
         const userId = token.userId;
         const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
         const result = await client.db("LetMeCookDB").collection("users").updateOne({userId: userId}, {$pull: {queue: {_id: _id}}});
@@ -948,7 +898,7 @@ app.http('updateRecipeQueue', {
     if (auth_header) {
       token = Buffer.from(auth_header, "base64");
       token = JSON.parse(token.toString());
-      context.log("token= " + JSON.stringify(token));
+      // context.log("token= " + JSON.stringify(token));
       const userId = token.userId;
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
       const body = await request.json();
@@ -967,6 +917,33 @@ app.http('updateRecipeQueue', {
   },
 });
 
+app.http('getRecipeQueue', {
+  methods: ['GET'],
+  authLevel: 'anonymous',
+  route: 'recipe/queue',
+  handler: async (request, context) => {
+    const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+    let token = null;
+    if (auth_header) {
+      token = Buffer.from(auth_header, "base64");
+      token = JSON.parse(token.toString());
+      // context.log("token= " + JSON.stringify(token));
+      const userId = token.userId;
+      const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
+      const user = await client.db("LetMeCookDB").collection("users").findOne({userId: userId});
+      const queue = user.recipes;
+      return {
+        status: 201,
+        jsonBody: {queue: queue}
+      }
+    }
+    return {
+      status: 405,
+      jsonBody: {error: "Unable to retrieve user's recipe queue"}
+    }
+  },
+});
+
 // TODO: API for retrieving user's foods in order of soonest expiring dates
 app.http('expiringFoods', {
   methods: ['GET'],
@@ -978,7 +955,7 @@ app.http('expiringFoods', {
     if (auth_header) {
       token = Buffer.from(auth_header, "base64");
       token = JSON.parse(token.toString());
-      context.log("token= " + JSON.stringify(token));
+      // context.log("token= " + JSON.stringify(token));
       const userId = token.userId;
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
       // const userInfo = await client.db("LetMeCookDB").collection("users").findOne({userId: userId});
@@ -1015,7 +992,7 @@ app.http('lowestFoods', {
     if (auth_header) {
       token = Buffer.from(auth_header, "base64");
       token = JSON.parse(token.toString());
-      context.log("token= " + JSON.stringify(token));
+      // context.log("token= " + JSON.stringify(token));
       const userId = token.userId;
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
       // const userInfo = await client.db("LetMeCookDB").collection("users").findOne({userId: userId});
@@ -1047,7 +1024,7 @@ app.http('searchUserRecipes', {
     if (auth_header) {
       token = Buffer.from(auth_header, "base64");
       token = JSON.parse(token.toString());
-      context.log("token= " + JSON.stringify(token));
+      // context.log("token= " + JSON.stringify(token));
       const userId = token.userId;
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
       const body = await request.json();

@@ -2,7 +2,7 @@
     text-align: left;
 }
 .customCard{
-
+    width: 75vw;
     flex-grow: 1;
 }
 .cardImg {

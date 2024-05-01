@@ -86,15 +86,15 @@ export default function EditFood() {
         <RemoveButton onClick={removeFood}/> 
         </div>
         <div className={Layout.movecenter}>     
-        <div>  
-                <div className={Layout.text}>Quantity: 
-                    <input type="number" 
-                        value={quantity} onChange={(e)=>setQuantity(e.target.value)}
-                        min="0" />
-                        </div>
-                <div className={Layout.text}>Expiration Date: 
-                    <input type="date" value={expirationDate} onChange={(e)=>setExpirationDate(e.target.value)}/>
+        <div>
+            <div className={Layout.text}>Quantity: 
+                <input type="number" 
+                    value={quantity} onChange={(e)=>setQuantity(e.target.value)}
+                    min="0" />
                     </div>
+            <div className={Layout.text}>Expiration Date: 
+                <input type="date" value={expirationDate} onChange={(e)=>setExpirationDate(e.target.value)}/>
+                </div>
         </div>
         </div>
     </div>

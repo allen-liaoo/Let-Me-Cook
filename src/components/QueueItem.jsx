@@ -3,13 +3,13 @@ import styles from "../css/QueueItem.module.css";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 
-
+import Layout from "../css/ItemPageLayout.module.css";
 export default function Queue({ itemName, ingredients, image, handleNameChange, handleImageChange }){
 
   return (
-  <div className={styles.wholeCard}>
-    <Card className={styles.customCard} style={{ width: '18rem' }}>
-      <Card.Body>
+  <div className={styles.wholeCard+' '+ Layout.centerrow}>
+    <Card className={styles.customCard}>
+      <Card.Body className={styles.cardBody}>
         <div className={styles.innerBodyContainer}>
           <Card.Img onChange={handleImageChange} className={styles.cardImg} src={image}/>
           {/* TODO: Get the Card.Text overflow to look better or hide the overflow */}
@@ -17,7 +17,7 @@ export default function Queue({ itemName, ingredients, image, handleNameChange, 
             <Card.Text onChange={handleNameChange} className={styles.cardText}>{itemName}</Card.Text>
             <Card.Text className={styles.cardText}>Info</Card.Text>
           </div>
-          <div className={styles.iconContainer}> 
+          <div className={styles.iconContainer+ " "+styles.editButton}> 
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" height="25px">
               <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
               <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
@@ -26,7 +26,8 @@ export default function Queue({ itemName, ingredients, image, handleNameChange, 
                 <path d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> 
               </g>
             </svg>
-
+            </div>
+            <div className={styles.iconContainer}> 
             <svg fill="#000000" version="1.1" id="icon" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 32 32" xmlSpace="preserve" height="35px" align="right">
               <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
               <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
@@ -41,6 +42,7 @@ export default function Queue({ itemName, ingredients, image, handleNameChange, 
                 <rect id="_Transparent_Rectangle_" className={styles.st0}></rect> 
               </g>
             </svg>
+           
           </div>
         </div>
       </Card.Body>

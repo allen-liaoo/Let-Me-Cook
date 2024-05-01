@@ -1,5 +1,7 @@
-body{
+.body{
     background-color: hsl(64, 41%, 93%);
+    padding-bottom: 5em;
+    min-height: 100vh;
 }
 .bg-primary{
     background-color: #eeeca2; ;

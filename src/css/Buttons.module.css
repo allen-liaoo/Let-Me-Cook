@@ -50,3 +50,15 @@
 .removeButton:hover{
     background-color: #b52b2b;
 }
+.minusButton{
+    color:  #0d2714;
+    background-color: #da4444;
+    padding: 0.5em;
+    margin: 0.5em;
+    border: none;
+    border-radius: 5px;
+    width: 2em;
+}
+.minusButton:hover{
+    background-color: #b52b2b;
+}

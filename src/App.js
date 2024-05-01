@@ -4,7 +4,7 @@ import NavBar from "./components/Navbarbootstrap";
 import "./css/page.css"
 function App() {
   return (
-    <div>
+    <div className = "body">
     {/* <Link to="">Landing</Link><br />
     <Link to="/food/1">Food</Link><br />
     <Link to="/food/edit/1">Food Edit</Link><br />
@@ -21,9 +21,8 @@ function App() {
     alt = "tomato" title = "Tomato"></ItemHeaderEditable > */}
     <NavBar></NavBar>
     <div className="content">
-    <Outlet />
+      <Outlet />
     </div>
-    
     </div>
   );
 }

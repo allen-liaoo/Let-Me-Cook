@@ -6,7 +6,7 @@ CSCI 5117, Spring 2024, [assignment description](https://canvas.umn.edu/courses/
 
 * Team Name: The Flask Fusion Force
 * App Name: Let Me Cook
-* App Link: <https://TODO.com/>
+* App Link: <https://kind-tree-0e95d6c0f.5.azurestaticapps.net>
 
 ### Students
 
@@ -22,15 +22,16 @@ CSCI 5117, Spring 2024, [assignment description](https://canvas.umn.edu/courses/
 **Describe the most challenging features you implemented
 (one sentence per bullet, maximum 4 bullets):**
 
-* ...
+* Allowing users to modify images for individual foods and recipes based on file or camera input
+* A dragging mechanism on the recipes queue page to allow users to re-order the recipes to see more relevant ones on top
 
 Which (if any) device integration(s) does your app support?
 
-* ...
+* Camera support (to replace images of foods in their "pantry" and recipes they have or will cook)
 
 Which (if any) progressive web app feature(s) does your app support?
 
-* ...
+* N/A
 
 
 
@@ -71,11 +72,5 @@ along with a very brief caption:**
 **Document integrations with 3rd Party code or services here.
 Please do not document required libraries (e.g., React, Azure serverless functions, Azure nosql).**
 
-* Library or service name: description of use
-* ...
-
-**If there's anything else you would like to disclose about how your project
-relied on external code, expertise, or anything else, please disclose that
-here:**
-
-...
+* Edamam: 3rd party API database which our application uses for 'looking up' foods and recipes
+* Azure Blob Storage: Used to hold the images users upload to replace the default ones provided by Edamam

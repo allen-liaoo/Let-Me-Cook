@@ -17,7 +17,7 @@ import Recipes from './pages/recipe/Recipes'
 import Recipe from './pages/recipe/Recipe'
 import EditRecipe from './pages/recipe/EditRecipe'
 import CreateRecipe from './pages/recipe/CreateRecipe'
-import RecipeQueue from './pages/RecipeQueue';
+import RecipeQueue from './pages/queue/RecipeQueue';
 
 async function authLoader() {
     const res = await fetch("/.auth/me")

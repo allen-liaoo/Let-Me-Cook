@@ -1,7 +1,8 @@
-import AddButton from '../components/AddButton';
-import styles from "../css/Queue.module.css";
-import QueueItem from "../components/QueueItem";
+import AddButton from '../../components/AddButton';
+import styles from "../../css/Queue.module.css";
+import QueueItem from "../../components/QueueItem";
 import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 
 export default function RecipeQueue() {
   // Tried to have items as a state, didn't work well because we can't map a state if it's set as an empty array
@@ -9,6 +10,7 @@ export default function RecipeQueue() {
   const [ draggingItem, setDraggingItem ] = useState(null);
   const [ newItemName, setNewItemName ] = useState('');
   const [ newItemImage, setNewItemImage ] = useState('');
+  const navigate = useNavigate()
 
   const handleDragStart = (e, item) => {
     setDraggingItem(item);
@@ -57,6 +59,24 @@ export default function RecipeQueue() {
     // })
   }
 
+  useEffect(() => {
+    async function getQueue() {
+      const res = await fetch("api/recipe/queue", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify()
+      })
+      console.log(res)
+      const recipes = await res.json()
+      console.log(recipes)
+      // setItems(recipes.data)
+  }
+  getQueue();
+    
+  }, [])
+
   return (
     <div>
       <p>Recipe queue</p>
@@ -64,7 +84,7 @@ export default function RecipeQueue() {
         {items.map(item => (
           <div
             className=
-              {`item ${item === draggingItem ?
+              {`${styles.grow} ${item === draggingItem ?
                 'dragging' : ''
               }`}
             draggable="true"
@@ -87,8 +107,8 @@ export default function RecipeQueue() {
         
       </div>
       <div className={styles.footer}>
-        {/* <AddButton></AddButton> */}
-        <button onClick={addNewItem}>+</button>
+        {/* <AddButton onClick={()=>{navigate('/queue/create')}}/> */}
+        {/* <button onClick={addNewItem}>+</button> */}
       </div>
     </div>
   );

@@ -5,8 +5,17 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link, useNavigate } from "react-router-dom";
 
-export default function SerarchResult({ name, image, handleNameChange, handleImageChange, desciption , editLink,viewLink}){
+export default function SerarchResult({ id, name, image, handleNameChange, handleImageChange, desciption , editLink,viewLink}){
   
+  async function addToQueue(id) {
+    console.log(id)
+    await fetch(`api/recipe/queue/add/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+  }
     
         return (
             <div className={styles.wholeCard +" "+Layout.centerrow}>
@@ -30,6 +39,7 @@ export default function SerarchResult({ name, image, handleNameChange, handleIma
                     </Link>
                     <Link  to={viewLink} className={styles.viewButton}> 
                      View </Link>
+                    <Link onClick={() => addToQueue(id)} className={styles.viewButton}> Add to Queue </Link>
                   </div>
                 </Card.Body>
                 {desciption?

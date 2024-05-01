@@ -14,7 +14,7 @@ export default function SerarchResult({ name, image, handleNameChange, handleIma
                 <Card.Body>
                   <div className={styles.innerBodyContainer}>
                     <Card.Img onChange={handleImageChange} className={styles.cardImg} src={image}/>
-          
+
                     <div className={styles.cardTextContainer}>
                       <Card.Text onChange={handleNameChange} className={styles.cardText}>{name}</Card.Text>
                     </div>
