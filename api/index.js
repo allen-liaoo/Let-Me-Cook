@@ -143,6 +143,7 @@ app.http('searchRecipes', {
         apiId: r.recipe.uri.slice(ind),
         name: r.recipe.label,
         image: r.recipe.image,
+        url: r.recipe.url
       }
     })
 

@@ -7,6 +7,10 @@
     border-radius: 5px ;
     width: 8em;
 }
+.addButton:hover{
+   
+    background-color:  #35b148;
+ }
 .editButton{
     color:  #0d2714;
     background-color: #eeeca3;
@@ -20,6 +24,7 @@
 .editButton:hover{
     background-color: #d0ce86;
 }
+
 .saveButton{
     color:  #0d2714;
     background-color: #49c85d;
@@ -29,6 +34,10 @@
     border-radius: 5px;
     width: 8em;
 }
+.saveButton:hover{
+   
+    background-color:  #35b148;
+ }
 .removeButton{
     color:  #0d2714;
     background-color: #da4444;
@@ -37,4 +46,7 @@
     border: none;
     border-radius: 5px;
     width: 8em;
+}
+.removeButton:hover{
+    background-color: #b52b2b;
 }

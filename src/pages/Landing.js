@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
-import ListItem from '../components/ListItem';
+import ListItem from '../components/ListItemBootstrap';
 export default function Landing() {
     // const clientDetails = useLoaderData()
     // console.log(clientDetails)
@@ -44,24 +44,30 @@ export default function Landing() {
         <h3>Expiring Soon</h3>
         <Container>
             { expiringFoods.map(e=>
-                <ListItem key={e._id}
-                    name={e.name} 
-                    image={e.image}
-                    description={"Quantity: "+e.quantity}
-                    viewLink={'/food/'+e._id}
-                    editLink={'/food/edit/'+e._id}
+                <ListItem  
+                key={e._id}
+                id={e._id}
+                name={e.name} 
+                image={e.image}
+                quantity={e.quantity}
+                viewLink={'/food/'+e._id}
+                editLink={'/food/edit/'+e._id}
+                date = {e.expirationDate}
                 />)
             }
         </Container>
         <h3>Lowest Quantity</h3>
         <Container>
             { lowestFoods.map(e=>
-                <ListItem key={e._id}
+                <ListItem 
+                    key={e._id}
+                    id={e._id}
                     name={e.name} 
                     image={e.image}
-                    description={"Quantity: "+e.quantity}
+                    quantity={e.quantity}
                     viewLink={'/food/'+e._id}
                     editLink={'/food/edit/'+e._id}
+                    date = {e.expirationDate}
                 />)
             }
         </Container>

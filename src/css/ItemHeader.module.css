@@ -34,7 +34,7 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    background-color: #ffffff88;
+    background-color: #ffffffcc;
     border-radius: 1em;
     margin-left: 1em;
     font-size: 2vh;
@@ -89,7 +89,9 @@
 .imageUpload:hover {
     opacity: 80%;
 }
-
+.hidden{
+    display: none;
+}
 @media only screen and (min-width: 900px) {
     .headerContainer{
     position:static;
