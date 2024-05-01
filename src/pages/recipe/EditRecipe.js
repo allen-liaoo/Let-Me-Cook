@@ -77,11 +77,11 @@ export default function EditRecipe() {
           { ingredients ? 
                 ingredients.map((e,i) => {
                     return <div key={i} >
-                       { e.text } <br />
-                        {/* Name: { e.name } <br />
-                        Amount: { e.amount } <br />
-                        Unit: { e.unit } <br />
-                        Text: { e.text } <br /> */}
+                       {/* { e.text } <br /> */}
+                        Name: { e.name } &ensp;
+                        Amount: { e.amount } &ensp;
+                        Unit: { e.unit } &ensp;
+                        
                     </div>
                 })
             : <></> }
