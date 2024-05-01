@@ -1,3 +1,9 @@
+
+.headerContainer{
+    position: relative;
+    flex-grow: 1; 
+    display:flex;
+}
 .image{
     height:30vh ;
     width:40vh;
@@ -6,19 +12,12 @@
     position: static;
 }
 
-.imageContainer{
-    position: static;
-    height: auto;
-    width:30vw;
-    border-radius: 1em;
-    position: relative;
-}
 
 .inputTitle{
     position: absolute;
     font-family: "Nunito", sans-serif;
     position: absolute;
-    width: 50%;
+    max-width: 50%;
     bottom: 10px;
     left: 10px;
     font-size: 1.4rem;
@@ -59,11 +58,7 @@
 .editButton:hover{
     background-color: #cfcc7e;
 }
-.headerContainer{
-    position: relative;
-    left: calc(50vw - 20vh); 
-    margin: 1em;  
-}
+
 
 .imageUpload > input {
     display: none;
@@ -72,6 +67,7 @@
 .imageUpload {
     cursor: pointer;
     position: relative;
+    flex-grow: 1;
 }
 .imageUpload .uploadSvg{
     display: none;
@@ -94,9 +90,9 @@
 }
 @media only screen and (min-width: 900px) {
     .headerContainer{
-    position:static;
-     flex-grow: 1;
-     margin: 1em;  
+        position: relative;
+        flex-grow: 1; 
+        display:flex;
     }
     .image{
         height:30vw ;
