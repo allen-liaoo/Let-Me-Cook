@@ -934,7 +934,6 @@ app.http('getRecipeQueue', {
       const userId = token.userId;
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
       const user = await client.db("LetMeCookDB").collection("users").findOne({userId: userId});
-      console.log(user);
       const queue = user.recipes;
       client.close();
       return {

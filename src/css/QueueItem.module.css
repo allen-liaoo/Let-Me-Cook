@@ -115,7 +115,7 @@
     color:  #0d2714;
     background-color: #49c85d;
     padding: 0.5em;
-    
+    margin: 0.5em;
     border-radius: 5px;
     border: none;
     width: 4em;
@@ -127,22 +127,30 @@
     justify-content: center;
     
 }
+
+.viewButton:hover{
+
+    background-color: #35b148;
+}
 .enqueueButton{
     color:  #0d2714;
     background-color: #49c85d;
     padding: 0.5em;
     border-radius: 5px;
     border: none;
-    width: 2em;
-    height: 2em;
+    width: 2.7em;
+    height: 2.7em;
     text-decoration: none;
     text-align: center;
-    
+    margin: 0.5em;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+.enqueueButton:hover{
+    background-color: #35b148;
+}
 .enqueue{
-    width: 1em;
-    height: 1em;
+    width: 2em;
+    height: 2em;
 }
