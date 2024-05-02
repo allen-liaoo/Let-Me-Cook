@@ -7,7 +7,7 @@ const mongoClient = require("mongodb").MongoClient;
 const { StorageSharedKeyCredential, BlobServiceClient } = require("@azure/storage-blob");
 // const { DefaultAzureCredential } = require('@azure/identity');
 // const multipart = require("parse-multipart-data");
-require('dotenv').config();
+// require('dotenv').config();
 
 const accountName = process.env.AZURE_STORAGE_ACCOUNT_NAME;
 if (!accountName) throw Error('Azure Storage accountName not found');
