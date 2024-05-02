@@ -875,7 +875,7 @@ app.http('removeRecipeFromQueue', {
         // context.log("token= " + JSON.stringify(token));
         const userId = token.userId;
         const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
-        const result = await client.db("LetMeCookDB").collection("users").updateOne({userId: userId}, {$pull: {queue: {_id: _id}}});
+        const result = await client.db("LetMeCookDB").collection("users").updateOne({userId: userId}, {$pull: {recipeQueue: {_id: _id}}});
         client.close();
         if (result.matchedCount === 0) {
           return {
@@ -934,7 +934,7 @@ app.http('getRecipeQueue', {
       const userId = token.userId;
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
       const user = await client.db("LetMeCookDB").collection("users").findOne({userId: userId});
-      const queue = user.recipes;
+      const queue = user.recipeQueue;
       client.close();
       return {
         status: 201,

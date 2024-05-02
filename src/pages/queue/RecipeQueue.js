@@ -47,27 +47,14 @@ export default function RecipeQueue() {
   const handleImageChange = (e) => {
     setNewItemImage(e.target.value);
   }
-
-  // TODO: Add in when backend finishes their work
-  const addNewItem = async () => {
-    // const res = await fetch("/recipe/queue/{id}", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify({food: food})
-    // })
-  }
-  
   useEffect(() => {
     async function getQueue() {
       const res = await fetch("/api/recipe/queue", {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        },
-      })
-      console.log(res)
+      });
+      if (res.ok) {
+        console.log(res)
+      }
       // const recipes = await res.json()
       // console.log(recipes)
       // setItems(recipes.data)

@@ -29,7 +29,7 @@ export default function Login() {
             <button className={styles.button+' '+styles.github} onClick={loginOnClick('github')}>Github</button>
             <button className={styles.button+' '+styles.microsoft} onClick={loginOnClick('aad')}>Microsoft</button>
             <button className={styles.button+' '+styles.facebook} onClick={loginOnClick('facebook')}>Facebook</button>
-            <button className={styles.button+' '+styles.twitter} onClick={loginOnClick('twitter')}>Twitter/X</button>
+            <button className={styles.button+' '+styles.twitter} onClick={loginOnClick('twitter')}>Twitter / X</button>
             <button className={styles.button+' '+styles.apple} onClick={loginOnClick('apple')}>Apple</button>
         </div>
     </Stack>

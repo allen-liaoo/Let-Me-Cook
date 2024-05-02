@@ -124,8 +124,8 @@ export default function EditRecipe() {
             { ingredients.map((e,i) => 
                 <Row  key={i} className={Layout.centerrow}>
                 {/* <div key={i} className={Layout.centerrow}> */}
-                <Col xs= {"2"}></Col>
-                    <Col><input type="number" className={Layout.ingredientInput} onChange={(e)=>changeIngredients(i,"amount",e.target.value)}
+                <Col xs= {"1"}></Col>
+                    <Col xs= {"2"}><input type="number" className={Layout.ingredientInput} onChange={(e)=>changeIngredients(i,"amount",e.target.value)}
                         value={e.amount} 
                         min="0" /></Col>
                     <Col xs= {"2"}><input type="text" className={Layout.ingredientInput} onChange={(e)=>changeIngredients(i,"unit",e.target.value)}
