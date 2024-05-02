@@ -37,6 +37,7 @@ h2 {
     border: none;
     border-radius: 5px;
     width: 8em;
+    color: white;
 }
 
 .google {
@@ -45,7 +46,6 @@ h2 {
 
 .github {
     background-color: rgb(43,49,55);
-    color: white;
 }
 
 .microsoft {
@@ -57,7 +57,8 @@ h2 {
 }
 
 .twitter {
-    background-color: rgb(29,202,255);
+    background-color: rgb(46, 192, 236);
+    color: rgb(255, 255, 255);
 }
 
 .apple {

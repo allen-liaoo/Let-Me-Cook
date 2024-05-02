@@ -4,7 +4,7 @@ import Layout from "../css/ItemPageLayout.module.css";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link, useNavigate } from "react-router-dom";
-
+import { ReactComponent as Enqueue }  from '../assets/enqueue.svg'
 export default function RecipeItemBootstrap({ id, name, image, handleNameChange, handleImageChange, desciption , editLink,viewLink}){
   
   async function addToQueue(id) {
@@ -37,8 +37,11 @@ export default function RecipeItemBootstrap({ id, name, image, handleNameChange,
                         </g>
                         </svg>
                     </Link>
+                    <button onClick={() => addToQueue(id)} className={styles.viewButton}> 
+                    <Enqueue className={styles.viewButton}/>
+                    </button>
                     <Link  to={viewLink} className={styles.viewButton}> View </Link>
-                    <Link onClick={() => addToQueue(id)} className={styles.viewButton}> Add to Queue </Link>
+                    
                   </div>
                 </Card.Body>
                 {desciption?
