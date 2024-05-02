@@ -1,5 +1,6 @@
 import { redirect } from 'react-router-dom'
 import Stack from 'react-bootstrap/Stack'
+import '../css/page.css';
 import styles from '../css/Login.module.css';
 
 export async function authLoader() {
@@ -20,14 +21,16 @@ function loginOnClick(url) {
 }
 
 export default function Login() {
-    return <Stack gap={3}>
+    return <Stack gap={3} className = "body">
         <h1>Let Me Cook</h1>
-        <span>Login/Signup</span>
-        <button className={styles.button+" p-2"} onClick={loginOnClick('google')}>Google</button>
-        <button className={styles.button+" p-2"}  onClick={loginOnClick('github')}>Github</button>
-        <button className={styles.button+" p-2"}  onClick={loginOnClick('aad')}>Microsoft Identity Platform</button>
-        <button className={styles.button+" p-2"}  onClick={loginOnClick('facebook')}>Facebook</button>
-        <button className={styles.button+" p-2"}  onClick={loginOnClick('twitter')}>Twitter/X</button>
-        <button className={styles.button+" p-2"}  onClick={loginOnClick('apple')}>Apple</button>
+        <h2>Login/Signup</h2>
+        <div id={styles.buttons}>
+            <button className={styles.button+' '+styles.google} onClick={loginOnClick('google')}>Google</button>
+            <button className={styles.button+' '+styles.github} onClick={loginOnClick('github')}>Github</button>
+            <button className={styles.button+' '+styles.microsoft} onClick={loginOnClick('aad')}>Microsoft</button>
+            <button className={styles.button+' '+styles.facebook} onClick={loginOnClick('facebook')}>Facebook</button>
+            <button className={styles.button+' '+styles.twitter} onClick={loginOnClick('twitter')}>Twitter/X</button>
+            <button className={styles.button+' '+styles.apple} onClick={loginOnClick('apple')}>Apple</button>
+        </div>
     </Stack>
 }

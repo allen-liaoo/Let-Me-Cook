@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import Container from 'react-bootstrap/Container'
 import { useNavigate } from "react-router-dom"
-import ListItem from '../../components/RecipeItemBootstrap'
+import RecipeItemBootstrap from '../../components/RecipeItemBootstrap'
 import AddButton from '../../components/AddButton'
 import Layout from "../../css/ItemPageLayout.module.css"
 
@@ -31,7 +31,7 @@ export default function Recipes() {
             </div>
             <Container>
                 { items.map(e => 
-                    <ListItem 
+                    <RecipeItemBootstrap 
                         key={e._id}
                         id = {e._id}
                         name={e.name} 

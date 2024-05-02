@@ -245,6 +245,7 @@ app.http("getRecipe", {
       if (ObjectId.isValid(_id)) {
         const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
         const recipe = await client.db("LetMeCookDB").collection("recipes").findOne({_id: new ObjectId(_id)});
+        client.close();
         return {
           status: 201,
           jsonBody: {recipe: recipe}
@@ -609,6 +610,7 @@ app.http('editFoodImage', {
         if (status >= 200 && status < 300) {
           const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
           const result = await client.db("LetMeCookDB").collection("foods").updateOne({_id: new ObjectId(_id), userId: userId}, {$set : {image: blobClient.url}});
+          client.close();
           if (result.matchedCount > 0) {
             return {
               status: 201,
@@ -711,6 +713,7 @@ app.http('editRecipeImage', {
         if (status >= 200 && status < 300) {
           const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
           const result = await client.db("LetMeCookDB").collection("recipes").updateOne({_id: new ObjectId(_id), userId: userId}, {$set : {image: blobClient.url}});
+          client.close();
           if (result.matchedCount > 0) {
             return {
               status: 201,
@@ -931,7 +934,9 @@ app.http('getRecipeQueue', {
       const userId = token.userId;
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
       const user = await client.db("LetMeCookDB").collection("users").findOne({userId: userId});
+      console.log(user);
       const queue = user.recipes;
+      client.close();
       return {
         status: 201,
         jsonBody: {queue: queue}
@@ -957,6 +962,8 @@ app.http('expiringFoods', {
       token = JSON.parse(token.toString());
       // context.log("token= " + JSON.stringify(token));
       const userId = token.userId;
+      context.log("\n\n\nuserId= ", userId);
+      context.log("\n\n\n")
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
       // const userInfo = await client.db("LetMeCookDB").collection("users").findOne({userId: userId});
       const foods = await client.db("LetMeCookDB").collection("foods").find({userId: userId}).toArray();

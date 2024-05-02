@@ -2,6 +2,9 @@ import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom"
 import searchStyle from "../../css/Search.module.css"
 import SearchResult from "../../components/SearchResultBootstrap";
+import AddButton from '../../components/AddButton'
+
+
 export default function CreateFood() {
     const navigate = useNavigate()
     const [food, setFood] = useState("")
@@ -38,6 +41,7 @@ export default function CreateFood() {
             return
         }
         const body = await res.json()
+        console.log("Create Foods Response: ", body);
         navigate('/foods')
     }
     const [iconContainer, setIconContainer] = useState(searchStyle.searchIconContainer)
@@ -49,6 +53,10 @@ export default function CreateFood() {
       }
 
     },[food])
+
+    function createBlankFood(){
+      console.log("In createBlankFood...");
+    }
 
     // Let user search by clicking enter button
     document.addEventListener("keypress", function(event) {
@@ -65,9 +73,12 @@ export default function CreateFood() {
         <button id="searchNewFoodsButton" onClick={searchFood}  className ={searchStyle.searchbutton}>
         <p  className ={searchStyle.searchText}>Search</p>
         <img src ="https://upload.wikimedia.org/wikipedia/commons/0/0b/Search_Icon.svg" alt= "search"  className={searchStyle.searchicon}></img>
-        
         </button>
+
         {/* ADD DUMMY BUTTON w/ DUMMY DATA */}
+        <br/>
+        <AddButton onClick={()=>{createBlankFood()}}>Add Blank Food</AddButton>
+
       </div>
     </div>
       { results && results.length !== 0 ? 

@@ -5,7 +5,7 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link, useNavigate } from "react-router-dom";
 
-export default function SerarchResult({ id, name, image, handleNameChange, handleImageChange, desciption , editLink,viewLink}){
+export default function RecipeItemBootstrap({ id, name, image, handleNameChange, handleImageChange, desciption , editLink,viewLink}){
   
   async function addToQueue(id) {
     console.log(id)
@@ -37,8 +37,7 @@ export default function SerarchResult({ id, name, image, handleNameChange, handl
                         </g>
                         </svg>
                     </Link>
-                    <Link  to={viewLink} className={styles.viewButton}> 
-                     View </Link>
+                    <Link  to={viewLink} className={styles.viewButton}> View </Link>
                     <Link onClick={() => addToQueue(id)} className={styles.viewButton}> Add to Queue </Link>
                   </div>
                 </Card.Body>

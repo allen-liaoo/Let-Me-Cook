@@ -58,7 +58,7 @@ export default function RecipeQueue() {
     //   body: JSON.stringify({food: food})
     // })
   }
-
+  
   useEffect(() => {
     async function getQueue() {
       const res = await fetch("api/recipe/queue", {

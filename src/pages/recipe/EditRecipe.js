@@ -122,19 +122,23 @@ export default function EditRecipe() {
         { ingredients ? 
             (<Container>
             { ingredients.map((e,i) => 
-                <Row xs="3" md="4" lg="5" key={i} className={Layout.centerrow}>
+                <Row  key={i} className={Layout.centerrow}>
                 {/* <div key={i} className={Layout.centerrow}> */}
+                <Col xs= {"2"}></Col>
                     <Col><input type="number" className={Layout.ingredientInput} onChange={(e)=>changeIngredients(i,"amount",e.target.value)}
                         value={e.amount} 
                         min="0" /></Col>
-                    <Col><input type="text" className={Layout.ingredientInput} onChange={(e)=>changeIngredients(i,"unit",e.target.value)}
+                    <Col xs= {"2"}><input type="text" className={Layout.ingredientInput} onChange={(e)=>changeIngredients(i,"unit",e.target.value)}
                         value={
                             !e.unit || e.unit === "<unit>" ? "" : e.unit
                         } placeholder="unit" /></Col>
-                    <Col><div >(s)&ensp; of&ensp;</div></Col>
-                    <Col><input type="text" className={Layout.ingredientInput} onChange={(e)=>changeIngredients(i,"name",e.target.value)}
+                    <Col  ><div >(s)&ensp; of</div></Col>
+                    <Col xs= {"3"}><input type="text" className={Layout.ingredientInput} onChange={(e)=>changeIngredients(i,"name",e.target.value)}
                         value={e.name}/></Col>
-                    <Col><button className={Buttons.minusButton} onClick={()=>removeIngredients(i)}>-</button></Col>
+                    <Col>
+                    <button className={Buttons.minusButton} onClick={()=>removeIngredients(i)}>x</button>
+                    </Col>
+                    <Col xs= {"2"}></Col>
                 {/* </div> */}
                 </Row>
             )}

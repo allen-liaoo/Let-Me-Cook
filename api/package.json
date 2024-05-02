@@ -13,10 +13,9 @@
     "@azure/identity": "^4.1.0",
     "@azure/storage-blob": "^12.17.0",
     "dotnet": "^1.1.4",
-    "formidable": "^3.5.1",
-    "mongodb": "^6.5.0",
-    "multi-part": "^4.0.0",
-    "parse-multipart": "^1.0.4",
-    "parse-multipart-data": "^1.5.0"
+    "mongodb": "^6.5.0"
+  },
+  "engines": {
+    "node": "18.0.0"
   }
 }

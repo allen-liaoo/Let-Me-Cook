@@ -35,6 +35,7 @@ export default function CreateRecipe() {
             return
         }
         const body = await res.json()
+        console.log(body._id)
         navigate('/recipe/'+body._id)
     }
     const [iconContainer, setIconContainer] = useState(searchStyle.searchIconContainer)

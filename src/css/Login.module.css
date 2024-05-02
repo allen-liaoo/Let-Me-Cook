@@ -1,13 +1,75 @@
+h1, h2{
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+h1 {
+    top: 20vh;
+    font-size: 5em;
+}
+
+h2 {
+    top: 30vh;
+    font-size: 2em;
+}
+
+#buttons {
+    position: relative;
+    top: 40vh;
+    width: 70vw;
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1em;
+}
+
 .button {
     padding: 0.5em;
     margin: 0.5em;
     margin-left: auto;
     margin-right: auto;
     border: none;
-    border-radius: 5px ;
+    border-radius: 5px;
     width: 8em;
 }
 
 .google {
-    
+    background-color: rgb(214,45,32);
+}
+
+.github {
+    background-color: rgb(43,49,55);
+    color: white;
+}
+
+.microsoft {
+    background-color: rgb(124,187,0);
+}
+
+.facebook {
+    background-color: rgb(0, 130, 251);
+}
+
+.twitter {
+    background-color: rgb(29,202,255);
+}
+
+.apple {
+    background-color: rgb(151,151,151);
+}
+
+
+@media only screen and (max-width: 900px) {
+    h1 {
+        font-size: 3em;
+    }
+    h2 {
+        font-size: 1.2em;
+    }
 }

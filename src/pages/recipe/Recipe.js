@@ -24,7 +24,7 @@ export default function Recipe() {
         <div className={Layout.movecenter}>
             <div>
             Instructions: 
-            <a href={ recipe.instructions }> Here</a>
+            <a href={ recipe.instructions }>{"Here"}</a>
             <br />
             Ingredients:
           { recipe.ingredients ? 
@@ -36,7 +36,8 @@ export default function Recipe() {
                             && e.unit !== '<unit>' ? ' ' + e.unit + 's' : '')
                          +')' } <br />
                 </div>
-            }) 
+            }
+            ) 
             : <></> }
               </div>
         </div>

@@ -20,9 +20,9 @@ function ColorSchemesExample() {
             <Nav.Link as={Link} to="/.auth/logout">Logout</Nav.Link>
 
             {/* TODO make align on far-right of navbar */}
-            <Nav>
-              {/* <Nav.Offcanvas className="justify-content-end" href="/.auth/logout" placement="end">Logout</Nav.Offcanvas> */}
-            </Nav>
+            {/* <Nav>
+              <Nav.Offcanvas className="justify-content-end" href="/.auth/logout" placement="end">Logout</Nav.Offcanvas>
+            </Nav> */}
           </Nav>
         </Container>
       </Navbar>
