@@ -5,7 +5,7 @@ const mongoClient = require("mongodb").MongoClient;
 // connect-with-default-azure-credential.js
 // Azure Storage dependency
 const { StorageSharedKeyCredential, BlobServiceClient } = require("@azure/storage-blob");
-const { DefaultAzureCredential } = require('@azure/identity');
+// const { DefaultAzureCredential } = require('@azure/identity');
 // const multipart = require("parse-multipart-data");
 require('dotenv').config();
 
@@ -28,6 +28,8 @@ const blobServiceClient = new BlobServiceClient(
   `${baseUrl}`,
   sharedKeyCredential
 );
+
+console.log("BUILD NYE THE SCIENCE GUY BUILDBUILDBUILDBUILDBUILDBUILDBUILDBUILDBUILDBUILDBUILDBUILDBUILD")
 
 /*
 searchFoods
@@ -923,7 +925,7 @@ app.http('updateRecipeQueue', {
 app.http('getRecipeQueue', {
   methods: ['GET'],
   authLevel: 'anonymous',
-  route: 'recipe/queue',
+  route: 'queue',
   handler: async (request, context) => {
     const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
     let token = null;

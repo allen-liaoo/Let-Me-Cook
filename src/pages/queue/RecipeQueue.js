@@ -49,11 +49,11 @@ export default function RecipeQueue() {
   }
   useEffect(() => {
     async function getQueue() {
-      const res = await fetch("/api/recipe/queue", {
+      const res = await fetch("/api/queue", {
         method: "GET",
       });
       if (res.ok) {
-        console.log(res)
+        console.log(await res.json())
       }
       // const recipes = await res.json()
       // console.log(recipes)

@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import SaveButton from '../../components/SaveButton'
 import RemoveButton from '../../components/RemoveButton'
+import LinkFood from '../../components/LinkFood'
 import ItemHeaderEditable from '../../components/ItemHeaderEditable'
 import Layout from "../../css/ItemPageLayout.module.css"
 import Buttons from "../../css/Buttons.module.css"
@@ -124,7 +125,7 @@ export default function EditRecipe() {
             { ingredients.map((e,i) => 
                 <Row  key={i} className={Layout.centerrow}>
                 {/* <div key={i} className={Layout.centerrow}> */}
-                <Col xs= {"1"}></Col>
+                
                     <Col xs= {"2"}><input type="number" className={Layout.ingredientInput} onChange={(e)=>changeIngredients(i,"amount",e.target.value)}
                         value={e.amount} 
                         min="0" /></Col>
@@ -138,7 +139,7 @@ export default function EditRecipe() {
                     <Col>
                     <button className={Buttons.minusButton} onClick={()=>removeIngredients(i)}>x</button>
                     </Col>
-                    <Col xs= {"2"}></Col>
+                    
                 {/* </div> */}
                 </Row>
             )}
