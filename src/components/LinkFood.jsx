@@ -10,9 +10,9 @@ function LinkFood() {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
-      </Button>
+      <button onClick={handleShow}>
+        Link
+      </button>
 
       <Modal show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>

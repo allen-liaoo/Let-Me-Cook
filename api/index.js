@@ -1,3 +1,4 @@
+console.log("BUILD NYE THE OG SCIENCE GUY BEERBEERBEERBEERBEERBEERBEERBEERBEERBEERBEER")
 const { app } = require('@azure/functions');
 const { ObjectId } = require('mongodb');
 const mongoClient = require("mongodb").MongoClient;
