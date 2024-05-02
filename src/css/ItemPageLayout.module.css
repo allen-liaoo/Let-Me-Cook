@@ -15,7 +15,7 @@
     border: none;
     height: 1.5em;
     margin: 0.2em;
-    width: 100%;
+    width: 120%;
 }
 
 .smallinput{
@@ -75,7 +75,19 @@
 .hidden{
     display: none;
 }
-
+.switchtopandbotom{
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    
+}
+.stickaddbutton{
+    position: sticky;
+    top: 3rem;
+    z-index: 10;
+    padding-top: 0.5em;
+    background-color: hsl(64, 41%, 93%);
+}
 @media only screen and (min-width: 900px) {
     .switchRowCol{
         display: flex;
@@ -99,5 +111,19 @@
         left: calc(15vw - 7em);
         bottom: calc(100% - 11em - 30vw);
     }
+    .switchtopandbotom{
+        position: sticky;
+        top: 0;
+        z-index: 1020;
+    }
     
   }
+  @media only screen and (max-width: 600px) {
+    .stickaddbutton{
+        position: sticky;
+        top: 90vh;
+        z-index: 10;
+        background-color: hsl(64, 41%, 93%);
+        padding-bottom: 1em;
+    }
+}

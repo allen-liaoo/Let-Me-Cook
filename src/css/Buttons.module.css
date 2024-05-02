@@ -2,10 +2,11 @@
     color:  #0d2714;
     background-color: #49c85d;
     padding: 0.5em;
-    margin: 0.5em;
+    margin: 1em;
     border: none;
     border-radius: 5px ;
     width: 8em;
+    
 }
 .addButton:hover{
    
@@ -53,7 +54,7 @@
 .minusButton{
     color:  #0d2714;
     background-color: #da4444;
-  
+    margin-left: 20%;
     border: none;
     border-radius: 5px;
     width: 2em;
@@ -64,11 +65,16 @@
 .linkButton{
     color:  #0d2714;
     background-color: #49c85d;
-  
+    width: 110%;
     border: none;
     border-radius: 5px;
     flex-grow: 1;
 }
 .linkButton:hover{
     background-color: #35b148;
+}
+@media only screen and (min-width: 1000px) {
+    .linkButton:after{
+        content: " to food";
+    }
 }

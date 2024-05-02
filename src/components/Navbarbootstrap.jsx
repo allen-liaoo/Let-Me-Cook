@@ -3,6 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import styles from "../css/NavbarBootstrap.module.css";
 import { Link } from 'react-router-dom'
+import Layout from "../css/ItemPageLayout.module.css";
 // import Button from 'react-bootstrap/Button';
 
 async function logout() {
@@ -15,7 +16,7 @@ async function logout() {
 function ColorSchemesExample() {
   return (
     <>
-      <Navbar className = {styles.container}>
+      <Navbar className = {styles.container+" "+Layout.switchtopandbotom} >
         <Container>
           <Navbar.Brand href="/" className = {styles.removewhensmall}>Let Me Cook</Navbar.Brand>
           <Nav className="me-auto">
