@@ -16,7 +16,7 @@ export default function ItemHeaderEditable({ name, image, alt, updateName, updat
     }
 
     return <div className={styles.headerContainer} >
-        <div className={styles.imageContainer} >
+        
             <input className={styles.inputTitle} 
                 value={name} onInput={(e)=>updateName(e.target.value)}
                 maxLength="50" />
@@ -30,6 +30,6 @@ export default function ItemHeaderEditable({ name, image, alt, updateName, updat
                     value={imgFiles}
                     onChange={uploadImage} />
             </div>
-        </div>
+       
     </div>
 }

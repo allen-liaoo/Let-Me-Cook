@@ -135,24 +135,27 @@ async function removeFood() {
 
             </div>
           </Card.Body>
-          <ListGroup className="list-group-flush">
+          <ListGroup variant="flush">
+          <ListGroup.Item className="list-group-flush">
           <div className={Layout.text}>Quantity:   &ensp;
                     <input type="number" 
                         value={newQuantity} onChange={(e)=>setQuantity(e.target.value)}
                         min="0" />
                         </div>
-        </ListGroup>
+        </ListGroup.Item>
 
-        <ListGroup className="list-group-flush">
+        <ListGroup.Item className="list-group-flush">
+          
         <div className={Layout.text}>Expiration Date: &ensp;
                     <input type="date" value={newExpirationDate} onChange={(e)=>setExpirationDate(e.target.value)}/>
                     </div>
-        </ListGroup>
-        <ListGroup className="list-group-flush">
+        </ListGroup.Item>
+        <ListGroup.Item className="list-group-flush">
           <div className = {Layout.centerrow}>
             <RemoveButton onClick={removeFood}/>
             <SaveButton onClick={editFood}/>
             </div>
+        </ListGroup.Item>
         </ListGroup>
         </Card>
       </div>)
@@ -178,18 +181,20 @@ async function removeFood() {
           </button>
         </div>
       </Card.Body>
+      <ListGroup variant="flush">
       {newQuantity?
-      <ListGroup className={Layout.text+" "+"list-group-flush"}>
+      <ListGroup.Item className={Layout.text+" "+"list-group-flush"}>
           Quantiny: {newQuantity}
-      </ListGroup>:<ListGroup className={Layout.text+" "+"list-group-flush"}>
+      </ListGroup.Item>:<ListGroup.Item className={Layout.text+" "+"list-group-flush"}>
           No Quantity Entered
-      </ListGroup>}
+      </ListGroup.Item>}
           {newExpirationDate?
-            <ListGroup className={Layout.text+" "+"list-group-flush"}>
+            <ListGroup.Item className={Layout.text+" "+"list-group-flush"}>
               Expiration Date: {newExpirationDate}
-            </ListGroup>:<ListGroup className={Layout.text+" "+"list-group-flush"}>
+            </ListGroup.Item>:<ListGroup.Item className={Layout.text+" "+"list-group-flush"}>
               No Expiration Date Entered
-          </ListGroup>}
+          </ListGroup.Item>}
+          </ListGroup>
     </Card>
   </div>)
 }
