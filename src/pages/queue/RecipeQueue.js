@@ -61,19 +61,22 @@ export default function RecipeQueue() {
   
   useEffect(() => {
     async function getQueue() {
-      const res = await fetch("api/recipe/queue", {
+      const res = await fetch("/api/recipe/queue", {
         method: "GET",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify()
       })
       console.log(res)
-      const recipes = await res.json()
-      console.log(recipes)
+      // const recipes = await res.json()
+      // console.log(recipes)
       // setItems(recipes.data)
   }
-  getQueue();
+  let ignore = false;
+
+  if (!ignore)  getQueue()
+  return () => { ignore = true; }
+  // getQueue();
     
   }, [])
 

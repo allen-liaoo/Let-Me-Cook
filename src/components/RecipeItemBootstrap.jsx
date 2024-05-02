@@ -37,8 +37,8 @@ export default function RecipeItemBootstrap({ id, name, image, handleNameChange,
                         </g>
                         </svg>
                     </Link>
-                    <button onClick={() => addToQueue(id)} className={styles.viewButton}> 
-                    <Enqueue className={styles.viewButton}/>
+                    <button onClick={() => addToQueue(id)} className={styles.enqueueButton} > 
+                    <Enqueue  className={styles.enqueue}/>
                     </button>
                     <Link  to={viewLink} className={styles.viewButton}> View </Link>
                     

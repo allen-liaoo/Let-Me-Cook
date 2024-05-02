@@ -131,14 +131,18 @@
     color:  #0d2714;
     background-color: #49c85d;
     padding: 0.5em;
-    
     border-radius: 5px;
     border: none;
     width: 2em;
+    height: 2em;
     text-decoration: none;
     text-align: center;
     
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.enqueue{
+    width: 1em;
+    height: 1em;
 }
