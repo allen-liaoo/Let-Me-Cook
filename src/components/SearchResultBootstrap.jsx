@@ -23,10 +23,13 @@ export default function SerarchResult({ name, image, url }){
                     </button>
                   </div>
                 </Card.Body>
+                <ListGroup.Item className="list-group-flush">
                 {url?
-                <ListGroup className={Layout.text+" list-group-flush"}>
+               
+                <ListGroup.Item className={Layout.text+" list-group-flush"}>
                     <a href = {url}> {url}</a>
-                </ListGroup>:<></>}
+                </ListGroup.Item>:<></>}
+                </ListGroup.Item>
               </Card>
             </div>)
     

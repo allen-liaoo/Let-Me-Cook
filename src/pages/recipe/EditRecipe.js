@@ -145,7 +145,7 @@ export default function EditRecipe() {
                         value={
                             !e.unit || e.unit === "<unit>" ? "" : e.unit
                         } placeholder="unit" /></Col>
-                    <Col  ><div >(s)&ensp; of</div></Col>
+                    {/* <Col  ><div >(s)&ensp; of</div></Col> */}
                     <Col xs= {"3"}><input type="text" className={Layout.ingredientInput} onChange={(e)=>changeIngredients(i,"name",e.target.value)}
                         value={e.name}/></Col>
                     <Col>
