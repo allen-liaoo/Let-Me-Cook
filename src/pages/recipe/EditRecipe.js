@@ -20,8 +20,7 @@ export default function EditRecipe() {
 
   // States for popup that links an ingredient to food
   const [showLinkFood, setShowLinkFood] = useState(false)
-  const [linkedIngName, setLinkedIngName] = useState(false)
-  const [linkedIngredient, setLinkedIngredient] = useState(false)
+  const [linkedIngredient, setLinkedIngredient] = useState(null)
 
   useEffect(() => {
       (async () => {
@@ -106,6 +105,12 @@ export default function EditRecipe() {
     setIngredients(newIng);
   }
 
+  function toggleLinkFoodPopup(show, ingredient) {
+    console.log('ingredient: ', ingredient)
+    setLinkedIngredient(ingredient)
+    setShowLinkFood(show)
+  }
+
   return (
   <div className={Layout.switchRowCol}>
     <div className={Layout.flexgrow+" "+Layout.ref+" "+Layout.centerrow}>
@@ -131,7 +136,7 @@ export default function EditRecipe() {
                 <Row  key={i} className={Layout.centerrow}>
                 {/* <div key={i} className={Layout.centerrow}> */}
                     <Col>
-                    <LinkFood></LinkFood>
+                        <button className = {Buttons.linkButton} onClick={()=>toggleLinkFoodPopup(true,e)}>Link</button>
                     </Col>
                     <Col xs= {"2"}><input type="number" className={Layout.ingredientInput} onChange={(e)=>changeIngredients(i,"amount",e.target.value)}
                         value={e.amount} 
@@ -159,7 +164,7 @@ export default function EditRecipe() {
     </div>
 
     { showLinkFood ? 
-        <LinkFood />
+        <LinkFood ingredient={linkedIngredient} hidePopup={()=>toggleLinkFoodPopup(false)} />
         : <></> }
   </div>)
 }

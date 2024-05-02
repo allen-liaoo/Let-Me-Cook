@@ -1,4 +1,3 @@
-console.log("BUILD NYE THE OG SCIENCE GUY BEERBEERBEERBEERBEERBEERBEERBEERBEERBEERBEER")
 const { app } = require('@azure/functions');
 const { ObjectId } = require('mongodb');
 const mongoClient = require("mongodb").MongoClient;
@@ -30,7 +29,6 @@ const blobServiceClient = new BlobServiceClient(
   sharedKeyCredential
 );
 
-console.log("BUILD NYE THE SCIENCE GUY BUILDBUILDBUILDBUILDBUILDBUILDBUILDBUILDBUILDBUILDBUILDBUILDBUILD")
 
 /*
 searchFoods
@@ -156,6 +154,46 @@ app.http('searchRecipes', {
     }
   },
 });
+
+// Search user's own virtual pantry by a food name
+app.http('searchUserFoods', {
+  methods: ['POST'],
+  authLevel: 'anonymous',
+  route: 'food/byname',
+  handler: async (request, context) => {
+    const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+    let token = null;
+    if (auth_header) {
+      token = Buffer.from(auth_header, "base64");
+      token = JSON.parse(token.toString());
+      // context.log("token= " + JSON.stringify(token));
+      const userId = token.userId;
+      const name = token.userDetails;
+      const body = await request.json();
+      const foodName = body.name;
+      if (foodName) {
+        const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
+        let foodQuery = new RegExp(foodName, "gi");
+        const result = await client.db("LetMeCookDB").collection("foods").find({userId: userId, name: foodQuery}).toArray();
+        client.close();
+        return {
+          status: 201,
+          jsonBody: {foods: result}
+        }
+      }
+      return {
+        status: 304
+      }
+    }
+    return {
+      status: 405,
+      jsonBody: { error: "Could not authenticate user for searching food"}
+    }
+  },
+});
+
+// TODO: 
+// 
 
 
 // FUNCTION NAME: getFoods
