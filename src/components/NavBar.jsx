@@ -6,7 +6,7 @@ import styles from "../css/NavBar.module.css"
 
 function NavBar() {
   return (
-    <div className={styles.navbar}>
+    <div className={styles.navbar} sticky="top">
         <Link  to="/foods"  className={styles.navlink}>Foods</Link>
         <Link  to="/recipes"  className={styles.navlink}>Recipes</Link>
         <Link  to="/queue"  className={styles.navlink}>Queue</Link>

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import ListItem from '../../components/ListItemBootstrap'
 import AddButton from '../../components/AddButton'
 import Layout from "../../css/ItemPageLayout.module.css"
+import EmptyCard from "../../components/EmptyCard"
 
 const testItems = [{
     _id: 12,
@@ -22,9 +23,11 @@ const testItems = [{
 function Foods() {
     const navigate = useNavigate()
     const [items, setItems] = useState([])
-
+    const[loading,SetLoading] = useState(true);
     useEffect(() => {
+       
         (async () => {
+            SetLoading(true);
             const res = await fetch("/api/foods", { method: "GET" })
             if (!res.ok) {
                 console.log(res)
@@ -36,9 +39,27 @@ function Foods() {
             console.log(resJson)
             setItems(resJson.foods)
             // setItems(testItems)
+            SetLoading(false);
         })()
+        console.log(loading + "loading ")
+        
     }, [])
-
+    if(loading){
+        return(
+            <div>
+            <div className ={Layout.centerrow+" "+Layout.stickaddbutton}>
+            <AddButton onClick={()=>{navigate('/food/create')}}/>
+            </div>
+            <Container>
+                <EmptyCard  feildnum= "2" ></EmptyCard>
+                <EmptyCard  feildnum= "2" ></EmptyCard>
+                <EmptyCard  feildnum= "2" ></EmptyCard>
+                <EmptyCard  feildnum= "2" ></EmptyCard>
+            </Container>
+        </div>
+        )
+    }
+    else{
     return (
         <div>
             <div className ={Layout.centerrow+" "+Layout.stickaddbutton}>
@@ -60,5 +81,5 @@ function Foods() {
         </div>
     );
 }
-
+}
 export default Foods;

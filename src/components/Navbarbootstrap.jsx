@@ -16,7 +16,7 @@ async function logout() {
 function ColorSchemesExample() {
   return (
     <>
-      <Navbar className = {styles.container+" "+Layout.switchtopandbotom} >
+      <Navbar className = {styles.container} sticky="top" >
         <Container>
           <Navbar.Brand href="/" className = {styles.removewhensmall}>Let Me Cook</Navbar.Brand>
           <Nav className="me-auto">
