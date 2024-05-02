@@ -44,7 +44,7 @@ function Foods() {
             <div className ={Layout.centerrow}>
             <AddButton onClick={()=>{navigate('/food/create')}}/>
             </div>
-            <Container >
+            <Container>
                 { items.map(e => 
                     <ListItem 
                         key={e._id}
@@ -57,7 +57,6 @@ function Foods() {
                         date = {e.expirationDate}
                     />)}
             </Container>
-           
         </div>
     );
 }

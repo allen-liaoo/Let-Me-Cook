@@ -61,3 +61,14 @@
 .minusButton:hover{
     background-color: #b52b2b;
 }
+.linkButton{
+    color:  #0d2714;
+    background-color: #49c85d;
+  
+    border: none;
+    border-radius: 5px;
+    flex-grow: 1;
+}
+.linkButton:hover{
+    background-color: #35b148;
+}

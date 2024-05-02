@@ -178,18 +178,12 @@ async function removeFood() {
           </button>
         </div>
       </Card.Body>
-      {newQuantity?
+      <ListGroup className={Layout.text+" list-group-flush"}>
+          Quantiny: { newQuantity ? newQuantity : "NA"}
+      </ListGroup>
       <ListGroup className={Layout.text+" "+"list-group-flush"}>
-          Quantiny: {newQuantity}
-      </ListGroup>:<ListGroup className={Layout.text+" "+"list-group-flush"}>
-          No Quantity Entered
-      </ListGroup>}
-          {newExpirationDate?
-            <ListGroup className={Layout.text+" "+"list-group-flush"}>
-              Expiration Date: {newExpirationDate}
-            </ListGroup>:<ListGroup className={Layout.text+" "+"list-group-flush"}>
-              No Expiration Date Entered
-          </ListGroup>}
+          Expiration Date: { newExpirationDate ? newExpirationDate : "NA"}
+      </ListGroup>
     </Card>
   </div>)
 }

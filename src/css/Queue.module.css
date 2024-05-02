@@ -16,3 +16,165 @@
     justify-content: center;
     flex-grow: 1;
 }
+
+.wholeCard {
+    margin-bottom: 20px;
+
+}
+
+.customCard > .cardImg {
+    text-align: left;
+}
+.customCard{
+    width: 75vw;
+    flex-grow: 1;
+}
+.cardImg {
+    float: left;
+    margin: 0px 15px 15px 0px;
+    
+    max-height: 5em;
+    max-width: 5em;
+}
+.cardImgHolder{
+    float: left;
+    margin: 0px 15px 15px 0px;
+    background-color: #ffffff;
+    height: 5em;
+    width: 5em;
+}
+
+.cardText {
+    margin-bottom: 0px;
+    flex-grow: 1;
+}
+
+.cardTextContainer {
+    min-width: 100px;
+    flex-grow: 1;
+   
+}
+
+.innerBodyContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.itemList {
+    display: flex;
+
+}
+
+.wholeCard {
+    margin-bottom: 20px;
+
+}
+
+.st0 {
+    fill: none;
+}
+
+.iconContainer {
+    /* display: flex;
+    align-items: ; */
+    
+    margin-left: auto;
+    margin-right: 0;
+}
+.editButton{
+    color:  #0d2714;
+    background-color: #eeeca3;
+    padding: 0.5em;
+    margin: 0.5em;
+    border-radius: 5px;
+    border:none;
+   
+
+}
+.editButton:hover{
+    background-color: #cfcc7e;
+}
+.addButton{
+    color:  #0d2714;
+    background-color: #49c85d;
+    padding: 0.5em;
+    margin: 0.5em;
+    width: 2.5em;
+    border-radius: 5px;
+    border:none;
+   
+
+}
+.addButton:hover{
+    background-color: #35b148;
+}
+.uploadSvg{
+    position: absolute;
+    top: 0;
+    left:0;
+    width: 5em;
+    height: 5em;
+
+}
+.uploadSvg:hover{
+    background-color: #00000022;
+}
+.ajustmentdown{
+    background-color: aqua;
+    top: calc(50%-2.5em);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.hidden{
+    display: none;
+}
+.imgcontainer{
+    position: relative;
+    align-self: center;
+    justify-self: center;
+}
+.viewButton{
+    color:  #0d2714;
+    background-color: #49c85d;
+    padding: 0.5em;
+    margin: 0.5em;
+    border-radius: 5px;
+    border: none;
+    width: 4em;
+    text-decoration: none;
+    text-align: center;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.viewButton:hover{
+
+    background-color: #35b148;
+}
+.enqueueButton{
+    color:  #0d2714;
+    background-color: #49c85d;
+    padding: 0.5em;
+    border-radius: 5px;
+    border: none;
+    width: 2.7em;
+    height: 2.7em;
+    text-decoration: none;
+    text-align: center;
+    margin: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.enqueueButton:hover{
+    background-color: #35b148;
+}
+.enqueue{
+    width: 2em;
+    height: 2em;
+}

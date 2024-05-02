@@ -5,7 +5,7 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 
-export default function SerarchResult({ name, image, handleNameChange, handleImageChange, url }){
+export default function SerarchResult({ name, image, url }){
   
     
         return (

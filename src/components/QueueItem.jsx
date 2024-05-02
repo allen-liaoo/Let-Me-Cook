@@ -2,9 +2,26 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from "../css/QueueItem.module.css";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
+import { useState, useRef, useEffect } from 'react'
+import Placeholder from 'react-bootstrap/Placeholder';
 
 import Layout from "../css/ItemPageLayout.module.css";
 export default function Queue({ itemName, ingredients, image, handleNameChange, handleImageChange }){
+  const isComponentMounted = useRef(false);
+
+//   componentDidMount(){
+//     fetch("https://jsonplaceholder.typicode.com/posts")
+//       .then(response => response.json())
+//       .then(json => {
+//         setTimeout(() => this.setState({ loading: false }), 4000);
+//       });
+//  }
+ useEffect(function () {
+  isComponentMounted.current = true;
+  return function () {
+     isComponentMounted.current = false;
+    };
+  }, []);
 
   return (
   <div className={styles.wholeCard+' '+ Layout.centerrow}>
@@ -14,8 +31,22 @@ export default function Queue({ itemName, ingredients, image, handleNameChange, 
           <Card.Img onChange={handleImageChange} className={styles.cardImg} src={image}/>
           {/* TODO: Get the Card.Text overflow to look better or hide the overflow */}
           <div className={styles.cardTextContainer}>
-            <Card.Text onChange={handleNameChange} className={styles.cardText}>{itemName}</Card.Text>
-            <Card.Text className={styles.cardText}>Info</Card.Text>
+            {itemName ? (
+              <>
+                <Placeholder as={Card.Text} animation="glow">
+                  <Placeholder xs={6} />
+                </Placeholder>
+                <Placeholder as={Card.Text} animation="glow">
+                  <Placeholder xs={7} /> <Placeholder xs={4} /> <Placeholder xs={4} />{' '}
+                  <Placeholder xs={6} /> <Placeholder xs={8} />
+                </Placeholder>
+              </>
+            ) : (
+              <>
+                <Card.Text onChange={handleNameChange} className={styles.cardText}>{itemName}</Card.Text>
+                <Card.Text className={styles.cardText}>Info</Card.Text>
+              </>
+          )}
           </div>
           <div className={styles.iconContainer+ " "+styles.editButton}> 
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" height="25px">
