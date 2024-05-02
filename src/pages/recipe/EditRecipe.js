@@ -18,6 +18,11 @@ export default function EditRecipe() {
   const [ingredients, setIngredients] = useState([])
   const [newImageFile, setNewImageFile] = useState(null)
 
+  // States for popup that links an ingredient to food
+  const [showLinkFood, setShowLinkFood] = useState(false)
+  const [linkedIngName, setLinkedIngName] = useState(false)
+  const [linkedIngredient, setLinkedIngredient] = useState(false)
+
   useEffect(() => {
       (async () => {
           const res = await fetch("/api/recipe/"+_id, { method: "GET" })
@@ -141,7 +146,6 @@ export default function EditRecipe() {
                     <Col>
                     <button className={Buttons.minusButton} onClick={()=>removeIngredients(i)}>x</button>
                     </Col>
-                    
                 {/* </div> */}
                 </Row>
             )}
@@ -150,10 +154,12 @@ export default function EditRecipe() {
         <div className = {Layout.centerrow}>
             <button className = {Buttons.saveButton} onClick ={ addIngredients}> + </button>
         </div>
-             
+
     </div>
-     
     </div>
-     
+
+    { showLinkFood ? 
+        <LinkFood />
+        : <></> }
   </div>)
 }

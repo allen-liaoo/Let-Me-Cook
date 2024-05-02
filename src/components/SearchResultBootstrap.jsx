@@ -13,10 +13,10 @@ export default function SerarchResult({ name, image, handleNameChange, handleIma
               <Card className={styles.customCard} style={{ width: '18rem' }}>
                 <Card.Body>
                   <div className={styles.innerBodyContainer}>
-                    <Card.Img onChange={handleImageChange} className={styles.cardImg} src={image}/>
+                    <Card.Img className={styles.cardImg} src={image}/>
 
                     <div className={styles.cardTextContainer}>
-                      <Card.Text onChange={handleNameChange} className={styles.cardText}>{name}</Card.Text>
+                      <Card.Text className={styles.cardText}>{name}</Card.Text>
                     </div>
                     <button className={styles.iconContainer+ " "+styles.addButton}> 
                       +
@@ -24,7 +24,7 @@ export default function SerarchResult({ name, image, handleNameChange, handleIma
                   </div>
                 </Card.Body>
                 {url?
-                <ListGroup className={Layout.text+" "+"list-group-flush"}>
+                <ListGroup className={Layout.text+" list-group-flush"}>
                     <a href = {url}> {url}</a>
                 </ListGroup>:<></>}
               </Card>

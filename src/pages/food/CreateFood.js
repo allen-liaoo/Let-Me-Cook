@@ -75,9 +75,9 @@ export default function CreateFood() {
         <img src ="https://upload.wikimedia.org/wikipedia/commons/0/0b/Search_Icon.svg" alt= "search"  className={searchStyle.searchicon}></img>
         </button>
 
-        {/* ADD DUMMY BUTTON w/ DUMMY DATA */}
+        {/* ADD DUMMY BUTTON w/ DUMMY DATA 
         <br/>
-        <AddButton onClick={()=>{createBlankFood()}}>Add Blank Food</AddButton>
+        <AddButton onClick={()=>{createBlankFood()}}>Add Blank Food</AddButton>*/}
 
       </div>
     </div>
