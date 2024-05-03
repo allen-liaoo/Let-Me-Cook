@@ -1,10 +1,54 @@
+:root {
+  --background-color: #f4f5d9;
+ 
+}
+
 .body{
-    background-color: hsl(64, 41%, 93%);
+    background-color: var(--background-color);
     padding-bottom: 5em;
     min-height: 100vh;
 }
+
+
+/* navbar */
 .bg-primary{
-    background-color: #eeeca2; ;
+   
+}
+ul.nav{
+  background-color: #eeecaf;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border-radius:  10px 10px 10px 10px;
+  width: 75vw;
+}
+li.nav-item{
+  width: 1em;
+  background-color: #00000000;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  display: flex;
+}
+.content li.nav-item>button{
+  background-color: #eeecaf;
+  border-radius:  10px 10px 10px 10px;
+  border: none;
+  align-items: center;
+  color: #000000
+}
+.content button.active{
+  background-color: #eeecaf;
+  border-radius:  10px 10px 10px 10px;
+  border: none;
+  color: #000000
+}
+.content .nav-link:hover{
+  background-color: #f2f1d5;
+  border-radius:  10px 10px 10px 10px;
+  border: none;
+  color: #000000
 }
 @media only screen and (min-width: 600px) {
   .content {

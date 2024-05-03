@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import ItemHeader from '../../components/ItemHeader'
 import Layout from "../../css/ItemPageLayout.module.css"
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 export default function Recipe() {
     const { id } = useParams()
     const [recipe, setRecipe] = useState({})
@@ -19,27 +23,30 @@ export default function Recipe() {
         })()
     }, [])
 
-    return <div  className={Layout.switchRowCol}>
+    return (<div  className={Layout.switchRowCol}>
         <ItemHeader name={recipe.name} image={recipe.image} editLink={'/recipe/edit/'+id} />
-        <div className={Layout.movecenter}>
+        <div fluid="md" className={Layout.movecenter}>
             <div>
-            Instructions: 
-            <a href={ recipe.instructions }> Here</a>
-            <br />
-            Ingredients:
-          { recipe.ingredients ? 
-            recipe.ingredients.map((e,i) => {
-                return <div key={i} >
-                    { e.name + ' (' + e.amount + 
-                        (e.unit 
-                            && e.unit !== '' 
-                            && e.unit !== '<unit>' ? ' ' + e.unit + 's' : '')
-                         +')' } <br />
-                </div>
-            }
-            ) 
-            : <></> }
+
+                <Row>
+                    <Col xs={7}><a href={ recipe.instructions } className={Layout.movecenter + " " + Layout.biggertext}> Instructions</a></Col>
+                </Row>
+                <br /> <br />
+                <Row className={Layout.IngredientsHeader + " " + Layout.bigtext}>Ingredients:</Row><br />
+            { recipe.ingredients ? 
+                recipe.ingredients.map((e,i) => {
+                    console.log("RECIPE: ", recipe);
+                    return <Row key={i} className="p-2">
+                        { "- " + e.name.slice(0,1).toUpperCase() + e.name.slice(1) + ' (' + String(Math.round(Number(e.amount) * 100) / 100) + 
+                            (e.unit 
+                                && e.unit !== '' 
+                                && e.unit !== '<unit>' ? ' ' + e.unit + 's' : '')
+                            +')' } <br />
+                    </Row>
+                }
+                ) 
+                : <></> }
               </div>
         </div>
-    </div>
+    </div>);
 }

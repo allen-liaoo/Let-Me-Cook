@@ -1,3 +1,7 @@
+.clickable {
+    cursor: pointer;
+}
+
 .movecenter{
     display: flex;
     justify-content: center;
@@ -18,16 +22,17 @@
     width: 120%;
 }
 
-.smallinput{
-    /* width: 5em; */
+
+.biginput{
+    width: 9em;
 }
 
-.growinput{
-    
+.bigtext{
+    font-size: 1.2em;
 }
 
-.mediuminput{
-    /* width: 7em; */
+.biggertext{
+    font-size: 1.5em;
 }
 
 .centerrow{
@@ -47,6 +52,10 @@
     display: flex;
     justify-content: center;
     flex-direction: row;
+}
+.IngredientsHeader{
+    text-align: center;
+    justify-content: center;
 }
 
 .ajustright{
@@ -86,8 +95,9 @@
     top: 3rem;
     z-index: 10;
     padding-top: 0.5em;
-    background-color: hsl(64, 41%, 93%);
-}
+    background-color: #f4f5d9;
+    /* box-shadow: 10px 0px 10px 1px #e7e8c9; */
+} 
 @media only screen and (min-width: 900px) {
     .switchRowCol{
         display: flex;

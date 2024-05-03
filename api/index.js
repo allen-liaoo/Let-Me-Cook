@@ -63,35 +63,41 @@ app.http('searchFoods', {
           }; 
       }
       const body = await request.json();
-      const food = body.food;
-      const appId = process.env.EDAMAME_FOOD_SEARCH_APP_ID;
-      const appKey = process.env.EDAMAME_FOOD_SEARCH_APP_KEY;
-      // context.log("Food: ", food);
-      // context.log("appID: ", appId);
-      // context.log("appKey: ", appKey);
+      if (body) {
+        const food = body.food;
+        const appId = process.env.EDAMAME_FOOD_SEARCH_APP_ID;
+        const appKey = process.env.EDAMAME_FOOD_SEARCH_APP_KEY;
+        // context.log("Food: ", food);
+        // context.log("appID: ", appId);
+        // context.log("appKey: ", appKey);
 
-      const url = `https://api.edamam.com/api/food-database/v2/parser?app_id=${appId}&ingr=${encodeURIComponent(food)}&app_key=${appKey}`;
-      // context.log("URL: ", url);
-      const response = await fetch(url);
+        const url = `https://api.edamam.com/api/food-database/v2/parser?app_id=${appId}&ingr=${encodeURIComponent(food)}&app_key=${appKey}`;
+        // context.log("URL: ", url);
+        const response = await fetch(url);
 
-      if (!response.ok) {
+        if (!response.ok) {
+          return {
+            jsonBody: {error: await response.text()}
+          }
+        }
+
+        const foodRes = await response.json();
+        // context.log("FoodRes: ", foodRes);
+        const foods = foodRes.hints.slice(0, 20);  // get first 20 results
+        const extractedData = foods.map(item => ({
+          apiId: item.food.foodId,
+          name: item.food.label,
+          image: item.food.image
+        }));
+        // context.log("Extracted data: ", extractedData);
         return {
-          jsonBody: {error: await response.text()}
+            jsonBody: {data: extractedData}
         }
       }
-
-      const foodRes = await response.json();
-      // context.log("FoodRes: ", foodRes);
-      const foods = foodRes.hints.slice(0, 20);  // get first 20 results
-      const extractedData = foods.map(item => ({
-        apiId: item.food.foodId,
-        name: item.food.label,
-        image: item.food.image
-    }));
-    // context.log("Extracted data: ", extractedData);
-    return {
-        jsonBody: {data: extractedData}
-    }
+      return {
+        status: 404,
+        jsonBody: {error: "No food specified"}
+      }
   },
 });
 
@@ -119,38 +125,44 @@ app.http('searchRecipes', {
           }; 
       }
       const body = await request.json();
-      const q = body.recipe;
-      const appId = process.env.EDAMAME_RECIPE_SEARCH_APP_ID;
-      const appKey = process.env.EDAMAME_RECIPE_SEARCH_APP_KEY;
-      const url = `https://api.edamam.com/api/recipes/v2?type=public&app_id=${appId}&app_key=${appKey}&q=${encodeURIComponent(q)}`;
-      // context.log("Query: ", q);
+      if (body) {
+        const q = body.recipe;
+        const appId = process.env.EDAMAME_RECIPE_SEARCH_APP_ID;
+        const appKey = process.env.EDAMAME_RECIPE_SEARCH_APP_KEY;
+        const url = `https://api.edamam.com/api/recipes/v2?type=public&app_id=${appId}&app_key=${appKey}&q=${encodeURIComponent(q)}`;
+        // context.log("Query: ", q);
 
-      const response = await fetch(url);
-      if (!response.ok) {
-        return {
-          jsonBody: {error: await response.text()}
+        const response = await fetch(url);
+        if (!response.ok) {
+          return {
+            jsonBody: {error: await response.text()}
+          }
         }
-      }
 
-      const recipeRes = await response.json();
-      const recipes = recipeRes.hits.slice(0, 20);
-      // context.log("First 20 unfiltered results: ", recipes);
-      const extractedData = recipes.map(r => {
-        // URI looks like: 
-        // https://www.edamam.com/ontologies/edamam.owl#recipe_7a4555745d484bec92c26b26d7d74cd3
-        // apiId starts after the last "_"
-        const ind = r.recipe.uri.lastIndexOf('_') + 1
-        return { 
-        apiId: r.recipe.uri.slice(ind),
-        name: r.recipe.label,
-        image: r.recipe.image,
-        url: r.recipe.url
-      }
-    })
+        const recipeRes = await response.json();
+        const recipes = recipeRes.hits.slice(0, 20);
+        // context.log("First 20 unfiltered results: ", recipes);
+        const extractedData = recipes.map(r => {
+          // URI looks like: 
+          // https://www.edamam.com/ontologies/edamam.owl#recipe_7a4555745d484bec92c26b26d7d74cd3
+          // apiId starts after the last "_"
+          const ind = r.recipe.uri.lastIndexOf('_') + 1
+          return { 
+          apiId: r.recipe.uri.slice(ind),
+          name: r.recipe.label,
+          image: r.recipe.image,
+          url: r.recipe.url
+        }
+      })
 
-    context.log(extractedData);
+      context.log(extractedData);
+      return {
+          jsonBody: {data: extractedData}
+      }
+    }
     return {
-        jsonBody: {data: extractedData}
+      status: 404,
+      jsonBody: {error: "No recipe specified"}
     }
   },
 });
@@ -254,11 +266,10 @@ app.http('getFood', {
             status: 201,
             jsonBody: {food: food}
           }
-        } else {
-          return {
-            status: 404,
-            jsonBody: {error: "Could not find food with id: " + _id}
-          }
+        }
+        return {
+          status: 404,
+          jsonBody: {error: "Could not find food with id: " + _id}
         }
       }
     }
@@ -287,9 +298,15 @@ app.http("getRecipe", {
         const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
         const recipe = await client.db("LetMeCookDB").collection("recipes").findOne({_id: new ObjectId(_id)});
         client.close();
+        if (recipe) {
+          return {
+            status: 201,
+            jsonBody: {recipe: recipe}
+          }
+        }
         return {
-          status: 201,
-          jsonBody: {recipe: recipe}
+          status: 404,
+          jsonBody: {error: "Failed to retrieve recipe with id: " + _id}
         }
       }
       return {
@@ -864,10 +881,11 @@ app.http('removeRecipe', {
 app.http('addRecipeToQueue', {
   methods: ['POST'],
   authLevel: 'anonymous',
-  route: 'recipe/queue/add/{id}',
+  route: 'recipe/queue/add',
+  // route: 'recipe/queue/add/{id}',
   handler: async (request, context) => {
-    const _id = request.params.id;
-    if (ObjectId.isValid(_id)) {
+    // const _id = request.params.id;
+    // if (ObjectId.isValid(_id)) {
       const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
       let token = null;
       if (auth_header) {
@@ -876,28 +894,31 @@ app.http('addRecipeToQueue', {
         // context.log("token= " + JSON.stringify(token));
         const userId = token.userId;
         const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
-        const result = await client.db("LetMeCookDB").collection("users").updateOne({userId: userId}, {$push : {recipeQueue: {_id: new ObjectId(_id)}}});
+        // const result = await client.db("LetMeCookDB").collection("users").updateOne({userId: userId}, {$push : {recipeQueue: {_id: new ObjectId(_id)}}});
+        const body = await request.json();
+        const recipe = body.recipe;
+        const result = await client.db("LetMeCookDB").collection("users").updateOne({userId: userId}, {$push : {recipeQueue: {recipe: recipe}}});
         client.close();
         if (result.matchedCount > 0) {
           return {
             status: 201,
-            jsonBody: {_id: _id}
+            jsonBody: {recipe: recipe}
           }
         }
         return {
           status: 500,
-          jsonBody: {error: "Unable to insert recipe with id: " + _id + " to user's queue"}
+          jsonBody: {error: "Unable to insert recipe to user's queue"}
         }
       }
       return {
         status: 403,
-        jsonBody: {error: "Authorization failed for adding to queue with recipe id: " + _id}
+        jsonBody: {error: "Authorization failed for adding recipe to queue"}
       }
-    }
-    return {
-      status: 404,
-      jsonBody: {error: "Unknown recipe with id: " + _id}
-    }   
+    // }
+    // return {
+    //   status: 404,
+    //   jsonBody: {error: "Unknown recipe with id: " + _id}
+    // }   
   },
 });
 

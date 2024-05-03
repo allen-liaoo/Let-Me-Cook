@@ -1,6 +1,6 @@
 .addButton{
     color:  #0d2714;
-    background-color: #49c85d;
+    background-color: #58b16e;
     padding: 0.5em;
     margin: 1em;
     border: none;
@@ -28,7 +28,7 @@
 
 .saveButton{
     color:  #0d2714;
-    background-color: #49c85d;
+    background-color: #58b16e;
     padding: 0.5em;
     margin: 0.5em;
     border: none;
@@ -41,7 +41,7 @@
  }
 .removeButton{
     color:  #0d2714;
-    background-color: #da4444;
+    background-color: #b85144;
     padding: 0.5em;
     margin: 0.5em;
     border: none;
@@ -53,7 +53,7 @@
 }
 .minusButton{
     color:  #0d2714;
-    background-color: #da4444;
+    background-color: #b85144;
     margin-left: 20%;
     border: none;
     border-radius: 5px;
@@ -64,7 +64,7 @@
 }
 .linkButton{
     color:  #0d2714;
-    background-color: #49c85d;
+    background-color: #58b16e;
     width: 110%;
     border: none;
     border-radius: 5px;

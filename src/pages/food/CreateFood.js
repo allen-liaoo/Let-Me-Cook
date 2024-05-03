@@ -10,17 +10,30 @@ export default function CreateFood() {
     const [food, setFood] = useState("")
     const [results, setResults] = useState([])
 
-    async function searchFood() {
-        const res = await fetch("/api/search/food", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({food: food})
+    useEffect(()=> {
+      return () => {
+        // Let user search by clicking enter button
+        document.addEventListener("keypress", function(event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            searchFood()
+          }
         })
-        if (!res.ok) {
-          window.alert("Failed searching food!")
-          return
+      }
+    }, [])
+
+    async function searchFood() {
+      if (!food) return
+      const res = await fetch("/api/search/food", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({food: food})
+      })
+      if (!res.ok) {
+        window.alert("Failed searching food!")
+        return
       }
         const foods = await res.json()
         console.log(foods)
@@ -57,14 +70,6 @@ export default function CreateFood() {
     function createBlankFood(){
       console.log("In createBlankFood...");
     }
-
-    // Let user search by clicking enter button
-    document.addEventListener("keypress", function(event) {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        document.getElementById("searchNewFoodsButton").click();
-      }
-    });
 
     return (<div>
     <div className={searchStyle.centerContents}>

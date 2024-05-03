@@ -4,16 +4,29 @@ import Navbar from 'react-bootstrap/Navbar';
 import styles from "../css/NavbarBootstrap.module.css";
 import { Link } from 'react-router-dom'
 import Layout from "../css/ItemPageLayout.module.css";
+import { redirect, useNavigate } from "react-router-dom";
 // import Button from 'react-bootstrap/Button';
 
-async function logout() {
-  const result = await fetch ("/.auth/logout");
-  if (result.ok) {
-    window.location.reload();
-  }
-}
-
 function ColorSchemesExample() {
+  const navigate = useNavigate();
+
+  async function logout() {
+    const result = await fetch ("/.auth/logout");
+
+    if (result.ok) {
+      // window.location.reload();
+      redirect("/");
+    }
+    // window.location.href = window.location.origin + '/.auth/logout';
+    // // window.location.reload();
+    // const result = await fetch('/.auth/me');
+    // const json = await result.json();
+    // if (json.clientPrincipal == null) {
+  
+    // }
+  
+  }
+
   return (
     <>
       <Navbar className = {styles.container} sticky="top" >
@@ -24,7 +37,8 @@ function ColorSchemesExample() {
             <Nav.Link as={Link} to="/foods">Food</Nav.Link>
             <Nav.Link as={Link} to="/recipes">Recipes</Nav.Link>
             <Nav.Link as={Link} to="/queue">Queue</Nav.Link>
-            <button className="nav-link" onClick={logout}>Logout</button>
+            <Nav.Link href="/.auth/logout">Logout</Nav.Link>
+            {/* <button className="nav-link" onClick={logout}>Logout</button> */}
 
             {/* TODO make align on far-right of navbar */}
             {/* <Nav>

@@ -54,7 +54,7 @@ Which (if any) progressive web app feature(s) does your app support?
 
 **Is there anything special we need to know in order to effectively test your app? (optional):**
 
-* ...
+* If the image of a food or recipe is clicked and replaced with a picture from a camera (or file), the object must be "saved" in order for the displayed image to refresh. This is the indicator that the image has successfully saved to blob storage.
 
 
 

@@ -5,7 +5,7 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 
-export default function SerarchResult({ name, image, url }){
+export default function SerarchResult({ name, image, url, buttonComp }){
   
     
         return (
@@ -18,18 +18,19 @@ export default function SerarchResult({ name, image, url }){
                     <div className={styles.cardTextContainer}>
                       <Card.Text className={styles.cardText}>{name}</Card.Text>
                     </div>
-                    <button className={styles.iconContainer+ " "+styles.addButton}> 
-                      +
-                    </button>
+                    { buttonComp ??
+                      <button className={styles.iconContainer+ " "+styles.addButton}> 
+                        +
+                      </button> }
                   </div>
                 </Card.Body>
-                <ListGroup.Item className="list-group-flush">
                 {url?
-               
-                <ListGroup.Item className={Layout.text+" list-group-flush"}>
-                    <a href = {url}> {url}</a>
-                </ListGroup.Item>:<></>}
-                </ListGroup.Item>
+                  <ListGroup.Item className="list-group-flush">
+                    <ListGroup.Item className={Layout.text+" list-group-flush"}>
+                      <a href = {url}> {url}</a>
+                    </ListGroup.Item>
+                  </ListGroup.Item>
+                : <></>}
               </Card>
             </div>)
     

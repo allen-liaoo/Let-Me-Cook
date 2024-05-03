@@ -18,6 +18,7 @@ import Recipe from './pages/recipe/Recipe'
 import EditRecipe from './pages/recipe/EditRecipe'
 import CreateRecipe from './pages/recipe/CreateRecipe'
 import RecipeQueue from './pages/queue/RecipeQueue';
+import ErrorPage from './pages/ErrorPage';
 
 async function authLoader() {
     const res = await fetch("/.auth/me")
@@ -40,52 +41,64 @@ const router = createBrowserRouter([
 {
     path: "/",
     element: <App/>,
+    errorElement: <ErrorPage/>,
     children: [
         {
             index: true,
             element: <Landing/>,
-            loader: authLoader
+            loader: authLoader,
+            errorElement: <ErrorPage/>
         }, {
             path: "foods",
             element: <Foods/>,
-            loader: authLoader
+            loader: authLoader,
+            errorElement: <ErrorPage/>
         }, {
             path: "food/:id",
             element: <Food/>,
-            loader: authLoader
+            loader: authLoader,
+            errorElement: <ErrorPage/>
         }, {
             path: "food/edit/:id",
             element: <EditFood/>,
-            loader: authLoader
+            loader: authLoader,
+            errorElement: <ErrorPage/>
         }, {
             path: "food/create",
             element: <CreateFood/>,
-            loader: authLoader
+            loader: authLoader,
+            errorElement: <ErrorPage/>
         }, {
             path: "recipes",
             element: <Recipes />,
-            loader: authLoader
+            loader: authLoader,
+            errorElement: <ErrorPage/>
         }, {
             path: "recipe/:id",
             element: <Recipe/>,
-            loader: authLoader
+            loader: authLoader,
+            errorElement: <ErrorPage/>
         }, {
             path: "recipe/edit/:id",
             element: <EditRecipe/>,
-            loader: authLoader
+            loader: authLoader,
+            errorElement: <ErrorPage/>
         }, {
             path: "recipe/create",
             element: <CreateRecipe/>,
-            loader: authLoader
+            loader: authLoader,
+            errorElement: <ErrorPage/>
         }, {
             path: "queue",
             element: <RecipeQueue/>,
-            loader: authLoader
+            loader: authLoader,
+            errorElement: <ErrorPage/>
         }]
 }, {
     path: "login",
     element: <Login/>,
-    loader: loginAuthLoader
+    loader: loginAuthLoader,
+    errorElement: <ErrorPage/>
 }, {
     path: "login/redirect",
     element: <></>,

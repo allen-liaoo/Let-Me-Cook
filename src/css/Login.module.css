@@ -1,22 +1,28 @@
-h1, h2{
+h1, h2, h3{
     margin-left: auto;
     margin-right: auto;
     position: relative;
+    text-align: center;
 }
 
 h1 {
     top: 20vh;
-    font-size: 5em;
+    font-size: 7em;
 }
 
 h2 {
-    top: 30vh;
-    font-size: 2em;
+    top: 20vh;
+    font-size: 2.5em;
+}
+
+h3 {
+    top: 20vh;
+    font-size: 1.5em;
 }
 
 #buttons {
     position: relative;
-    top: 40vh;
+    top: 20vh;
     width: 70vw;
     margin-left: auto;
     margin-right: auto;
@@ -71,6 +77,9 @@ h2 {
         font-size: 3em;
     }
     h2 {
+        font-size: 1.5em;
+    }
+    h3 {
         font-size: 1.2em;
     }
 }

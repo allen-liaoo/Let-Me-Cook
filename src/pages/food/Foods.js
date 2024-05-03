@@ -6,26 +6,11 @@ import AddButton from '../../components/AddButton'
 import Layout from "../../css/ItemPageLayout.module.css"
 import EmptyCard from "../../components/EmptyCard"
 
-const testItems = [{
-    _id: 12,
-    name: "carrot",
-    image: "abc123.png",
-    quantity: 9,
-    exp_in: "2026-01-01"
-}, {
-    _id: 15,
-    name: "slim jim",
-    quantity: 7,
-    image: "woo.png",
-    exp_in: "2026-01-01"
-}]
-
 function Foods() {
     const navigate = useNavigate()
     const [items, setItems] = useState([])
-    const[loading,SetLoading] = useState(true);
+    const [loading,SetLoading] = useState(true);
     useEffect(() => {
-       
         (async () => {
             SetLoading(true);
             const res = await fetch("/api/foods", { method: "GET" })
@@ -42,11 +27,10 @@ function Foods() {
             SetLoading(false);
         })()
         console.log(loading + "loading ")
-        
     }, [])
+
     if(loading){
-        return(
-            <div>
+        return <div>
             <div className ={Layout.centerrow+" "+Layout.stickaddbutton}>
             <AddButton onClick={()=>{navigate('/food/create')}}/>
             </div>
@@ -57,15 +41,13 @@ function Foods() {
                 <EmptyCard  feildnum= "2" ></EmptyCard>
             </Container>
         </div>
-        )
     }
-    else{
-    return (
-        <div>
+
+    else return <div>
             <div className ={Layout.centerrow+" "+Layout.stickaddbutton}>
             <AddButton onClick={()=>{navigate('/food/create')}}/>
             </div>
-            <Container>
+            <Container className={Layout.text}>
                 { items.map(e => 
                     <ListItem 
                         key={e._id}
@@ -79,7 +61,5 @@ function Foods() {
                     />)}
             </Container>
         </div>
-    );
-}
 }
 export default Foods;
