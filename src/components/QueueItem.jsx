@@ -42,7 +42,10 @@ export default function QueueItem({ recipeId, deleteItem }) {
           {/* TODO: Get the Card.Text overflow to look better or hide the overflow */}
           <div className={styles.cardTextContainer}>
             <Card.Text className={styles.cardText}>{recipe.name}</Card.Text>
-            <Card.Text className={styles.cardText}>Info</Card.Text>
+            <Card.Text className={styles.cardText}>
+              { recipe.instructions ? recipe.instructions.substring(25) 
+                  + (recipe.instructions.length > 25 ? '...' : '') : ""}
+            </Card.Text>
           </div>
           <div className={styles.iconContainer+ " " +styles.deleteButton} 
               onClick={(e) => {
