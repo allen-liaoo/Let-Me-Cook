@@ -26,13 +26,13 @@ function LinkFood({ ingredient, hidePopup }) {
 
   function linkIngredient(foodId) {
     ingredient.foodId = foodId
-    hidePopup()
+    hidePopup(ingredient)
   }
 
   return (
-    <Modal show="true" animation={false} onHide={hidePopup}>
+    <Modal show="true" animation={false} onHide={()=>hidePopup(ingredient)}>
       <Modal.Header closeButton>
-        <Modal.Title>Link {ingredient.name}</Modal.Title>
+        <Modal.Title>Searching pantry for "{ingredient ? ingredient.name : ''}"</Modal.Title>
       </Modal.Header>
       <Modal.Body>
       { results && results.length !== 0 ? 
@@ -41,7 +41,7 @@ function LinkFood({ ingredient, hidePopup }) {
         <div key={i} onClick={()=>linkIngredient(e._id)}> 
         <SearchResult name={ e.name } image ={e.image}></SearchResult>
           </div>
-        ) : <></> }
+        ) : <>{'\"' + ingredient.name + '\" not in pantry'}</> }
       </Modal.Body>
       {/* <Modal.Footer>
         <button>

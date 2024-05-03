@@ -98,6 +98,12 @@
     background-color: #f4f5d9;
     /* box-shadow: 10px 0px 10px 1px #e7e8c9; */
 } 
+.expired{
+    border: red solid .2em;
+}
+.noQuantity{
+    border: yellow solid .2em;
+}
 @media only screen and (min-width: 900px) {
     .switchRowCol{
         display: flex;

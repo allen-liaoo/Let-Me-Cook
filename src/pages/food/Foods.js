@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import Container from 'react-bootstrap/Container'
 import { useNavigate } from "react-router-dom"
-import ListItem from '../../components/ListItemBootstrap'
+import FoodItem from '../../components/FoodItem'
 import AddButton from '../../components/AddButton'
 import Layout from "../../css/ItemPageLayout.module.css"
 import EmptyCard from "../../components/EmptyCard"
@@ -9,10 +9,10 @@ import EmptyCard from "../../components/EmptyCard"
 function Foods() {
     const navigate = useNavigate()
     const [items, setItems] = useState([])
-    const [loading,SetLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         (async () => {
-            SetLoading(true);
+            setLoading(true);
             const res = await fetch("/api/foods", { method: "GET" })
             if (!res.ok) {
                 console.log(res)
@@ -24,7 +24,7 @@ function Foods() {
             console.log(resJson)
             setItems(resJson.foods)
             // setItems(testItems)
-            SetLoading(false);
+            setLoading(false);
         })()
         console.log(loading + "loading ")
     }, [])
@@ -49,16 +49,7 @@ function Foods() {
             </div>
             <Container className={Layout.text}>
                 { items.map(e => 
-                    <ListItem 
-                        key={e._id}
-                        id={e._id}
-                        name={e.name} 
-                        image={e.image}
-                        quantity={e.quantity}
-                        viewLink={'/food/'+e._id}
-                        editLink={'/food/edit/'+e._id}
-                        date = {e.expirationDate}
-                    />)}
+                    <FoodItem key={e._id} food={e}/>)}
             </Container>
         </div>
 }

@@ -28,17 +28,10 @@ export default function QueueItem({ recipeId, deleteItem }) {
       const recipeJson = await recipeRes.json();
       setRecipe(recipeJson.recipe)
       setLoading(false)
-
-      // Trim number of ingredients to display
-      // let displayIngres = recipe.ingredients.map(ingredient => ingredient.name)
-      // if (displayIngres.length > 4) {
-      //   displayIngres = displayIngres.slice(0,3) // first 3 + "..."
-      //   displayIngres.push("...")
-      // }
     })()
   }, [])
 
-  if (loading || !recipe) return <EmptyCard feildnum="2"/>
+  if (loading || !recipe) return <EmptyCard feildnum="4"/>
 
   return (
   <div className={styles.wholeCard+' '+ Layout.centerrow}>
@@ -68,7 +61,7 @@ export default function QueueItem({ recipeId, deleteItem }) {
           <div className={styles.iconContainer}><DragSVG /></div>
         </div>
       </Card.Body>
-      { recipe.ingredients > 0 ?
+      { recipe.ingredients.length > 0 ?
           <ListGroup className="list-group-flush">
             { recipe.ingredients.map((ing, i) => 
               <ListGroup.Item key={i}>{ing.name}</ListGroup.Item>)

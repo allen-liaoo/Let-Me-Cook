@@ -3,14 +3,15 @@ import styles from "../css/QueueItem.module.css";
 import Layout from "../css/ItemPageLayout.module.css";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Container from 'react-bootstrap/Container'
 
 
-export default function SerarchResult({ name, image, url, buttonComp }){
+export default function SearchResult({ name, image, url, buttonComp }){
   
     
         return (
-            <div className={styles.wholeCard +" "+Layout.centerrow}>
-              <Card className={styles.customCard} style={{ width: '18rem' }}>
+            <Container className={Layout.text}>
+              <Card >
                 <Card.Body>
                   <div className={styles.innerBodyContainer}>
                     <Card.Img className={styles.cardImg} src={image}/>
@@ -32,7 +33,8 @@ export default function SerarchResult({ name, image, url, buttonComp }){
                   </ListGroup.Item>
                 : <></>}
               </Card>
-            </div>)
+            </Container>
+            )
     
   
 }

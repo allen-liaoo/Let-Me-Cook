@@ -10,18 +10,6 @@ export default function CreateFood() {
     const [food, setFood] = useState("")
     const [results, setResults] = useState([])
 
-    useEffect(()=> {
-      return () => {
-        // Let user search by clicking enter button
-        document.addEventListener("keypress", function(event) {
-          if (event.key === "Enter") {
-            event.preventDefault();
-            searchFood()
-          }
-        })
-      }
-    }, [])
-
     async function searchFood() {
       if (!food) return
       const res = await fetch("/api/search/food", {
@@ -74,7 +62,14 @@ export default function CreateFood() {
     return (<div>
     <div className={searchStyle.centerContents}>
       <div className={iconContainer} >
-        <input type="text" value={food} onInput={(e)=>{setFood(e.target.value)}} className={searchStyle.container} />
+        <input type="text" value={food} onInput={(e)=>{setFood(e.target.value)}} 
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              searchFood()
+            }
+          }} 
+          className={searchStyle.container} />
         <button id="searchNewFoodsButton" onClick={searchFood}  className ={searchStyle.searchbutton}>
         <p  className ={searchStyle.searchText}>Search</p>
         <img src ="https://upload.wikimedia.org/wikipedia/commons/0/0b/Search_Icon.svg" alt= "search"  className={searchStyle.searchicon}></img>

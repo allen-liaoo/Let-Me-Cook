@@ -5,10 +5,12 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import SaveButton from '../../components/SaveButton'
 import RemoveButton from '../../components/RemoveButton'
-import LinkFood from '../../components/LinkFood'
+import LinkFoodPopup from '../../components/LinkFoodPopup'
+import LinkedFoodPopup from '../../components/LinkedFoodPopup'
 import ItemHeaderEditable from '../../components/ItemHeaderEditable'
 import Layout from "../../css/ItemPageLayout.module.css"
 import Buttons from "../../css/Buttons.module.css"
+
 export default function EditRecipe() {
   const navigate = useNavigate()
   const { id: _id } = useParams()
@@ -18,9 +20,13 @@ export default function EditRecipe() {
   const [ingredients, setIngredients] = useState([])
   const [newImageFile, setNewImageFile] = useState(null)
 
-  // States for popup that links an ingredient to food
-  const [showLinkFood, setShowLinkFood] = useState(false)
-  const [linkedIngredient, setLinkedIngredient] = useState(null)
+  // States for popup that searches for food to link to an ingredient
+  const [showLinkingIngredient, setShowLinkingIngredient] = useState(false)
+  const [linkingIngredient, setLinkingIngredient] = useState(null)
+
+  // States for popup that show the food linked by some ingredient
+  const [showLinkedFood, setShowLinkedFood] = useState(false)
+  const [linkedfood, setLinkedFood] = useState(false)
 
   useEffect(() => {
       (async () => {
@@ -105,10 +111,14 @@ export default function EditRecipe() {
     setIngredients(newIng);
   }
 
-  function toggleLinkFoodPopup(show, ingredient) {
-    console.log('ingredient: ', ingredient)
-    setLinkedIngredient(ingredient)
-    setShowLinkFood(show)
+  async function toggleLinkingIngredient(show, ingredient) {
+    setShowLinkingIngredient(show)
+    setLinkingIngredient(ingredient);
+  }
+
+  async function toggleLinkedFood(show, food) {
+    setShowLinkedFood(show)
+    setLinkedFood(food);
   }
 
   return (
@@ -136,7 +146,10 @@ export default function EditRecipe() {
                 <Row  key={i} className={Layout.centerrow}>
                 {/* <div key={i} className={Layout.centerrow}> */}
                     <Col>
-                        <button className = {Buttons.linkButton} onClick={()=>toggleLinkFoodPopup(true,e)}>Link</button>
+                        { e.foodId ? // has linked food
+                            <button className = {Buttons.linkButton} onClick={()=>toggleLinkedFood(true, e.foodId)}>View food</button>
+                            : <button className = {Buttons.linkButton} onClick={()=>toggleLinkingIngredient(true, e)}>Search in pantry</button>
+                        }
                     </Col>
                     <Col xs= {"2"}><input type="number" className={Layout.ingredientInput} onChange={(e)=>changeIngredients(i,"amount",e.target.value)}
                         value={e.amount} 
@@ -163,8 +176,11 @@ export default function EditRecipe() {
     </div>
     </div>
 
-    { showLinkFood ? 
-        <LinkFood ingredient={linkedIngredient} hidePopup={()=>toggleLinkFoodPopup(false)} />
+    { showLinkingIngredient ? 
+        <LinkFoodPopup ingredient={linkingIngredient} hidePopup={ingredient => toggleLinkingIngredient(false, ingredient)} />
         : <></> }
+
+    { showLinkedFood ?
+        <LinkedFoodPopup foodId={linkedfood} hidePopup={()=>setShowLinkedFood(false)}/> : <></> }
   </div>)
 }

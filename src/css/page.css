@@ -5,10 +5,16 @@
 
 .body{
     background-color: var(--background-color);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     padding-bottom: 5em;
     min-height: 100vh;
 }
 
+.errorPage{
+  background-color: var(--background-color);
+  /* text-align: center;
+  justify-content: center; */
+}
 
 /* navbar */
 .bg-primary{
@@ -20,7 +26,7 @@ ul.nav{
   flex-direction: row;
   justify-content: center;
   border-radius:  10px 10px 10px 10px;
-  width: 75vw;
+  /* width: 75vw; */
 }
 li.nav-item{
   width: 1em;

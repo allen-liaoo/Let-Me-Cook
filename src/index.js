@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Login, { authLoader as loginAuthLoader } from './pages/Login'
 import Landing from './pages/Landing'
 import Foods from './pages/food/Foods'
-import Food from './pages/food/Food'
+// import Food from './pages/food/Food'
 import EditFood from './pages/food/EditFood'
 import CreateFood from './pages/food/CreateFood'
 import Recipes from './pages/recipe/Recipes'
@@ -53,12 +53,14 @@ const router = createBrowserRouter([
             element: <Foods/>,
             loader: authLoader,
             errorElement: <ErrorPage/>
-        }, {
-            path: "food/:id",
-            element: <Food/>,
-            loader: authLoader,
-            errorElement: <ErrorPage/>
-        }, {
+         }, 
+        // {
+        //     path: "food/:id",
+        //     element: <Food/>,
+        //     loader: authLoader,
+        //     errorElement: <ErrorPage/>
+        // },
+         {
             path: "food/edit/:id",
             element: <EditFood/>,
             loader: authLoader,

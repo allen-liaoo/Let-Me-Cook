@@ -5,6 +5,12 @@
     width: 75vw;
     flex-grow: 1;
 }
+
+.customSearchCard {
+    max-width: 75vw;
+    flex-grow:1;
+}
+
 .cardImg {
     float: left;
     margin: 0px 15px 15px 0px;
@@ -44,7 +50,6 @@
 
 .wholeCard {
     margin-bottom: 20px;
-
 }
 
 .st0 {

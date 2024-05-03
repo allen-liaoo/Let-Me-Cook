@@ -225,7 +225,7 @@ app.http('getFoods', {
       const userId = token.userId;
       const name = token.userDetails;
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
-      const foods = await client.db("LetMeCookDB").collection("foods").find({userId: userId}).project({name: 1, quantity: 1, image: 1, expirationDate: 1}).toArray();
+      const foods = await client.db("LetMeCookDB").collection("foods").find({userId: userId}).project({name: 1, quantity: 1, image: 1, expirationDate: 1, unit: 1, timestamp: 1}).toArray();
       // const userInfo = await client.db("LetMeCookDB").collection("users").findOne({name: name, userId: userId});
       // const foods = userInfo.foods;
       client.close();
@@ -379,8 +379,10 @@ app.http("insertFood", {
       const timeElapsed = Date.now();
       const today = new Date(timeElapsed);
       const expirationDate = today.toLocaleDateString();
+      const timestamp = new Date(Date.now());
+      const unit = "";
       // const expirationDate = null;
-      const payload = {userId, apiId, name, image, quantity, expirationDate};
+      const payload = {userId, apiId, name, image, quantity, expirationDate, timestamp, unit};
       // context.log("payload= " + JSON.stringify(payload));
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
       const result = await client.db("LetMeCookDB").collection("foods").insertOne(payload);
@@ -530,7 +532,8 @@ app.http('checkUser', {
       if (!res) {
         const foods = [];
         const recipes = [];
-        const payload = { name, userId, foods, recipes };
+        const recipeQueue = [];
+        const payload = { name, userId, foods, recipes, recipeQueue };
         res = await client.db("LetMeCookDB").collection("users").insertOne(payload);
         client.close();
         // context.log("user was created!");
@@ -593,10 +596,11 @@ app.http('editFood', {
           const name = body.name;
           const quantity = ((body.quantity >= 0) ? body.quantity : 0);
           const expirationDate = body.expirationDate;
+          const unit = body.unit;
           const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
           const result = await client.db("LetMeCookDB").collection("foods")
                 .updateOne({_id: new ObjectId(_id), userId: userId}, 
-                    {$set: {name: name, quantity: quantity, expirationDate: expirationDate}});
+                    {$set: {name: name, quantity: quantity, expirationDate: expirationDate, unit: unit}});
           client.close();
           if (result.matchedCount > 0) {
             return {
@@ -1078,6 +1082,33 @@ app.http('lowestFoods', {
     return {
       status: 403,
       jsonBody: {error: "Authorization failed for fetching lowest quantity food info"}
+    }
+  },
+});
+
+app.http('getFoodsByTimestamp', {
+  methods: ['GET'],
+  authLevel: 'anonymous',
+  route: 'foods/timestamp',
+  handler: async (request, context) => {
+    const auth_header = request.headers.get('X-MS-CLIENT-PRINCIPAL');
+    let token = null;
+    if (auth_header) {
+      token = Buffer.from(auth_header, "base64");
+      token = JSON.parse(token.toString());
+      // context.log("token= " + JSON.stringify(token));
+      const userId = token.userId;
+      const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
+      const foods = client.db("LetMeCookDB").collection("foods").find({userId: userId}, { $orderby: {timestamp: -1} }).toArray();
+      client.close();
+      return {
+        status: 201,
+        jsonBody: {foods: foods}
+      }
+    }
+    return {
+      status: 405,
+      jsonBody: {error: "Unable to authorize user to obtain foods by timestamp"}
     }
   },
 });
