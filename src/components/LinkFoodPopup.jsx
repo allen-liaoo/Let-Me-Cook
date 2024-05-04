@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import SearchResult from './SearchResultBootstrap';
 import Button from '../css/Buttons.module.css';
 
-function LinkFood({ ingredient, hidePopup }) {
+export default function LinkFoodPopup({ ingredient, hidePopup }) {
  const [results, setResults] = useState([])
     useEffect(() => {
       (async () => {
@@ -54,5 +54,3 @@ function LinkFood({ ingredient, hidePopup }) {
     </Modal>
   );
 }
-
-export default LinkFood;

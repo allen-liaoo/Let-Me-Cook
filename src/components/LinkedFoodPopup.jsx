@@ -4,7 +4,7 @@ import styles from "../css/QueueItem.module.css";
 import { Container, Card, ListGroup } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 
-export default function LinkedFood({ foodId, hidePopup }) {
+export default function LinkedFoodPopup({ foodId, hidePopup }) {
     const [food, setFood] = useState([])
     useEffect(() => {
       (async () => {
