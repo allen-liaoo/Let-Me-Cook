@@ -39,7 +39,7 @@ export default function FoodItem({ food }) {
         setName(newFood.name)
         setImage(newFood.image)
         setQuantity(newFood.quantity)
-        setUnit(newFood.units)
+        setUnit(newFood.unit)
         setExpirationDate(newFood.expirationDate)
         setExpirationDateAndQuantity(food);
     }})()
