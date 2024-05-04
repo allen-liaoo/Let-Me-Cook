@@ -378,7 +378,7 @@ app.http("insertFood", {
       const quantity = 0;
       const timeElapsed = Date.now();
       const today = new Date(timeElapsed);
-      const expirationDate = today.toLocaleDateString();
+      const expirationDate = today.toISOString().split('T')[0];
       const timestamp = new Date(Date.now());
       const unit = "";
       // const expirationDate = null;
