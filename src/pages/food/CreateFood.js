@@ -59,10 +59,12 @@ export default function CreateFood() {
       console.log("In createBlankFood...");
     }
 
+
+
     return (<div>
     <div className={searchStyle.centerContents}>
       <div className={iconContainer} >
-        <input type="text" value={food} onInput={(e)=>{setFood(e.target.value)}} 
+        <input type="text" value={food} onInput={(e)=>{setFood(e.target.value)}} id="inputFeild"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();

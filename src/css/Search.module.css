@@ -125,7 +125,7 @@
     color:  #0d2714;
     background-color: #58b16e;
     border: 5px solid #58b16e;
-    box-shadow: -2px 0px 0px 0px #58b16e;
+    box-shadow: 0px 0px 0px 0px #58b16e;
     height: 30px;
     padding: 5px;
     padding: 1em;
@@ -142,7 +142,7 @@
 .searchbutton:hover{
     background-color: #35b148;
     border: 5px solid #35b148;
-    box-shadow: -9px 0px 0px 0px #35b148;
+    /* box-shadow: -9px 0px 0px 0px #35b148; */
 }
 .searchbar{
     width: 14em;

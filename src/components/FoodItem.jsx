@@ -216,7 +216,7 @@ async function removeFood() {
       <ListGroup variant="flush">
     
         <ListGroup.Item className={`${isNoQuantity ? Layout.noQuantity : ''} ${Layout.text} list-group-flush`}>
-             Quantiny: { quantity ? quantity : "NA"}
+             Quantity: { quantity ? quantity : "NA"}
         </ListGroup.Item>
 
         <ListGroup.Item className={Layout.text+" "+"list-group-flush"}>

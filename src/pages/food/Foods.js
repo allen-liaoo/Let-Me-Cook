@@ -22,12 +22,13 @@ function Foods() {
             console.log(res)
             const resJson = await res.json()
             console.log(resJson)
-            setItems(resJson.foods)
+            setItems(resJson.foods.reverse())
             // setItems(testItems)
             setLoading(false);
         })()
         console.log(loading + "loading ")
     }, [])
+    
 
     if(loading){
         return <div>
