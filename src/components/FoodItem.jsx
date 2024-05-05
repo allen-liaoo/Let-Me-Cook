@@ -87,13 +87,13 @@ export default function FoodItem({ food }) {
 
 function setExpirationDateAndQuantity(food) {
   const curTime = getCurTime();
-  if (!food.expirationDate || food.expirationDate === "NA" || food.expirationDate < curTime) {
+  if (!food.expirationDate || food.expirationDate === "NA" || food.expirationDate <= curTime) {
     console.log("Adding expired flag");
-    setIsNoQuantity(true);
+    setIsExpired(true);
   }
   if (!food.quantity || food.quantity === "NA" || food.quantity <= 0) {
     console.log("Adding noQuantity flag");
-    setIsExpired(true);
+    setIsNoQuantity(true);
   }
 }
 
@@ -215,16 +215,20 @@ async function removeFood() {
 
       <ListGroup variant="flush">
     
-        <ListGroup.Item className={`${isNoQuantity ? Layout.noQuantity : ''} ${Layout.text} ${Layout.quantity} list-group-flush`}>
-             Quantity: { quantity ? quantity : "NA"}
+        <ListGroup.Item className={`${Layout.text} ${Layout.quantity} list-group-flush`}>
+          <div className={`${(isNoQuantity) ? Layout.noQuantity : ''}`}>
+            Quantity: {quantity ? quantity : "NA"}
+          </div> 
         </ListGroup.Item>
 
         <ListGroup.Item className={Layout.text+" "+"list-group-flush"+" "+Layout.unit}>
              Unit: { unit ? unit : "NA"}
         </ListGroup.Item>
          
-        <ListGroup.Item className={`${isExpired ? Layout.expired : ''} ${Layout.text} list-group-flush`}>
-              Expiration Date: { expirationDate ? expirationDate : "NA"}
+        <ListGroup.Item className={`${Layout.text} list-group-flush`}>
+        <div className={`${(isExpired) ? Layout.expired : ''}`}>
+            Expiration Date: {expirationDate ? expirationDate : "NA"}
+          </div>
          </ListGroup.Item>
       </ListGroup>
 

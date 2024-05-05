@@ -12,6 +12,11 @@
     background-color: red;
 }
 
+.logoutIcon{
+    height: 1.8em;
+    width:1.8em;
+}
+
 @media only screen and (min-width: 600px) {
     .removewhensmall{
         display:block;

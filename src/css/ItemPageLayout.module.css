@@ -108,16 +108,16 @@
     /* box-shadow: 10px 0px 10px 1px #e7e8c9; */
 } 
 .expired{
-    border: red solid .2em;
+    border: #ED9482 solid .2em;
 }
 .noQuantity{
-    border: yellow solid .2em;
+    border: #eeecaf solid .2em;
 }
 .subtitle{
     position: absolute;
     top:0;
 }
-.quantity:hover::after{
+.quantity > *:hover::after{
     content: " How much of an item you have";
     background-color: #ffffff88;
     font-size: small;

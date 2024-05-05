@@ -3,12 +3,15 @@ import { useNavigate } from "react-router-dom"
 import searchStyle from "../../css/Search.module.css"
 import SearchResult from "../../components/SearchResultBootstrap";
 import AddButton from '../../components/AddButton'
+import Alert from "react-bootstrap/Alert"
 
 
 export default function CreateFood() {
     const navigate = useNavigate()
     const [food, setFood] = useState("")
     const [results, setResults] = useState([])
+    const [hasSearched, setHasSearched] = useState(false)
+
 
     async function searchFood() {
       if (!food) return
@@ -23,9 +26,10 @@ export default function CreateFood() {
         window.alert("Failed searching food!")
         return
       }
-        const foods = await res.json()
-        console.log(foods)
-        setResults(foods.data)
+      const foods = await res.json();
+      console.log(foods);
+      setResults(foods.data);
+      setHasSearched(true);
     }
 
     async function createFood(food) {
@@ -83,12 +87,18 @@ export default function CreateFood() {
 
       </div>
     </div>
-      { results && results.length !== 0 ? 
-        results.map((e,i) => 
+    {results && results.length !== 0 ? 
+    results.map((e, i) => 
         // using array index as keys here is fine so long as there is no way to add/remove elements from the array
-          <div key={i} onClick={()=>{createFood(e)}}> 
-            <SearchResult name={ e.name } image ={e.image}></SearchResult>
-          </div>
-        ) : <></> }
+        <div key={i} onClick={()=>{createFood(e)}}> 
+            <SearchResult name={e.name} image={e.image}></SearchResult>
+        </div>
+    ) : 
+    hasSearched && results.length === 0 && (
+        <Alert key="warning" variant="warning">
+            No search results for query {food}
+        </Alert>
+    )
+    }
     </div>)
 }
