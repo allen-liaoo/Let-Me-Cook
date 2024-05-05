@@ -39,7 +39,16 @@
     display: flex;
     justify-content: center;
 }
-
+.flex{
+    display: flex;
+    flex-direction: row;
+}
+.flexstart{
+    align-self: flex-start;
+}
+.flexend{
+    align-self: flex-end;
+}
 .ref{
     position: relative;
 }
@@ -103,6 +112,20 @@
 }
 .noQuantity{
     border: yellow solid .2em;
+}
+.subtitle{
+    position: absolute;
+    top:0;
+}
+.quantity:hover::after{
+    content: " How much of an item you have";
+    background-color: #ffffff88;
+    font-size: small;
+}
+.unit:hover::after{
+    content: " What units is this item measured in";
+    background-color: #ffffff88;
+    font-size: small;
 }
 @media only screen and (min-width: 900px) {
     .switchRowCol{

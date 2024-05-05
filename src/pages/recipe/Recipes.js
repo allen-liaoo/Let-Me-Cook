@@ -24,6 +24,7 @@ export default function Recipes() {
             const resJson = await res.json()
             console.log(resJson)
             setItems(resJson.recipes)
+            console.log(items)
             SetLoading(false);
         })();
         console.log(loading + "loading ")
@@ -49,6 +50,8 @@ export default function Recipes() {
             <AddButton onClick={()=>{navigate('/recipe/create')}}/>
             </div>
             <Container>
+      
+          
                 { items.map(e => 
                     <RecipeItemBootstrap 
                         key={e._id}
@@ -60,7 +63,10 @@ export default function Recipes() {
                         editLink={'/recipe/edit/'+e._id}
                     />)}
             </Container>
-           
+            <div className ={Layout.centerrow}>
+            {!items.length?<div><h3>No Recipes saved</h3>
+            <p>if you add a recipe item using the add button it will show up here </p></div>:<div></div>}
+            </div>
         </div>
     )
 }

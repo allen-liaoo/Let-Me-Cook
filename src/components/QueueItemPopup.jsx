@@ -2,6 +2,10 @@ import Modal from 'react-bootstrap/Modal'
 import ListGroup from 'react-bootstrap/ListGroup'
 import { useEffect, useState } from 'react'
 import { compare } from '../conversion.mjs'
+import Layout from "../css/ItemPageLayout.module.css";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 function IngredientFoodItem({ ingredient }) {
   const [food, setFood] = useState()
@@ -27,8 +31,11 @@ function IngredientFoodItem({ ingredient }) {
   return <ListGroup.Item style={ 
       comparisonStatus < 0 ? {color: "red"} 
       : (comparisonStatus > 0 ? {color: "green"} : {}) }>
-      { ingredient.name + '  ' + ingredient.amount + ' ' + ingredient.unit }
-      { food ? '  ' + food.name + ' ' + food.quantity + ' ' + food.unit : '' }</ListGroup.Item>
+      <Row>
+      <Col>{ ingredient.name + '  ' + ingredient.amount + ' ' + ingredient.unit }</Col>
+      <Col> { food ? '  ' + food.name + ' ' + food.quantity + ' ' + food.unit : '' }</Col>
+      </Row>
+      </ListGroup.Item>
 }
 
 export default function QueueItemPopup({ showPopup, setShow, recipe }) {
@@ -37,7 +44,14 @@ export default function QueueItemPopup({ showPopup, setShow, recipe }) {
         <Modal.Title>{ recipe.name }</Modal.Title>
     </Modal.Header>
     <Modal.Body>
+    
     <ListGroup className="list-group-flush">
+    <ListGroup.Item >
+      <Row>
+      <Col><h6>Recipe</h6></Col>
+      <Col> <h6>Your Pantry</h6></Col>
+      </Row>
+      </ListGroup.Item>
       { recipe.ingredients.map((e,i) => 
         <IngredientFoodItem key={i} ingredient={e} />) }
     </ListGroup>

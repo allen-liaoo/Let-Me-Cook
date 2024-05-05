@@ -59,7 +59,7 @@ export default function QueueItem({ recipeId, deleteItem }) {
                 e.stopPropagation()
                 navigate('/recipe/edit/'+recipe._id)
               }}><EditSVG /></div>
-          <div className={styles.viewButton}>View</div>
+          <div className={styles.viewButton}>Info</div>
 
           <div className={styles.iconContainer}><DragSVG /></div>
         </div>

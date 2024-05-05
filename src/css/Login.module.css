@@ -1,21 +1,21 @@
-h1, h2, h3{
+.h1, .h2, .h3{
     margin-left: auto;
     margin-right: auto;
     position: relative;
     text-align: center;
 }
 
-h1 {
+.h1 {
     top: 20vh;
     font-size: 7em;
 }
 
-h2 {
+.h2 {
     top: 20vh;
     font-size: 2.5em;
 }
 
-h3 {
+.h3 {
     top: 20vh;
     font-size: 1.5em;
 }
@@ -73,13 +73,13 @@ h3 {
 
 
 @media only screen and (max-width: 900px) {
-    h1 {
+    .h1 {
         font-size: 3em;
     }
-    h2 {
+    .h2 {
         font-size: 1.5em;
     }
-    h3 {
+    .h3 {
         font-size: 1.2em;
     }
 }
