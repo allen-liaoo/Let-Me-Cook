@@ -11,13 +11,13 @@ export default function RecipeItemBootstrap({ id, name, image, desciption, editL
   return (
     <div className={styles.wholeCard +" "+Layout.centerrow}>
       <Card className={styles.customCard} style={{ width: '18rem', cursor: 'pointer' }}
-            onClick={()=>navigate(editLink)}>
+            >
         <Card.Body>
-          <div className={styles.innerBodyContainer}>
+          <div className={styles.innerBodyContainer} >
             <Card.Img className={styles.cardImg} src={image}/>
 
             <div className={styles.cardTextContainer}>
-              <Card.Text className={styles.cardText}>{name}</Card.Text>
+              <Card.Text className={styles.cardText} onClick={()=>navigate(editLink)}>{name}</Card.Text>
             </div>
             <Link to={editLink} className={styles.iconContainer+ " "+styles.editButton}> 
                 <EditSVG />

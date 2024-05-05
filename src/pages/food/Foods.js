@@ -22,12 +22,13 @@ function Foods() {
             console.log(res)
             const resJson = await res.json()
             console.log(resJson)
-            setItems(resJson.foods)
+            setItems(resJson.foods.reverse())
             // setItems(testItems)
             setLoading(false);
         })()
         console.log(loading + "loading ")
     }, [])
+    
 
     if(loading){
         return <div>
@@ -46,11 +47,18 @@ function Foods() {
     else return <div>
             <div className ={Layout.centerrow+" "+Layout.stickaddbutton}>
             <AddButton onClick={()=>{navigate('/food/create')}}/>
+            
             </div>
+
             <Container className={Layout.text}>
+           
                 { items.map(e => 
                     <FoodItem key={e._id} food={e}/>)}
             </Container>
+            <div className ={Layout.centerrow}>
+            {!items.length?<div className ={Layout.center}><h2>No Food items in pantry</h2>
+            <p >if you add a food item using the add button it will show up here </p></div>:<div></div>}
+            </div>
         </div>
 }
 export default Foods;

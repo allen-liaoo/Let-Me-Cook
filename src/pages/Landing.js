@@ -5,6 +5,7 @@ import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import EmptyCard from "../components/EmptyCard"
 import FoodItem from '../components/FoodItem';
+import Layout from "../css/ItemPageLayout.module.css"
 import styles from "../css/LandingPage.module.css"
 
 export default function Landing() {
@@ -75,27 +76,51 @@ export default function Landing() {
                 <Tab eventKey="alphabetical" title="All" className={styles.tab} onClick={() => sortArrayByName(lowestFoods)}>
                     <Container>
                         {lowestLoading ?
+                            <div>
                             <EmptyCard feildnum="2"></EmptyCard>
+                            <EmptyCard feildnum="2"></EmptyCard>
+                            <EmptyCard feildnum="2"></EmptyCard>
+                            </div>
                             : lowestFoods.map(e => <FoodItem food={e} />)
                         }
+                         <div className ={Layout.centerrow}>
+                        {!lowestFoods.length?<div className ={Layout.center}><h2>No Food items in pantry</h2>
+                        <p >if you add a food item using the add button it will show up here </p></div>:<div></div>}
+                    </div>
                     </Container>
                 </Tab>
                 <Tab eventKey="lowQuantity" title="Low Quantity" className={styles.tab} onClick={() => setLowestFoods(lowestFoods)}>
 
                     <Container>
                         {lowestLoading ?
-                            <EmptyCard feildnum="2"></EmptyCard>
+                             <div>
+                             <EmptyCard feildnum="2"></EmptyCard>
+                             <EmptyCard feildnum="2"></EmptyCard>
+                             <EmptyCard feildnum="2"></EmptyCard>
+                             </div>
                             : lowestFoods.map(e => <FoodItem food={e} />)
                         }
                     </Container>
+                    <div className ={Layout.centerrow}>
+                        {!lowestFoods.length?<div className ={Layout.center}><h2>No Food items in pantry</h2>
+                        <p >if you add a food item using the add button it will show up here </p></div>:<div></div>}
+                    </div>
                 </Tab>
                 <Tab eventKey="expringSoon" title="Expiring Soon " className={styles.tab} onClick={() => setExpiringFoods(expiringFoods)}>
 
                     <Container>
-                        {expiringLoading ?
-                            <EmptyCard feildnum="2"></EmptyCard>
+                        { expiringLoading?
+                             <div>
+                             <EmptyCard feildnum="2"></EmptyCard>
+                             <EmptyCard feildnum="2"></EmptyCard>
+                             <EmptyCard feildnum="2"></EmptyCard>
+                             </div>
                             : expiringFoods.map(e => <FoodItem food={e} />)
                         }
+                        <div className ={Layout.centerrow}>
+                        {!expiringFoods.length?<div className ={Layout.center}><h2>No Food items in pantry</h2>
+                        <p >if you add a food item using the add button it will show up here </p></div>:<div></div>}
+                    </div>
                     </Container>
                 </Tab>
             </Tabs>

@@ -22,9 +22,9 @@ function loginOnClick(url) {
 
 export default function Login() {
     return <Stack gap={3} className = "body">
-        <h1>Let Me Cook</h1>
-        <h2>A Virtual Pantry Manager & Recipe Tracker!</h2>
-        <h3>Login/Signup</h3>
+        <h1  className= { styles.h1}>Let Me Cook</h1>
+        <h2 className= { styles.h2}>A Virtual Pantry Manager & Recipe Tracker!</h2>
+        <h3 className= { styles.h3}>Login/Signup</h3>
         <div id={styles.buttons}>
             <button className={styles.button+' '+styles.apple} onClick={loginOnClick('apple')}>Apple</button>
             <button className={styles.button+' '+styles.google} onClick={loginOnClick('google')}>Google</button>

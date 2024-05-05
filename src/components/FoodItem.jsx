@@ -169,7 +169,7 @@ async function removeFood() {
           </Card.Body>
           <ListGroup variant="flush">
           <ListGroup.Item className={`list-group-flush`}>
-            <div className={Layout.text}>Quantity:   &ensp;
+            <div className={Layout.text+" "+Layout.quantity}>Quantity:   &ensp;
               <input type="text" 
                 value={quantity} onChange={(e)=>setQuantity(e.target.value)}
                 min="0"/>
@@ -177,7 +177,7 @@ async function removeFood() {
           </ListGroup.Item>
 
           <ListGroup.Item className="list-group-flush">
-          <div className={Layout.text}>Unit:   &ensp;
+          <div className={Layout.text+" "+Layout.unit}>Unit:   &ensp;
           <input type="text" 
               value={unit} onChange={(e)=>setUnit(e.target.value)} />
               </div>
@@ -215,11 +215,11 @@ async function removeFood() {
 
       <ListGroup variant="flush">
     
-        <ListGroup.Item className={`${isNoQuantity ? Layout.noQuantity : ''} ${Layout.text} list-group-flush`}>
-             Quantiny: { quantity ? quantity : "NA"}
+        <ListGroup.Item className={`${isNoQuantity ? Layout.noQuantity : ''} ${Layout.text} ${Layout.quantity} list-group-flush`}>
+             Quantity: { quantity ? quantity : "NA"}
         </ListGroup.Item>
 
-        <ListGroup.Item className={Layout.text+" "+"list-group-flush"}>
+        <ListGroup.Item className={Layout.text+" "+"list-group-flush"+" "+Layout.unit}>
              Unit: { unit ? unit : "NA"}
         </ListGroup.Item>
          
