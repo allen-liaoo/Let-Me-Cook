@@ -107,8 +107,11 @@ export default function RecipeQueue() {
   }
 
   function deleteRecipe(recpIndex) {
-    recipeKeys.splice(recpIndex, 1) // delete recipe's key at index
-    updateQueue(recipeIds.filter((r,ind)=>recpIndex!==ind))
+    return () => {
+      recipeKeys.splice(recpIndex, 1) // delete recipe's key at index
+      recipeIds.splice(recpIndex, 1)
+      updateQueue([...recipeIds])
+    }
   }
 
   return (
@@ -131,7 +134,7 @@ export default function RecipeQueue() {
               onDrop={(e) => handleDrop(e, i)}>
                 <QueueItem key={recipeKeys[i]}
                     recipeId={recpId}
-                    deleteItem={deleteRecipe} />
+                    deleteItem={deleteRecipe(i)} />
             </div>
           ))
         : <div></div>}
