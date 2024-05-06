@@ -59,7 +59,6 @@
 
 .row{
     display: flex;
-    justify-content: center;
     flex-direction: row;
 }
 .IngredientsHeader{
@@ -102,17 +101,19 @@
 .stickaddbutton{
     position: sticky;
     top: 3rem;
+    bottom: auto;
     z-index: 10;
     padding-top: 0.5em;
     background-color: #f4f5d9;
     /* box-shadow: 10px 0px 10px 1px #e7e8c9; */
 } 
-.expired{
-    border: red solid .2em;
+
+/* For the expired */
+.redText{ 
+    color: #b85144; 
+    margin-right: 1em;;
 }
-.noQuantity{
-    border: yellow solid .2em;
-}
+
 .subtitle{
     position: absolute;
     top:0;
@@ -160,9 +161,10 @@
   @media only screen and (max-width: 600px) {
     .stickaddbutton{
         position: sticky;
-        top: 90vh;
+        top: 100vh;
+        
         z-index: 10;
-        background-color: hsl(64, 41%, 93%);
+        background-color: #f4f5d9;
         padding-bottom: 1em;
     }
 }

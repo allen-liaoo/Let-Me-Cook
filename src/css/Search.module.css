@@ -19,7 +19,9 @@
     border-radius: 3px;
     width: 7.65em;
     height: 41.5px;
-    transition: width 0.5s;
+    transition-property: width;
+    transition-duration: 1s;
+    transition-delay: 5s;
     background-color: #ffffff;
     margin: 1em;
 }
@@ -28,6 +30,7 @@
     border-radius: 5px ;
     background-color: #ffffff;
     width: 90%;
+    transition: width 0.5s;
 }
 
 .container{
@@ -40,9 +43,8 @@
     width: 0em;
     caret-color: #00000000;
     background-color: #ffffff;
-   
+    
     transition: width 0.5s;
-   transition: width 0.5s;
 }
 .container:focus{
     display: block;
@@ -150,4 +152,11 @@
 }
 .searchText{
     padding-top:0.8em;
+}
+.alertBar{
+    width:75%;
+    align-self:center;
+    margin-left: 12.5%;
+    margin-right: 12.5%;
+    margin-top: 1%;
 }

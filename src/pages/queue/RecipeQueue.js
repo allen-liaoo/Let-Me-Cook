@@ -115,10 +115,10 @@ export default function RecipeQueue() {
   }
 
   return (
-    <div>
-      <AddRecipeQueuePopup addRecipe={addRecipe} className={Layout.stickaddbutton}/>
+    <>
+      <AddRecipeQueuePopup addRecipe={addRecipe} />
       <div className={styles.queueList} align="left">
-     
+
         { recipeIds ? 
           recipeIds.map((recpId,i) => (
             <div
@@ -138,10 +138,10 @@ export default function RecipeQueue() {
             </div>
           ))
         : <div></div>}
- {!recipeIds.length?<div className ={Layout.center}><h2>No Recipes in queue</h2>
+        {!recipeIds.length?<div className ={Layout.center}><h2>No Recipes in queue</h2>
             <p >you can add saved recipes to your queue here </p></div>:<div></div>}
       </div>
       
-    </div>
+    </>
   );
 }

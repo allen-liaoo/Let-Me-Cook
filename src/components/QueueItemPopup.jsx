@@ -28,12 +28,23 @@ function IngredientFoodItem({ ingredient }) {
     })()
   }, [])
 
+  const ingrAmountUnit = (ingredient) =>
+      (ingredient.amount ? ' (' + ingredient.amount +
+          (ingredient.unit && ingredient.unit !== '<unit>' ? ' ' + ingredient.unit : '') + ')' 
+      : '')
+
+  const foodQuantityUnit = (food) =>
+      (food.quantity ? ' (' + food.quantity +
+          (food.unit ? ' ' + food.unit : '') + ')' 
+      : '')
+  
+
   return <ListGroup.Item style={ 
       comparisonStatus < 0 ? {color: "red"} 
       : (comparisonStatus > 0 ? {color: "green"} : {}) }>
       <Row>
-      <Col>{ ingredient.name + '  ' + ingredient.amount + ' ' + ingredient.unit }</Col>
-      <Col> { food ? '  ' + food.name + ' ' + food.quantity + ' ' + food.unit : '' }</Col>
+      <Col>{ ingredient ? ingredient.name + ingrAmountUnit(ingredient) : ''}</Col>
+      <Col>{ food ? '  ' + food.name + foodQuantityUnit(food) : '' }</Col>
       </Row>
       </ListGroup.Item>
 }

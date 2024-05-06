@@ -45,9 +45,9 @@ export default function LinkFoodPopup({ ingredient, hidePopup }) {
         results.map((e,i) => 
         // using array index as keys here is fine so long as there is no way to add/remove elements from the array
         <div key={i} onClick={()=>linkIngredient(e._id)}> 
-        <SearchResult name={ e.name } image ={e.image}></SearchResult>
+          <SearchResult name={ e.name } image ={e.image}></SearchResult>
           </div>
-        ) : <>{'\"' + ingredient.name + '\" not in pantry'}</> }</>}
+        ) : <>{'"' + ingredient.name + '" not in pantry'}</> }</>}
       </Modal.Body>
       {/* <Modal.Footer>
         <button>
