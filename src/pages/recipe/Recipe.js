@@ -23,6 +23,8 @@ export default function Recipe() {
         })()
     }, [])
 
+
+
     return (<div  className={Layout.switchRowCol}>
         <ItemHeader name={recipe.name} image={recipe.image} editLink={'/recipe/edit/'+id} />
         <div fluid="md" className={Layout.movecenter}>
@@ -37,11 +39,11 @@ export default function Recipe() {
                 recipe.ingredients.map((e,i) => {
                     console.log("RECIPE: ", recipe);
                     return <Row key={i} className="p-2">
-                        { "- " + e.name.slice(0,1).toUpperCase() + e.name.slice(1) + ' (' + String(Math.round(Number(e.amount) * 100) / 100) + 
+                        { "- " + e.name.slice(0,1).toUpperCase() + e.name.slice(1) + ' ' + (e.amount? String(Math.round(Number(e.amount) * 100) / 100) :"") + 
                             (e.unit 
                                 && e.unit !== '' 
                                 && e.unit !== '<unit>' ? ' ' + e.unit + 's' : '')
-                            +')' } <br />
+                            } <br />
                     </Row>
                 }
                 ) 

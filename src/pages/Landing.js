@@ -42,7 +42,7 @@ export default function Landing() {
             }
             const resJson = await res.json()
             console.log(resJson)
-            setLowestFoods(resJson.lowestQuantityFoods)
+            setLowestFoods(resJson.lowestQuantityFoods);
             setLowestLoading(false);
         })()
     }, [])
@@ -58,11 +58,13 @@ export default function Landing() {
         return 0;
     }
 
-    // Sort by name
+    // Sorts by name
     function sortArrayByName(arr) {
-        arr.sort((a, b) => {
+        const sortedArr = [...arr]; // Copy array
+        sortedArr.sort((a, b) => {
             return getLarger(a.name.toUpperCase(), b.name.toUpperCase());
         });
+        return sortedArr;
     }
 
     return (
@@ -81,11 +83,12 @@ export default function Landing() {
                             <EmptyCard feildnum="2"></EmptyCard>
                             <EmptyCard feildnum="2"></EmptyCard>
                             </div>
-                            : lowestFoods.map(e => <FoodItem food={e} />)
+                            : sortArrayByName(lowestFoods).map(e => <FoodItem food={e} />)
                         }
                          <div className ={Layout.centerrow}>
                         {!lowestFoods.length?<div className ={Layout.center}><h2>No Food items in pantry</h2>
-                        <p >if you add a food item using the add button it will show up here </p></div>:<div></div>}
+                        <p >if you add a food item using the add button it will show up here </p></div>:
+                        <div></div>}
                     </div>
                     </Container>
                 </Tab>

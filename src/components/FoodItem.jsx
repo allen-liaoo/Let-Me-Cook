@@ -1,14 +1,41 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from "../css/QueueItem.module.css";
 import Layout from "../css/ItemPageLayout.module.css";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
+import { useCallback } from 'react'
 import { ReactComponent as UploadImage }  from '../assets/upload.svg'
 import { ReactComponent as EditSVG }  from '../assets/edit.svg'
 import { ReactComponent as DeleteSVG }  from '../assets/delete.svg'
 import { useState, useEffect } from 'react';
 import SaveButton from './SaveButton'
 import RemoveButton from './RemoveButton'
+
+// Gets String of current date in yyyy-mm-dd format
+function getCurTime() {
+  const curDate = new Date();
+  var curYear = String(curDate.getFullYear());
+  var curMonth = String(curDate.getMonth() + 1); // 0-indexed
+  var curDay = String(curDate.getDate());
+  if (curDay.length < 2) {
+      curDay = "0" + curDay;
+  }
+  if (curMonth.length < 2) {
+      curMonth = "0" + curMonth;
+  }
+  var curTime = curYear + "-" + curMonth + "-" + curDay;
+  return curTime;
+}
+
+async function uploadImage(event, setNewImageFile) {
+  if (event.target.files.length <= 0) return
+  const file = event.target.files.item(0);
+  console.log("Image selected", file)
+  if (file.size > 10000000) {    // 10,000,000 bytes = 10 mb
+      console.alert("Image file is too large (> 10mb)!")
+      return
+  }
+  setNewImageFile(file)
+}
 
 export default function FoodItem({ food }) {
   const [editMode, setEditMode] = useState(0);
@@ -19,17 +46,18 @@ export default function FoodItem({ food }) {
   const [unit, setUnit] = useState(food.unit ?? "")
   const [expirationDate, setExpirationDate] = useState(food.expirationDate ?? "")
   const [setofclasses, setSetofClasses] = useState(styles.wholeCard +" "+Layout.centerrow)
-  const [getinfo,setGetinfo] = useState(true);
-  const [isNoQuantity,setIsNoQuantity] = useState(false);
-  const [isExpired,setIsExpired] = useState(false);
+  const [isExpired, setIsExpired] = useState(false);
   const [imgFiles] = useState([]);
+
   useEffect(() => {
     (async () => {
-      if(getinfo){
+        console.log("Sending request with food id: ", food._id);
+        console.log("Sending request with food: ", food);
+
         const res = await fetch("/api/food/"+food._id, { method: "GET" })
         if (!res.ok) {
             console.log(res)
-            window.alert("Error getting food on edit food page!")
+            window.alert(`Error getting food in food item component! Food item: ${food.name}`)
             return
         }
         const resJson = await res.json()
@@ -41,9 +69,14 @@ export default function FoodItem({ food }) {
         setQuantity(newFood.quantity)
         setUnit(newFood.unit)
         setExpirationDate(newFood.expirationDate)
-        setExpirationDateAndQuantity(food);
+
+        // calculate if food expired
+        const curTime = getCurTime();
+        if (!food.expirationDate || food.expirationDate === "N/A" || food.expirationDate < curTime) {
+          console.log("Adding expired flag");
+          setIsExpired(true);
     }})()
-  }, [editMode, getinfo]);
+  }, []);
   
   async function editFood() {
     const res = await fetch('/api/food/edit/'+food._id, {
@@ -83,62 +116,22 @@ export default function FoodItem({ food }) {
 
     //navigate('/food/' + id)
     setEditMode(false)
-}
-
-function setExpirationDateAndQuantity(food) {
-  const curTime = getCurTime();
-  if (!food.expirationDate || food.expirationDate === "NA" || food.expirationDate <= curTime) {
-    console.log("Adding expired flag");
-    setIsExpired(true);
-  }
-  if (!food.quantity || food.quantity === "NA" || food.quantity <= 0) {
-    console.log("Adding noQuantity flag");
-    setIsNoQuantity(true);
-  }
-}
-
-async function removeFood() {
-    const res = await fetch('/api/food/delete/'+food._id, { method: "POST" })
-    console.log('Deleting Food', res)
-    if (!res.ok) {
-        window.alert("Failed deleting food!")
-        return
-    }
-    //navigate('/foods')
-    setSetofClasses(styles.wholeCard +" "+Layout.centerrow+" "+Layout.hidden)
-    setGetinfo(false)
-    setEditMode(false)
-    console.log(editMode)
-}
-
-  // Gets String of current date in yyyy-mm-dd format
-  function getCurTime() {
-    const curDate = new Date();
-    var curYear = String(curDate.getFullYear());
-    var curMonth = String(curDate.getMonth() + 1); // 0-indexed
-    var curDay = String(curDate.getDate());
-    if (curDay.length < 2) {
-        curDay = "0" + curDay;
-    }
-    if (curMonth.length < 2) {
-        curMonth = "0" + curMonth;
-    }
-    var curTime = curYear + "-" + curMonth + "-" + curDay;
-    return curTime;
   }
 
-  async function uploadImage(e) {
-      if (e.target.files.length <= 0) return
-      const file = e.target.files.item(0);
-      console.log("Image selected", file)
-      if (file.size > 10000000) {    // 10,000,000 bytes = 10 mb
-          console.alert("Image file is too large (> 10mb)!")
+  async function removeFood() {
+      const res = await fetch('/api/food/delete/'+food._id, { method: "POST" })
+      console.log('Deleting Food', res)
+      if (!res.ok) {
+          window.alert("Failed deleting food!")
           return
       }
-      setNewImageFile(file)
+      //navigate('/foods')
+      setSetofClasses(styles.wholeCard +" "+Layout.centerrow+" "+Layout.hidden)
+      setEditMode(false)
+      console.log(editMode)
   }
 
-  if(editMode){
+  if(editMode)
     return(
     <div className={setofclasses}>
 
@@ -156,7 +149,7 @@ async function removeFood() {
                 {/* Upload image */}
                 <input id="file-input" type="file" accept="image/*" capture="environment"
                     value={imgFiles}
-                    onChange={uploadImage} className={styles.hidden}/>
+                    onChange={(event)=>uploadImage(event, setNewImageFile)} className={styles.hidden}/>
 
               <div className={styles.cardTextContainer}>
                 {/* Change text */}
@@ -197,7 +190,7 @@ async function removeFood() {
           </ListGroup>
           </Card>
       </div>)
-  } else {
+
   return (
   <div className={setofclasses}>
     <Card className={styles.customCard}>
@@ -207,7 +200,7 @@ async function removeFood() {
           <div className={styles.cardTextContainer}>
             <Card.Text className={styles.cardText}>{name}</Card.Text>
           </div>
-          <button className={styles.iconContainer+" "+styles.editButton} value="" onClick={(e)=>setEditMode(true)}> 
+          <button className={styles.iconContainer+" "+styles.editButton} value="" onClick={()=>setEditMode(true)}> 
             <EditSVG />
           </button>
         </div>
@@ -216,23 +209,26 @@ async function removeFood() {
       <ListGroup variant="flush">
     
         <ListGroup.Item className={`${Layout.text} ${Layout.quantity} list-group-flush`}>
-          <div className={`${(isNoQuantity) ? Layout.noQuantity : ''}`}>
-            Quantity: {quantity ? quantity : "NA"}
-          </div> 
+        <span className={`${(quantity===0) ? Layout.redText : ''}`}>
+          Quantity: {quantity ? quantity : 0}
+        </span>
         </ListGroup.Item>
 
         <ListGroup.Item className={Layout.text+" "+"list-group-flush"+" "+Layout.unit}>
-             Unit: { unit ? unit : "NA"}
+             Unit: { unit ? unit : "N/A"}
         </ListGroup.Item>
          
         <ListGroup.Item className={`${Layout.text} list-group-flush`}>
-        <div className={`${(isExpired) ? Layout.expired : ''}`}>
-            Expiration Date: {expirationDate ? expirationDate : "NA"}
+          <div className={`${(isExpired) ? Layout.redText : ''} ${Layout.row}`}>
+        Expiration Date: {expirationDate ? expirationDate : "N/A"}
+          {isExpired?
+          <span className={`${(isExpired) ? Layout.redText : ''}`}>
+          Expired
+          </span> :<></>}
           </div>
          </ListGroup.Item>
       </ListGroup>
 
     </Card>
   </div>)
-}
 }

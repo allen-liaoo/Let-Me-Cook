@@ -31,7 +31,7 @@ export default function Recipes() {
     }, [])
 
     if(loading){
-        return <div>
+        return <>
             <div className ={Layout.centerrow+" "+Layout.stickaddbutton}>
             <AddButton onClick={()=>{navigate('/food/create')}}/>
             </div>
@@ -41,14 +41,12 @@ export default function Recipes() {
                 <EmptyCard  feildnum= "2" isRecipe={true}></EmptyCard>
                 <EmptyCard  feildnum= "2" isRecipe={true}></EmptyCard>
             </Container>
-        </div>
+        </>
     }
 
     else return (
-        <div>
-            <div className ={Layout.centerrow}>
+        <>
             <AddButton onClick={()=>{navigate('/recipe/create')}}/>
-            </div>
             <Container>
       
           
@@ -67,6 +65,6 @@ export default function Recipes() {
             {!items.length?<div><h3>No Recipes saved</h3>
             <p>if you add a recipe item using the add button it will show up here </p></div>:<div></div>}
             </div>
-        </div>
+        </>
     )
 }

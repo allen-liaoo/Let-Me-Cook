@@ -29,10 +29,7 @@ export default function AddRecipeQueuePopup({ addRecipe }) {
   }
 
   return <>
-    <div className ={Layout.centerrow+" "+Layout.stickaddbutton}
-        onClick={()=>setShowPopup(true)}>
-          <AddButton/>
-    </div>
+    <AddButton onClick={()=>setShowPopup(true)}/>
     <Modal show={show} onHide={()=>setShowPopup(false)}>
     <Modal.Header closeButton>
         <Modal.Title>Add Recipe to Queue</Modal.Title>

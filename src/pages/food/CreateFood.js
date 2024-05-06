@@ -2,7 +2,6 @@ import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom"
 import searchStyle from "../../css/Search.module.css"
 import SearchResult from "../../components/SearchResultBootstrap";
-import AddButton from '../../components/AddButton'
 import Alert from "react-bootstrap/Alert"
 
 
@@ -59,8 +58,9 @@ export default function CreateFood() {
 
     },[food])
 
-    function createBlankFood(){
-      console.log("In createBlankFood...");
+    function setFoodVal(foodVal){
+      setFood(foodVal);
+      setHasSearched(false);
     }
 
 
@@ -68,7 +68,7 @@ export default function CreateFood() {
     return (<div>
     <div className={searchStyle.centerContents}>
       <div className={iconContainer} >
-        <input type="text" value={food} onInput={(e)=>{setFood(e.target.value)}} id="inputFeild"
+        <input type="text" value={food} onInput={(e)=>{setFoodVal(e.target.value)}} id="inputFeild"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
@@ -95,7 +95,7 @@ export default function CreateFood() {
         </div>
     ) : 
     hasSearched && results.length === 0 && (
-        <Alert key="warning" variant="warning">
+        <Alert key="danger" variant="danger" className={searchStyle.centerContents + " " + searchStyle.alertBar}>
             No search results for query {food}
         </Alert>
     )

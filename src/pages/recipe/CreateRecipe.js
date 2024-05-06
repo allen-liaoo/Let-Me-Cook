@@ -41,7 +41,7 @@ export default function CreateRecipe() {
     }
     const [iconContainer, setIconContainer] = useState(searchStyle.searchIconContainer)
     useEffect(()=>{
-      if(recipe == ""){
+      if(recipe === ""){
         setIconContainer(searchStyle.searchIconContainer)
       }else{
         setIconContainer(searchStyle.searchIconContainerWithText + " " + searchStyle.searchIconContainer)

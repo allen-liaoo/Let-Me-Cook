@@ -1,6 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import Layout from "../css/ItemPageLayout.module.css";
 import styles from "../css/NavbarBootstrap.module.css";
 import { Link } from 'react-router-dom';
 import { ReactComponent as Logout }  from '../assets/logout.svg'
@@ -18,7 +19,13 @@ function ColorSchemesExample() {
             <Nav.Link as={Link} to="/queue">Queue</Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link id="logoutButton" className="ml-auto" href="/.auth/logout"><Logout className={styles.logoutIcon}/></Nav.Link>
+            <Nav.Link className={"ml-auto"} href="/.auth/logout">
+              <div className={Layout.row}>
+              <div className={styles.removewhensmall}>{"Logout  "} </div>
+              <Logout className={styles.logoutIcon}/> 
+              </div>
+              </Nav.Link>
+              
           </Nav>
         </Container>
       </Navbar>
