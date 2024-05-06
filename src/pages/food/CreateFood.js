@@ -96,7 +96,7 @@ export default function CreateFood() {
     ) : 
     hasSearched && results.length === 0 && (
         <Alert key="danger" variant="danger" className={searchStyle.centerContents + " " + searchStyle.alertBar}>
-            No search results for query {food}
+            No results for "{food}"
         </Alert>
     )
     }

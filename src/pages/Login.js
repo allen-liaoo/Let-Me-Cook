@@ -26,11 +26,11 @@ export default function Login() {
         <h2 className= { styles.h2}>A Virtual Pantry Manager & Recipe Tracker!</h2>
         <h3 className= { styles.h3}>Login/Signup</h3>
         <div id={styles.buttons}>
-            <button className={styles.button+' '+styles.apple} onClick={loginOnClick('apple')}>Apple</button>
-            <button className={styles.button+' '+styles.google} onClick={loginOnClick('google')}>Google</button>
+            {/* <button className={styles.button+' '+styles.apple} onClick={loginOnClick('apple')}>Apple</button> */}
+            {/* <button className={styles.button+' '+styles.google} onClick={loginOnClick('google')}>Google</button> */}
             <button className={styles.button+' '+styles.microsoft} onClick={loginOnClick('aad')}>Microsoft</button>
-            <button className={styles.button+' '+styles.twitter} onClick={loginOnClick('twitter')}>Twitter / X</button>
-            <button className={styles.button+' '+styles.facebook} onClick={loginOnClick('facebook')}>Facebook</button>
+            {/* <button className={styles.button+' '+styles.twitter} onClick={loginOnClick('twitter')}>Twitter / X</button> */}
+            {/* <button className={styles.button+' '+styles.facebook} onClick={loginOnClick('facebook')}>Facebook</button> */}
             <button className={styles.button+' '+styles.github} onClick={loginOnClick('github')}>Github</button>
         </div>
     </Stack>

@@ -131,7 +131,7 @@ export default function EditRecipe() {
         <div>
             <div className={Layout.row+" "+Layout.ajustright}>
         </div>
-        <div className={Layout.row}>
+        <div className={Layout.centerrow}>
         <RemoveButton onClick={removeRecipe}/>
         <SaveButton onClick={editRecipe}/>
         </div>

@@ -219,12 +219,14 @@ export default function FoodItem({ food }) {
         </ListGroup.Item>
          
         <ListGroup.Item className={`${Layout.text} list-group-flush`}>
-          <div className={`${(isExpired) ? Layout.redText : ''} ${Layout.row}`}>
-        Expiration Date: {expirationDate ? expirationDate : "N/A"}
-          {isExpired?
-          <span className={`${(isExpired) ? Layout.redText : ''}`}>
-          Expired
-          </span> :<></>}
+          <div>
+            <div className={`${(isExpired) ? Layout.redText : ''} ${Layout.row}`}>
+              Expiration Date: {expirationDate ? expirationDate : "N/A"}
+            </div>
+            {isExpired ?
+            <div className={`${(isExpired) ? Layout.redText : ''}`}>
+              Expired
+            </div> :<></>}
           </div>
          </ListGroup.Item>
       </ListGroup>

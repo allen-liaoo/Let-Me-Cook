@@ -40,7 +40,7 @@ function IngredientFoodItem({ ingredient }) {
   
 
   return <ListGroup.Item style={ 
-      comparisonStatus < 0 ? {color: "red"} 
+      comparisonStatus <= 0 ? {color: "red"} 
       : (comparisonStatus > 0 ? {color: "green"} : {}) }>
       <Row>
       <Col>{ ingredient ? ingredient.name + ingrAmountUnit(ingredient) : ''}</Col>
