@@ -108,10 +108,15 @@
     /* box-shadow: 10px 0px 10px 1px #e7e8c9; */
 } 
 
-/* For the expired */
+/* For expired foods */
 .redText{ 
     color: #b85144; 
-    margin-right: 1em;;
+    margin-right: 1em;
+    display:inline-block;
+}
+.inlineBlockWithRightMargin{
+    margin-right: 1em;
+    display:inline-block;  
 }
 
 .subtitle{

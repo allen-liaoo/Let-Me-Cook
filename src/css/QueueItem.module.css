@@ -79,7 +79,7 @@
 
 .deleteButton{
     color:  #0d2714;
-    background-color: rgb(238, 163, 163);
+    background-color:#e37e5f;
     padding: 0.5em;
     margin: 0.5em;
     border-radius: 5px;
@@ -88,12 +88,12 @@
 
 }
 .deleteButton:hover{
-    background-color: #cf7e7e;
+    background-color: #d96a56;
 }
 
 .addButton{
     color:  #0d2714;
-    background-color: #58b16e;
+    background-color: #54c370;
     padding: 0.5em;
     margin: 0.5em;
     width: 2.5em;
@@ -135,7 +135,7 @@
 }
 .viewButton{
     color:  #0d2714;
-    background-color: #58b16e;
+    background-color: #54c370;
     padding: 0.5em;
     margin: 0.5em;
     border-radius: 5px;
@@ -156,7 +156,7 @@
 }
 .enqueueButton{
     color:  #0d2714;
-    background-color: #58b16e;
+    background-color: #54c370;
     padding: 0.5em;
     border-radius: 5px;
     border: none;
