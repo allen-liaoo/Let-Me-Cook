@@ -853,13 +853,14 @@ app.http('removeRecipe', {
         const userId = token.userId;
         const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
         const resultOne = await client.db("LetMeCookDB").collection("users").updateOne({userId: userId}, {$pull : {recipes: {_id: new ObjectId(_id)}}});
-        const resultTwo = await client.db("LetMeCookDB").collection("recipes").deleteOne({_id: new ObjectId(_id), userId: userId}, function(err, obj) {
+        const resultTwo = await client.db("LetMeCookDB").collection("users").updateOne({userId: userId}, {$pull : {recipeQueue: _id}});
+        const resultThree = await client.db("LetMeCookDB").collection("recipes").deleteOne({_id: new ObjectId(_id), userId: userId}, function(err, obj) {
           if (err) {
             context.log("ERROR OCCURRED: " + err);
           }
         });
         client.close();
-        if (resultOne && resultTwo) {
+        if (resultOne && resultTwo && resultThree) {
           return {
             status: 204
           }
