@@ -163,7 +163,7 @@ export default function FoodItem({ food }) {
           <ListGroup variant="flush">
           <ListGroup.Item className={`list-group-flush`}>
             <div className={Layout.text+" "+Layout.quantity}>Quantity:   &ensp;
-              <input type="text" 
+              <input type="number" 
                 value={quantity} onChange={(e)=>setQuantity(e.target.value)}
                 min="0"/>
             </div>
@@ -209,7 +209,7 @@ export default function FoodItem({ food }) {
       <ListGroup variant="flush">
     
         <ListGroup.Item className={`${Layout.text} ${Layout.quantity} list-group-flush`}>
-        <span className={`${(quantity===0) ? Layout.redText : ''}`}>
+        <span className={`${(!quantity || Number(quantity)===0) ? Layout.redText : ''}`}>
           Quantity: {quantity ? quantity : 0}
         </span>
         </ListGroup.Item>
