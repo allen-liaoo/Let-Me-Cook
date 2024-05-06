@@ -1031,12 +1031,11 @@ app.http('expiringFoods', {
       context.log("\n\n\nuserId= ", userId);
       context.log("\n\n\n")
       const client = await mongoClient.connect(process.env.AZURE_MONGO_DB);
-      // const userInfo = await client.db("LetMeCookDB").collection("users").findOne({userId: userId});
-      const foods = await client.db("LetMeCookDB").collection("foods").find({userId: userId}).toArray();
+      const expiringFoods = await client.db("LetMeCookDB").collection("foods").find({userId: userId}).sort({expirationDate: 1}).toArray();
+
+      // const expiringFoods = await client.db("LetMeCookDB").collection("foods").find({userId: userId}, {$sort: {expirationDate: 1}}).toArray();
       client.close();
-      if (foods) {
-        let expiringFoods = foods;
-        expiringFoods.sort((a, b) => a.expirationDate - b.expirationDate);
+      if (expiringFoods) {
         return {
           status: 201,
           jsonBody: {expiringFoods: expiringFoods}
