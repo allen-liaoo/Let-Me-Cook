@@ -47,21 +47,23 @@ export default function QueueItem({ recipeId, deleteItem }) {
                   + (recipe.instructions.length > 25 ? '...' : '') : ""}
             </Card.Text>
           </div>
-          <div className={styles.iconContainer+ " " +styles.deleteButton} 
-              onClick={(e) => {
-                const res = window.confirm("Do you want to delete this recipe from the queue?")
-                if (!res) return
-                deleteItem()
-                e.stopPropagation()
-              }}><DeleteSVG /></div>
-          <div className={styles.iconContainer+ " "+styles.editButton}
-              onClick={(e) => {
-                e.stopPropagation()
-                navigate('/recipe/edit/'+recipe._id)
-              }}><EditSVG /></div>
-          <div className={styles.viewButton}>Info</div>
+          <div className={Layout.switchRowCol}>  
+            <div className={styles.iconContainer+ " " +styles.deleteButton} 
+                onClick={(e) => {
+                  const res = window.confirm("Do you want to delete this recipe from the queue?")
+                  if (!res) return
+                  deleteItem()
+                  e.stopPropagation()
+                }}><DeleteSVG /></div>
+            <div className={styles.iconContainer+ " "+styles.editButton}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  navigate('/recipe/edit/'+recipe._id)
+                }}><EditSVG /></div>
+            <div className={styles.viewButton}>Info</div>
 
-          <div className={styles.iconContainer}><DragSVG /></div>
+            <div className={styles.iconContainer}><DragSVG /></div>
+          </div>
         </div>
       </Card.Body>
       { recipe.ingredients.length > 0 ?
